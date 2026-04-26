@@ -1,1 +1,1 @@
-export * as adminApiClient from './generated/client';
+export * as adminApiClient from './generated/client'

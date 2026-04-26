@@ -14,14 +14,18 @@
     "format:check": "prettier --check .",
     "generate:openapi": "pnpm --filter @oshiage/backend generate:openapi",
     "generate:sdk": "pnpm run generate:openapi && pnpm exec orval --config ./openapi/orval.config.ts",
-    "lint": "eslint .",
+    "lint": "eslint . && stylelint \"**/*.{css,svelte}\"",
     "prepare": "husky",
     "test": "pnpm -r --if-present test",
     "verify": "pnpm audit && pnpm run lint && pnpm run format:check && pnpm run check && pnpm run test && pnpm run build"
   },
   "lint-staged": {
-    "*.{js,mjs,cjs,ts,svelte}": [
+    "*.{js,mjs,cjs,ts}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,svelte}": [
+      "stylelint --fix",
       "prettier --write"
     ],
     "*.{json,md,yml,yaml}": [
@@ -39,6 +43,9 @@
     "orval": "^7.21.0",
     "prettier": "^3.8.3",
     "prettier-plugin-svelte": "^3.5.1",
+    "postcss-html": "^1.8.0",
+    "stylelint": "^16.25.0",
+    "stylelint-config-standard": "^36.0.1",
     "typescript-eslint": "^8.59.0"
   }
 }

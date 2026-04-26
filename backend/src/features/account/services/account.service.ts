@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
-import { AccountBootstrapResponseDto } from '../dto/account-bootstrap-response.dto';
-import { AccountResponseDto } from '../dto/account-response.dto';
-import { UnsubscribeRequestDto } from '../dto/unsubscribe-request.dto';
-import { UnsubscribeResponseDto } from '../dto/unsubscribe-response.dto';
+import { AccountBootstrapResponseDto } from '../dto/account-bootstrap-response.dto'
+import { AccountResponseDto } from '../dto/account-response.dto'
+import { UnsubscribeRequestDto } from '../dto/unsubscribe-request.dto'
+import { UnsubscribeResponseDto } from '../dto/unsubscribe-response.dto'
 
 @Injectable()
 export class AccountService {
@@ -12,7 +12,7 @@ export class AccountService {
       created: false,
       cognitoSub: 'placeholder-sub',
       userId: 1,
-    };
+    }
   }
 
   getAccount(): AccountResponseDto {
@@ -23,16 +23,16 @@ export class AccountService {
       status: 'active',
       updatedAt: new Date().toISOString(),
       userId: 1,
-    };
+    }
   }
 
   unsubscribe(request: UnsubscribeRequestDto): UnsubscribeResponseDto {
     if (request.reason) {
-      request.reason.trim();
+      request.reason.trim()
     }
 
     return {
       unsubscribed: true,
-    };
+    }
   }
 }

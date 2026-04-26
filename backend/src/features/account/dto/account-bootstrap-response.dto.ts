@@ -1,12 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class AccountBootstrapResponseDto {
   @ApiProperty({ type: Number })
-  userId!: number;
+  userId!: number
 
   @ApiProperty({ type: String })
-  cognitoSub!: string;
+  cognitoSub!: string
 
   @ApiProperty({ type: Boolean })
-  created!: boolean;
+  created!: boolean
 }

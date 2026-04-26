@@ -1,15 +1,15 @@
-import { writeFile, mkdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { writeFile, mkdir } from 'node:fs/promises'
+import { join } from 'node:path'
 
-import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NestFactory } from '@nestjs/core'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
-import { AppModule } from '../../app.module';
+import { AppModule } from '../../app.module'
 
 async function main() {
   const app = await NestFactory.create(AppModule, {
     logger: false,
-  });
+  })
 
   try {
     const document = SwaggerModule.createDocument(
@@ -20,17 +20,17 @@ async function main() {
         .setVersion('1.0.0')
         .addBearerAuth()
         .build(),
-    );
+    )
 
-    const outputPath = join(process.cwd(), '..', 'openapi', 'generated', 'openapi.json');
+    const outputPath = join(process.cwd(), '..', 'openapi', 'generated', 'openapi.json')
 
     await mkdir(join(process.cwd(), '..', 'openapi', 'generated'), {
       recursive: true,
-    });
-    await writeFile(outputPath, JSON.stringify(document, null, 2));
+    })
+    await writeFile(outputPath, JSON.stringify(document, null, 2))
   } finally {
-    await app.close();
+    await app.close()
   }
 }
 
-void main();
+void main()

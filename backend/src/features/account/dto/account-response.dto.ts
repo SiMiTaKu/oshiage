@@ -1,21 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class AccountResponseDto {
   @ApiProperty({ type: Number })
-  userId!: number;
+  userId!: number
 
   @ApiProperty({ type: String })
-  email!: string;
+  email!: string
 
   @ApiProperty({ type: String })
-  displayName!: string;
+  displayName!: string
 
   @ApiProperty({ type: String })
-  status!: string;
+  status!: string
 
   @ApiProperty({ type: String })
-  createdAt!: string;
+  createdAt!: string
 
   @ApiProperty({ type: String })
-  updatedAt!: string;
+  updatedAt!: string
 }

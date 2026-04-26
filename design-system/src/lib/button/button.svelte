@@ -1,6 +1,6 @@
 <script lang="ts">
-  export let label: string;
-  export let tone: 'primary' | 'secondary' = 'primary';
+  export let label: string
+  export let tone: 'primary' | 'secondary' = 'primary'
 </script>
 
 <button class={`button ${tone}`} type="button">{label}</button>

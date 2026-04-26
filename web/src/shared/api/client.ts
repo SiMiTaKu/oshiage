@@ -1,1 +1,1 @@
-export * as webApiClient from './generated/client';
+export * as webApiClient from './generated/client'

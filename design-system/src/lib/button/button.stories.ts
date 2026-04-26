@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/svelte-vite';
+import type { Meta, StoryObj } from '@storybook/svelte-vite'
 
-import Button from './button.svelte';
+import Button from './button.svelte'
 
 const meta = {
   title: 'Design System/Button',
@@ -16,17 +16,17 @@ const meta = {
       options: ['primary', 'secondary'],
     },
   },
-} satisfies Meta<typeof Button>;
+} satisfies Meta<typeof Button>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
-export const Primary: Story = {};
+export const Primary: Story = {}
 
 export const Secondary: Story = {
   args: {
     label: '補助アクション',
     tone: 'secondary',
   },
-};
+}

@@ -1,4 +1,4 @@
-import type { StorybookConfig } from '@storybook/svelte-vite';
+import type { StorybookConfig } from '@storybook/svelte-vite'
 
 const config: StorybookConfig = {
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
@@ -7,6 +7,6 @@ const config: StorybookConfig = {
     options: {},
   },
   stories: ['../src/**/*.stories.@(ts|svelte)'],
-};
+}
 
-export default config;
+export default config

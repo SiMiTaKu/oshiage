@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { Button } from '@oshiage/design-system';
+  import { Button } from '@oshiage/design-system'
 </script>
 
 <section class="hero">
   <div class="copy">
     <p class="eyebrow">Phase 1 Scaffold</p>
-    <h1>推しアゲ web の FSD 土台を初期化しました。</h1>
-    <p>SvelteKit、TypeScript、OpenAPI クライアント連携、design-system 依存を含む最小構成です。</p>
+    <h1 class="title">推しアゲ web の FSD 土台を初期化しました。</h1>
+    <p class="description">
+      SvelteKit、TypeScript、OpenAPI クライアント連携、design-system 依存を含む最小構成です。
+    </p>
     <Button label="イベント一覧は Phase 2 で実装" />
   </div>
 </section>
@@ -38,13 +40,13 @@
     color: #4d739d;
   }
 
-  h1 {
+  .title {
     margin: 0 0 1rem;
     font-size: clamp(2rem, 6vw, 4rem);
     line-height: 1.1;
   }
 
-  p {
+  .description {
     margin: 0 0 1.5rem;
     font-size: 1rem;
     line-height: 1.7;

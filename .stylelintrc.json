@@ -1,0 +1,16 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "ignoreFiles": ["**/dist/**", "**/.svelte-kit/**", "**/node_modules/**"],
+  "rules": {
+    "selector-max-type": 0,
+    "color-function-notation": null,
+    "alpha-value-notation": null,
+    "declaration-block-single-line-max-declarations": null
+  },
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "customSyntax": "postcss-html"
+    }
+  ]
+}
