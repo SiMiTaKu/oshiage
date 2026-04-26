@@ -39,11 +39,52 @@ OpenAPI 生成クライアントは、以下に直接生成する方針へ変更
 
 - Node.js 24+
 - pnpm 10+
+- Docker（ローカルMySQL起動に使用）
 
 ### 依存インストール（Install）
 
 ```bash
 pnpm install
+```
+
+### 環境変数の設定（Environment Variables）
+
+バックエンドは `backend/.env` を参照します。`.env.example` をコピーして作成してください。
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+| 変数名         | 説明              | デフォルト値（docker-compose使用時）           |
+| -------------- | ----------------- | ---------------------------------------------- |
+| `DATABASE_URL` | MySQLの接続文字列 | `mysql://root:password@localhost:3306/oshiage` |
+
+> `.env` はGit管理外です（`.gitignore` により除外）。本番環境では別途デプロイ時に設定してください。
+
+### ローカルDBの起動（Start Local Database）
+
+Docker Composeを使って MySQL 8 をローカルで起動します。
+
+```bash
+docker compose up -d
+```
+
+停止する場合:
+
+```bash
+docker compose down
+```
+
+データも含めて完全削除する場合:
+
+```bash
+docker compose down -v
+```
+
+### DBマイグレーション（Run Migrations）
+
+```bash
+pnpm --filter @oshiage/backend prisma:migrate
 ```
 
 ### OpenAPI / SDK 生成（Generate OpenAPI and SDK）
