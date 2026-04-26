@@ -1,0 +1,44 @@
+{
+  "name": "oshiage",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.27.0",
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "check": "pnpm -r --if-present check",
+    "dev:backend": "pnpm --filter @oshiage/backend start:dev",
+    "dev:web": "pnpm --filter @oshiage/web dev",
+    "dev:admin": "pnpm --filter @oshiage/admin dev",
+    "dev:design-system": "pnpm --filter @oshiage/design-system storybook",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "generate:openapi": "pnpm --filter @oshiage/backend generate:openapi",
+    "generate:sdk": "pnpm run generate:openapi && pnpm exec orval --config ./openapi/orval.config.ts",
+    "lint": "eslint .",
+    "prepare": "husky",
+    "test": "pnpm -r --if-present test",
+    "verify": "pnpm audit && pnpm run lint && pnpm run format:check && pnpm run check && pnpm run test && pnpm run build"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,svelte}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-svelte": "^2.46.1",
+    "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "orval": "^7.21.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-svelte": "^3.5.1",
+    "typescript-eslint": "^8.59.0"
+  }
+}

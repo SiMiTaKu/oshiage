@@ -1,0 +1,8 @@
+packages:
+  - backend
+  - web
+  - admin
+  - design-system
+
+overrides:
+  cookie@<0.7.0: '>=0.7.0'

@@ -1,0 +1,278 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountStatus {
+  active
+  frozen
+  banned
+  unsubscribed
+}
+
+enum EntityCategory {
+  individual
+  group
+}
+
+enum EntityActiveStatus {
+  active
+  retired
+  inactive
+}
+
+enum RequestStatus {
+  pending
+  inReview
+  approved
+  rejected
+  sentBack
+}
+
+enum RequestAction {
+  approve
+  reject
+  sendBack
+}
+
+enum ReportReasonCategory {
+  spam
+  impersonation
+  harassment
+  falseInformation
+  other
+}
+
+enum NoticeType {
+  specChange
+  maintenance
+  incident
+}
+
+enum NoticePriority {
+  low
+  medium
+  high
+}
+
+enum ContactCategory {
+  bugReport
+  account
+  billing
+  abuseReport
+  other
+}
+
+enum SanctionType {
+  warn
+  freeze
+  ban
+}
+
+model UserAccount {
+  id                 BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  cognitoSub         String            @unique @db.VarChar(64)
+  email              String            @unique @db.VarChar(254)
+  emailVerified      Boolean           @default(false)
+  status             AccountStatus     @default(active)
+  lastLoginAt        DateTime?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  profile            UserProfile?
+  contributions      ContributionLog[]
+  reportedAccounts   AccountReport[]   @relation("ReportedAccounts")
+  reporterAccounts   AccountReport[]   @relation("ReporterAccounts")
+  sanctions          UserSanction[]
+}
+
+model UserProfile {
+  id            BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
+  userAccountId BigInt      @unique @db.UnsignedBigInt
+  displayName   String      @db.VarChar(100)
+  avatarUrl     String?     @db.VarChar(2048)
+  bio           String?     @db.Text
+  area          String?     @db.VarChar(100)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  userAccount   UserAccount @relation(fields: [userAccountId], references: [id], onDelete: Cascade)
+}
+
+model Event {
+  id                  BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  title               String              @db.VarChar(200)
+  eventType           String              @db.VarChar(32)
+  startAt             DateTime
+  endAt               DateTime?
+  place               String              @db.VarChar(255)
+  fee                 Decimal?            @db.Decimal(10, 2)
+  description         String?             @db.Text
+  refsJson            Json?
+  deletedAt           DateTime?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  createdBy           BigInt?             @db.UnsignedBigInt
+  updatedBy           BigInt?             @db.UnsignedBigInt
+  deleteRequests      EventDeleteRequest[]
+}
+
+model Entity {
+  id                   BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  entityCategory       EntityCategory
+  currentRevisionNo    Int                   @default(1) @db.UnsignedInt
+  activeStatus         EntityActiveStatus    @default(active)
+  claimedUserAccountId BigInt?               @db.UnsignedBigInt
+  deletedAt            DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  createdBy            BigInt?               @db.UnsignedBigInt
+  updatedBy            BigInt?               @db.UnsignedBigInt
+  revisions            EntityRevision[]
+  linkRequests         EntityLinkRequest[]
+  deleteRequests       EntityDeleteRequest[]
+}
+
+model EntityRevision {
+  id           BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  entityId     BigInt    @db.UnsignedBigInt
+  revisionNo   Int       @db.UnsignedInt
+  name         String    @db.VarChar(200)
+  sport        String?   @db.VarChar(100)
+  area         String?   @db.VarChar(100)
+  profile      String?   @db.Text
+  snapshotJson Json?
+  reason       String?   @db.VarChar(1000)
+  createdAt    DateTime  @default(now())
+  createdBy    BigInt?   @db.UnsignedBigInt
+  entity       Entity    @relation(fields: [entityId], references: [id], onDelete: Cascade)
+
+  @@unique([entityId, revisionNo])
+}
+
+model EntityLinkRequest {
+  id              BigInt                       @id @default(autoincrement()) @db.UnsignedBigInt
+  entityId        BigInt                       @db.UnsignedBigInt
+  requesterUserId BigInt                       @db.UnsignedBigInt
+  status          RequestStatus                @default(pending)
+  message         String?                      @db.Text
+  reviewedBy      BigInt?                      @db.UnsignedBigInt
+  reviewedAt      DateTime?
+  reviewComment   String?                      @db.Text
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  entity          Entity                       @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  evidences       EntityLinkRequestEvidence[]
+}
+
+model EntityLinkRequestEvidence {
+  id            BigInt            @id @default(autoincrement()) @db.UnsignedBigInt
+  linkRequestId BigInt            @db.UnsignedBigInt
+  evidenceUrl   String            @db.VarChar(2048)
+  createdAt     DateTime          @default(now())
+  linkRequest   EntityLinkRequest @relation(fields: [linkRequestId], references: [id], onDelete: Cascade)
+}
+
+model EventDeleteRequest {
+  id              BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
+  eventId         BigInt        @db.UnsignedBigInt
+  requesterUserId BigInt        @db.UnsignedBigInt
+  status          RequestStatus @default(pending)
+  reason          String        @db.Text
+  reviewedBy      BigInt?       @db.UnsignedBigInt
+  reviewedAt      DateTime?
+  reviewComment   String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  event           Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model EntityDeleteRequest {
+  id              BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
+  entityId        BigInt        @db.UnsignedBigInt
+  requesterUserId BigInt        @db.UnsignedBigInt
+  status          RequestStatus @default(pending)
+  reason          String        @db.Text
+  reviewedBy      BigInt?       @db.UnsignedBigInt
+  reviewedAt      DateTime?
+  reviewComment   String?       @db.Text
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  entity          Entity        @relation(fields: [entityId], references: [id], onDelete: Cascade)
+}
+
+model AdminRequestActionLog {
+  id          BigInt        @id @default(autoincrement()) @db.UnsignedBigInt
+  requestType String        @db.VarChar(32)
+  requestId   BigInt        @db.UnsignedBigInt
+  action      RequestAction
+  comment     String?       @db.Text
+  actedBy     BigInt        @db.UnsignedBigInt
+  actedAt     DateTime      @default(now())
+}
+
+model AccountReport {
+  id             BigInt               @id @default(autoincrement()) @db.UnsignedBigInt
+  reporterUserId BigInt               @db.UnsignedBigInt
+  targetUserId   BigInt               @db.UnsignedBigInt
+  reasonCategory ReportReasonCategory
+  reasonDetail   String               @db.Text
+  status         String               @default("open") @db.VarChar(32)
+  handledBy      BigInt?              @db.UnsignedBigInt
+  handledAt      DateTime?
+  result         String?              @db.VarChar(32)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  reporter       UserAccount          @relation("ReporterAccounts", fields: [reporterUserId], references: [id], onDelete: Cascade)
+  targetUser     UserAccount          @relation("ReportedAccounts", fields: [targetUserId], references: [id], onDelete: Cascade)
+}
+
+model UserSanction {
+  id            BigInt       @id @default(autoincrement()) @db.UnsignedBigInt
+  userAccountId BigInt       @db.UnsignedBigInt
+  sanctionType  SanctionType
+  reason        String       @db.Text
+  startsAt      DateTime
+  endsAt        DateTime?
+  active        Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  userAccount   UserAccount  @relation(fields: [userAccountId], references: [id], onDelete: Cascade)
+}
+
+model Notice {
+  id          BigInt         @id @default(autoincrement()) @db.UnsignedBigInt
+  title       String         @db.VarChar(200)
+  body        String         @db.Text
+  noticeType  NoticeType
+  priority    NoticePriority @default(medium)
+  publishAt   DateTime
+  unpublishAt DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  createdBy   BigInt?        @db.UnsignedBigInt
+  updatedBy   BigInt?        @db.UnsignedBigInt
+}
+
+model ContactInquiry {
+  id            BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  userAccountId BigInt?         @db.UnsignedBigInt
+  email         String?         @db.VarChar(254)
+  category      ContactCategory
+  subject       String          @db.VarChar(200)
+  body          String          @db.Text
+  status        String          @default("open") @db.VarChar(32)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model ContributionLog {
+  id               BigInt      @id @default(autoincrement()) @db.UnsignedBigInt
+  userAccountId    BigInt      @db.UnsignedBigInt
+  contributionType String      @db.VarChar(32)
+  targetType       String?     @db.VarChar(32)
+  targetId         BigInt?     @db.UnsignedBigInt
+  createdAt        DateTime    @default(now())
+  userAccount      UserAccount @relation(fields: [userAccountId], references: [id], onDelete: Cascade)
+}
