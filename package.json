@@ -9,7 +9,7 @@
     "dev:backend": "pnpm --filter @oshiage/backend start:dev",
     "dev:web": "pnpm --filter @oshiage/web dev",
     "dev:admin": "pnpm --filter @oshiage/admin dev",
-    "dev:design-system": "pnpm --filter @oshiage/design-system storybook",
+    "dev:storybook": "pnpm --filter @oshiage/design-system storybook",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "generate:openapi": "pnpm --filter @oshiage/backend generate:openapi",

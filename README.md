@@ -99,7 +99,7 @@ pnpm run generate:sdk
 pnpm run dev:backend
 pnpm run dev:web
 pnpm run dev:admin
-pnpm run dev:design-system
+pnpm run dev:storybook
 ```
 
 ## 品質チェック（Quality Gates）

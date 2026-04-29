@@ -1,0 +1,21 @@
+[22:46:29.978] [INFO] storybook v10.3.5
+[22:46:37.388] [PROMPT] Port 6006 is not available. 
+Would you like to run Storybook on port 6007 instead? {"choice":true}
+[22:46:37.606] [DEBUG] Getting package.json info for /Users/sagyouyou/imrg/oshiage/design-system/package.json...
+[22:46:37.969] [INFO] Starting...
+[22:46:38.036] [DEBUG] Starting preview..
+[22:46:38.074] [ERROR] Failed to build the preview
+[22:46:38.075] [ERROR] [38;2;241;97;97mReferenceError: __dirname is not defined[39m
+    at Object.viteFinal (file://./.storybook/main.ts:15:33)
+    at file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/_node-chunks/chunk-GOY6UMCB.js:10114:36
+    at async createViteServer (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/@storybook+builder-vite@10.3.5_esbuild@0.27.7_rollup@4.60.2_storybook@10.3.5_@testing-l_e0d4b41ebefc01232e47453357722585/node_modules/@storybook/builder-vite/dist/index.js:1532:21)
+    at async Module.start (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/@storybook+builder-vite@10.3.5_esbuild@0.27.7_rollup@4.60.2_storybook@10.3.5_@testing-l_e0d4b41ebefc01232e47453357722585/node_modules/@storybook/builder-vite/dist/index.js:1557:17)
+    at async storybookDevServer (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/core-server/index.js:7503:83)
+    at async buildOrThrow (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/core-server/index.js:4508:12)
+    at async buildDevStandalone (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/core-server/index.js:8033:41)
+    at async withTelemetry (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/_node-chunks/chunk-FIR43JGQ.js:225:12)
+    at async dev (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/bin/core.js:2736:3)
+    at async _Command.<anonymous> (file:///Users/sagyouyou/imrg/oshiage/node_modules/.pnpm/storybook@10.3.5_@testing-library+dom@10.4.1_prettier@3.8.3_react-dom@19.2.5_react@19.2.5__react@19.2.5/node_modules/storybook/dist/bin/core.js:2806:92)
+[22:46:38.077] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
+[22:46:56.634] [PROMPT] Would you like to send anonymous crash reports to improve Storybook and fix bugs faster? {"choice":false}
