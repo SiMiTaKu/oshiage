@@ -1,12 +1,16 @@
-export async function customFetcher<T>(url: string, options?: RequestInit): Promise<T> {
+export async function customFetcher<T>(
+  url: string,
+  options?: RequestInit,
+  fetchFn: typeof fetch = fetch,
+): Promise<T> {
   const headers = {
     'Content-Type': 'application/json',
     ...options?.headers,
   }
 
-  const response = await fetch(url, {
-    headers,
+  const response = await fetchFn(url, {
     ...options,
+    headers,
   })
 
   if (!response.ok) {

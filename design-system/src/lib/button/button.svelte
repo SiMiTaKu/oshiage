@@ -1,6 +1,12 @@
 <script lang="ts">
-  export let label: string
-  export let tone: 'primary' | 'secondary' = 'primary'
+  interface ButtonProps {
+    /** ボタンに表示するテキスト */
+    label: string
+    /** ボタンの色調。`primary` はブランドカラー、`secondary` は補助カラー @default 'primary' */
+    tone?: 'primary' | 'secondary'
+  }
+
+  let { label, tone = 'primary' }: ButtonProps = $props()
 </script>
 
 <button class={`button ${tone}`} type="button">{label}</button>

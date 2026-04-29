@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Version } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, Post, Version } from '@nestjs/common'
 import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 
 import { AccountService } from '../services/account.service'
@@ -30,6 +30,7 @@ export class AccountController {
 
   @Post('unsubscribe')
   @Version('1')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Unsubscribe the current account.' })
   @ApiOkResponse({ type: UnsubscribeResponseDto })
   unsubscribe(@Body() request: UnsubscribeRequestDto): UnsubscribeResponseDto {
