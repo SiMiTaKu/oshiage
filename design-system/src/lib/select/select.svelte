@@ -1,87 +1,63 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import { createEventDispatcher } from 'svelte'
 
-  interface SelectProps {
-    /** select 要素の id。label の `for` と紐付けるために使用 */
-    id?: string
-    /** フォーム送信時のフィールド名 */
-    name?: string
-    /** 選択中の値。`$bindable` @default '' */
-    value?: string
-    /** select の上部に表示するラベルテキスト */
-    label?: string
-    /** 補助説明テキスト。error が無い場合のみ表示される */
-    hint?: string
-    /** バリデーションエラーメッセージ。指定するとエラースタイルが適用される */
-    error?: string
-    /** 操作不可にするか @default false */
-    disabled?: boolean
-    /** 必須フィールドとするか。ラベルに * が付与される @default false */
-    required?: boolean
-    /** 未選択時に表示するプレースホルダーテキスト */
-    placeholder?: string
-    /** 追加 CSS クラス */
-    class?: string
-    /** `<option>` 要素群を含む Snippet */
-    children: Snippet
-  }
+  import ChevronDownIcon from '../icons/icon-components/ChevronDownIcon.svelte'
+  import type { SelectChangeDetail, SelectProps } from './model/index'
+
+  const dispatch = createEventDispatcher<{
+    blur: SelectChangeDetail
+  }>()
 
   let {
     id,
     name,
-    value = $bindable(''),
+    value,
     label,
-    hint,
     error,
     disabled = false,
-    required = false,
+    required,
     placeholder,
-    class: className = '',
-    children,
+    items,
   }: SelectProps = $props()
+
+  /** フォーカス離脱時に現在値を通知する。 */
+  const handleBlur = (event: FocusEvent) => {
+    const target = event.currentTarget as HTMLSelectElement | undefined
+
+    if (!target) return
+
+    dispatch('blur', { value: target.value })
+  }
 </script>
 
-<div class="select-wrapper {className}">
-  {#if label}
-    <label class="select-label" for={id}>
-      {label}
-      {#if required}<span class="select-required" aria-hidden="true">*</span>{/if}
-    </label>
-  {/if}
+<div class="select-wrapper">
+  <label class="select-label" for={id}>
+    {label}
+    {#if required}<span class="select-required" aria-hidden="true">*</span>{/if}
+  </label>
   <div class="select-container">
     <select
       class="select-field"
-      class:select-field--error={!!error}
       {id}
       {name}
+      {value}
       {disabled}
       {required}
-      bind:value
-      aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
+      onblur={handleBlur}
+      aria-describedby={error ? `${id}-error` : undefined}
       aria-invalid={error ? 'true' : undefined}
     >
-      {#if placeholder}
-        <option value="" disabled selected hidden>{placeholder}</option>
-      {/if}
-      {@render children()}
+      <option value="" disabled={required}>{placeholder}</option>
+      {#each items as item (item.value)}
+        <option value={item.value}>{item.label}</option>
+      {/each}
     </select>
     <span class="select-chevron" aria-hidden="true">
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <polyline points="6 9 12 15 18 9" />
-      </svg>
+      <ChevronDownIcon color="gray" size={16} />
     </span>
   </div>
   {#if error}
     <p class="select-error" id="{id}-error" role="alert">{error}</p>
-  {:else if hint}
-    <p class="select-hint" id="{id}-hint">{hint}</p>
   {/if}
 </div>
 
@@ -89,12 +65,16 @@
   @use 'sass:map';
   @use 'tokens' as t;
 
+  /* #region Layout */
   .select-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
   }
 
+  /* #endregion */
+
+  /* #region Label */
   .select-label {
     font-size: map.get(t.$font-size, sm);
     font-weight: map.get(t.$font-weight, medium);
@@ -106,6 +86,9 @@
     margin-left: 0.25rem;
   }
 
+  /* #endregion */
+
+  /* #region Field */
   .select-container {
     position: relative;
   }
@@ -130,18 +113,18 @@
       box-shadow: 0 0 0 3px #{map.get(t.$indigo, 100)};
     }
 
+    &[aria-invalid='true'] {
+      border-color: map.get(t.$error, 500);
+    }
+
+    &[aria-invalid='true']:focus {
+      box-shadow: 0 0 0 3px #{map.get(t.$error, 100)};
+    }
+
     &:disabled {
       background: map.get(t.$bg, muted);
       color: map.get(t.$text, disabled);
       cursor: not-allowed;
-    }
-
-    &--error {
-      border-color: map.get(t.$error, 500);
-
-      &:focus {
-        box-shadow: 0 0 0 3px #{map.get(t.$error, 100)};
-      }
     }
   }
 
@@ -156,15 +139,14 @@
     align-items: center;
   }
 
-  .select-hint {
-    font-size: map.get(t.$font-size, xs);
-    color: map.get(t.$text, muted);
-    margin: 0;
-  }
+  /* #endregion */
 
+  /* #region Error */
   .select-error {
     font-size: map.get(t.$font-size, xs);
     color: map.get(t.$error, 500);
     margin: 0;
   }
+
+  /* #endregion */
 </style>

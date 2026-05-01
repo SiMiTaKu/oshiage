@@ -1,79 +1,54 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import ChevronDownIcon from '../icons/icon-components/ChevronDownIcon.svelte'
+  import type { AccordionProps } from './model/index'
+  import { createAccordionName } from './lib/generate-accordion-name'
 
-  interface AccordionItem {
-    /** アコーディオン項目の一意 ID */
-    id: string
-    /** アコーディオンヘッダーに表示するタイトル */
-    title: string
-    /** パネル内に描画する Snippet */
-    content: Snippet
-  }
+  let { id, items }: AccordionProps = $props()
 
-  interface AccordionProps {
-    /** 表示するアコーディオン項目の配列 */
-    items: AccordionItem[]
-    /** 複数のパネルを同時に開くことを許可するか @default false */
-    allowMultiple?: boolean
-    /** 追加 CSS クラス */
-    class?: string
-  }
+  /** 一意のアコーディオン名 */
+  const accordionName = $derived(createAccordionName(id))
 
-  let { items, allowMultiple = false, class: className = '' }: AccordionProps = $props()
+  let itemElements = $state<HTMLDetailsElement[]>([])
 
-  let openIds = $state<Set<string>>(new Set())
+  /** 開いた項目以外を閉じる。 */
+  const handleToggle = (event: Event) => {
+    const currentItem = event.currentTarget as HTMLDetailsElement | undefined
 
-  function toggle(id: string) {
-    if (openIds.has(id)) {
-      openIds.delete(id)
-    } else {
-      if (!allowMultiple) {
-        openIds.clear()
+    if (!currentItem?.open) return
+
+    itemElements.forEach((item) => {
+      if (item === currentItem) {
+        return
       }
-      openIds.add(id)
-    }
-    openIds = new Set(openIds)
+
+      item.open = false
+    })
   }
 </script>
 
-<div class="accordion {className}">
-  {#each items as item (item.id)}
-    {@const isOpen = openIds.has(item.id)}
-    <div class="accordion-item" class:accordion-item--open={isOpen}>
-      <button
-        class="accordion-trigger"
-        type="button"
-        aria-expanded={isOpen}
-        aria-controls="accordion-panel-{item.id}"
-        id="accordion-header-{item.id}"
-        onclick={() => toggle(item.id)}
-      >
-        <span class="accordion-title">{item.title}</span>
-        <span class="accordion-icon" aria-hidden="true">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+<div class="accordion">
+  {#each items as item, index (`${accordionName}-${index}`)}
+    {@const itemId = `${accordionName}-${index}`}
+    <details
+      bind:this={itemElements[index]}
+      class="accordion-item"
+      name={accordionName}
+      ontoggle={handleToggle}
+    >
+      <summary class="accordion-summary" id={`summary-${itemId}`}>
+        <span class="accordion-summaryText">{item.summary}</span>
+        <span class="accordion-chevron" aria-hidden="true">
+          <ChevronDownIcon color="secondary" size={18} />
         </span>
-      </button>
-      <div
-        class="accordion-panel"
-        id="accordion-panel-{item.id}"
-        aria-labelledby="accordion-header-{item.id}"
-        role="region"
-        hidden={!isOpen}
-      >
-        <div class="accordion-content">
-          {@render item.content()}
+      </summary>
+      <div class="accordion-panel" role="region" aria-labelledby={`summary-${itemId}`}>
+        <div class="accordion-panelInner">
+          <div class="accordion-details">
+            {@render item.details()}
+          </div>
         </div>
       </div>
-    </div>
+    </details>
   {/each}
 </div>
 
@@ -81,71 +56,106 @@
   @use 'sass:map';
   @use 'tokens' as t;
 
+  /* #region Root */
   .accordion {
     width: 100%;
-    border: 1px solid map.get(t.$border, default);
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  /* #endregion */
+
+  /* #region Item */
+  .accordion-item {
+    width: 100%;
+    border: 1px solid rgba(map.get(t.$brand, 500), 0.16);
     border-radius: map.get(t.$radius, lg);
     overflow: hidden;
+    background: linear-gradient(180deg, rgba(map.get(t.$brand, 100), 0.8) 0%, #fff 100%);
+    box-shadow: map.get(t.$shadow, sm);
   }
 
-  .accordion-item {
-    border-bottom: 1px solid map.get(t.$border, default);
+  /* #endregion */
 
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  .accordion-trigger {
+  /* #region Summary */
+  .accordion-summary {
+    list-style: none;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 0.75rem;
     padding: 1rem 1.25rem;
     font-size: map.get(t.$font-size, base);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, primary);
-    background: map.get(t.$bg, surface);
+    font-weight: map.get(t.$font-weight, semibold);
+    color: map.get(t.$brand, 700);
+    background: transparent;
     border: none;
     cursor: pointer;
     text-align: left;
-    transition: background map.get(t.$transition, fast);
+    transition:
+      background map.get(t.$transition, fast),
+      color map.get(t.$transition, fast);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
 
     &:hover {
-      background: map.get(t.$bg, muted);
+      background: rgba(map.get(t.$brand, 100), 0.72);
     }
 
     &:focus-visible {
-      outline: 2px solid map.get(t.$border, focus);
-      outline-offset: -2px;
+      outline: 2px solid map.get(t.$brand, 500);
+      outline-offset: -4px;
     }
   }
 
-  .accordion-title {
+  .accordion-summaryText {
     flex: 1;
-    margin-right: 0.5rem;
   }
 
-  .accordion-icon {
+  .accordion-chevron {
     flex-shrink: 0;
-    color: map.get(t.$text, muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: transform map.get(t.$transition, base);
-
-    .accordion-item--open & {
-      transform: rotate(180deg);
-    }
   }
 
+  .accordion-item[open] .accordion-summary {
+    color: map.get(t.$brand, 800);
+    background: rgba(map.get(t.$brand, 100), 0.92);
+  }
+
+  .accordion-item[open] .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* #endregion */
+
+  /* #region Panel */
   .accordion-panel {
-    &:not([hidden]) {
-      display: block;
-    }
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows map.get(t.$transition, base);
   }
 
-  .accordion-content {
+  .accordion-item[open] .accordion-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .accordion-panelInner {
+    overflow: hidden;
+  }
+
+  .accordion-details {
     padding: 0 1.25rem 1rem;
     font-size: map.get(t.$font-size, sm);
     color: map.get(t.$text, secondary);
     line-height: map.get(t.$line-height, relaxed);
+    border-top: 1px solid rgba(map.get(t.$brand, 500), 0.1);
   }
+
+  /* #endregion */
 </style>

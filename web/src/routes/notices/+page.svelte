@@ -5,26 +5,26 @@
 
   let { data }: { data: PageData } = $props()
 
-  const typeOptions = [
+  const TYPE_OPTIONS = [
     { value: '', label: 'すべて' },
     { value: 'specChange', label: '仕様変更' },
     { value: 'maintenance', label: 'メンテナンス' },
     { value: 'incident', label: 'インシデント' },
   ]
 
-  const typeLabels: Record<string, string> = {
+  const TYPE_LABELS: Record<string, string> = {
     specChange: '仕様変更',
     maintenance: 'メンテナンス',
     incident: 'インシデント',
   }
 
-  const typeColors: Record<string, string> = {
+  const TYPE_COLORS: Record<string, string> = {
     specChange: 'badge-spec',
     maintenance: 'badge-maintenance',
     incident: 'badge-incident',
   }
 
-  const priorityColors: Record<string, string> = {
+  const PRIORITY_COLORS: Record<string, string> = {
     high: 'priority-high',
     medium: 'priority-medium',
     low: 'priority-low',
@@ -87,7 +87,7 @@
           bind:value={selectedType}
           onchange={applyFilter}
         >
-          {#each typeOptions as opt}
+          {#each TYPE_OPTIONS as opt}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>
@@ -98,7 +98,7 @@
 
     {#if data.notices.length === 0}
       <div class="empty-state">
-        <BellIcon size={48} />
+        <BellIcon size={48} color="gray" />
         <p class="empty-title">お知らせはありません</p>
         <p class="empty-desc">現在公開中のお知らせはありません。</p>
       </div>
@@ -107,10 +107,10 @@
         {#each data.notices as notice (notice.id)}
           <a href="/notices/{notice.id}" class="notice-card">
             <div class="notice-meta">
-              <span class="notice-badge {typeColors[notice.noticeType] ?? ''}">
-                {typeLabels[notice.noticeType] ?? notice.noticeType}
+              <span class="notice-badge {TYPE_COLORS[notice.noticeType] ?? ''}">
+                {TYPE_LABELS[notice.noticeType] ?? notice.noticeType}
               </span>
-              <span class="priority-dot {priorityColors[notice.priority] ?? ''}"></span>
+              <span class="priority-dot {PRIORITY_COLORS[notice.priority] ?? ''}"></span>
               <span class="notice-date">{formatDate(notice.publishAt)}</span>
             </div>
             <p class="notice-title">{notice.title}</p>
@@ -127,7 +127,7 @@
             onclick={() => changePage(data.page - 1)}
             aria-label="前のページ"
           >
-            <ChevronLeftIcon size={16} />
+            <ChevronLeftIcon size={16} color="gray" />
           </button>
           <span class="pagination-info">{data.page} / {totalPages}</span>
           <button
@@ -137,7 +137,7 @@
             onclick={() => changePage(data.page + 1)}
             aria-label="次のページ"
           >
-            <ChevronRightIcon size={16} />
+            <ChevronRightIcon size={16} color="gray" />
           </button>
         </div>
       {/if}
@@ -316,9 +316,11 @@
     &.priority-high {
       background: map.get(t.$error, 500);
     }
+
     &.priority-medium {
       background: map.get(t.$warning, 500);
     }
+
     &.priority-low {
       background: map.get(t.$bg, muted);
     }

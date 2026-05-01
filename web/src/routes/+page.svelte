@@ -1,6 +1,6 @@
 <script lang="ts">
-  import AppProviders from '../app/providers/app-providers.svelte'
-  import HomePage from '../pages/home/ui/home-page.svelte'
+  import AppProviders from '../app/providers/AppProviders.svelte'
+  import HomePage from '../pages/home/ui/HomePage.svelte'
 </script>
 
 <svelte:head>

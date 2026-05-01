@@ -10,7 +10,7 @@
 
   let { data }: { data: PageData } = $props()
 
-  const eventTypeOptions = [
+  const EVENT_TYPE_OPTIONS = [
     { value: '', label: 'すべて' },
     { value: 'competition', label: '大会' },
     { value: 'exhibition', label: '発表会' },
@@ -18,7 +18,7 @@
     { value: 'workshop', label: 'ワークショップ' },
   ]
 
-  const eventTypeLabels: Record<string, string> = {
+  const EVENT_TYPE_LABELS: Record<string, string> = {
     competition: '大会',
     exhibition: '発表会',
     practice: '練習会',
@@ -91,7 +91,7 @@
           bind:value={selectedType}
           onchange={applyFilter}
         >
-          {#each eventTypeOptions as opt}
+          {#each EVENT_TYPE_OPTIONS as opt}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>
@@ -106,7 +106,7 @@
     <!-- イベント一覧 -->
     {#if data.events.length === 0}
       <div class="empty-state">
-        <CalendarIcon size={48} />
+        <CalendarIcon size={48} color="gray" />
         <p class="empty-title">イベントが見つかりませんでした</p>
         <p class="empty-desc">フィルターを変えてお試しください。</p>
       </div>
@@ -116,7 +116,7 @@
           <a href="/events/{event.id}" class="event-card">
             <div class="event-card-header">
               <span class="event-type-badge"
-                >{eventTypeLabels[event.eventType] ?? event.eventType}</span
+                >{EVENT_TYPE_LABELS[event.eventType] ?? event.eventType}</span
               >
               {#if event.fee}
                 <span class="event-fee">¥{event.fee.toLocaleString()}</span>
@@ -125,11 +125,11 @@
             <h2 class="event-title">{event.title}</h2>
             <div class="event-meta">
               <span class="event-meta-item">
-                <CalendarIcon size={14} />
+                <CalendarIcon size={14} color="gray" />
                 {formatDate(event.startAt, event.endAt)}
               </span>
               <span class="event-meta-item">
-                <MapPinIcon size={14} />
+                <MapPinIcon size={14} color="gray" />
                 {event.place}
               </span>
             </div>
@@ -150,7 +150,7 @@
             onclick={() => changePage(data.page - 1)}
             aria-label="前のページ"
           >
-            <ChevronLeftIcon size={16} />
+            <ChevronLeftIcon size={16} color="gray" />
           </button>
           <span class="pagination-info">{data.page} / {totalPages}</span>
           <button
@@ -160,7 +160,7 @@
             onclick={() => changePage(data.page + 1)}
             aria-label="次のページ"
           >
-            <ChevronRightIcon size={16} />
+            <ChevronRightIcon size={16} color="gray" />
           </button>
         </div>
       {/if}

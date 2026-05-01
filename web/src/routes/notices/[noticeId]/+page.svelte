@@ -4,17 +4,17 @@
 
   let { data }: { data: PageData } = $props()
 
-  const typeLabels: Record<string, string> = {
+  const TYPE_LABELS: Record<string, string> = {
     specChange: '仕様変更',
     maintenance: 'メンテナンス',
     incident: 'インシデント',
   }
-  const typeColors: Record<string, string> = {
+  const TYPE_COLORS: Record<string, string> = {
     specChange: 'badge-spec',
     maintenance: 'badge-maintenance',
     incident: 'badge-incident',
   }
-  const priorityLabels: Record<string, string> = {
+  const PRIORITY_LABELS: Record<string, string> = {
     high: '高',
     medium: '中',
     low: '低',
@@ -38,7 +38,7 @@
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
       <a href="/notices" class="breadcrumb-back">
-        <ChevronLeftIcon size={16} />
+        <ChevronLeftIcon size={16} color="gray" />
         お知らせ一覧に戻る
       </a>
     </div>
@@ -48,13 +48,13 @@
     <article class="notice-article">
       <header class="notice-header">
         <div class="notice-meta">
-          <span class="notice-badge {typeColors[data.notice.noticeType] ?? ''}">
-            {typeLabels[data.notice.noticeType] ?? data.notice.noticeType}
+          <span class="notice-badge {TYPE_COLORS[data.notice.noticeType] ?? ''}">
+            {TYPE_LABELS[data.notice.noticeType] ?? data.notice.noticeType}
           </span>
           <span class="notice-date">{formatDate(data.notice.publishAt)}</span>
           {#if data.notice.priority !== 'low'}
             <span class="priority-label priority-{data.notice.priority}">
-              優先度: {priorityLabels[data.notice.priority] ?? data.notice.priority}
+              優先度: {PRIORITY_LABELS[data.notice.priority] ?? data.notice.priority}
             </span>
           {/if}
         </div>
@@ -139,10 +139,12 @@
       background: map.get(t.$indigo, 100);
       color: map.get(t.$indigo, 600);
     }
+
     &.badge-maintenance {
       background: map.get(t.$warning, 100);
       color: map.get(t.$warning, 700);
     }
+
     &.badge-incident {
       background: map.get(t.$error, 100);
       color: map.get(t.$error, 700);
@@ -164,6 +166,7 @@
       background: map.get(t.$error, 100);
       color: map.get(t.$error, 700);
     }
+
     &.priority-medium {
       background: map.get(t.$warning, 100);
       color: map.get(t.$warning, 700);

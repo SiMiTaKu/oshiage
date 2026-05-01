@@ -1,16 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte-vite'
-import { createRawSnippet } from 'svelte'
 
-import Select from './select.svelte'
-
-const makeOptions = () =>
-  createRawSnippet(() => ({
-    render: () => `
-      <option value="standard">Standard</option>
-      <option value="premium">Premium</option>
-      <option value="enterprise">Enterprise</option>
-    `,
-  }))
+import Select from './Select.svelte'
 
 const meta = {
   title: 'Design System/Select',
@@ -19,14 +9,17 @@ const meta = {
   args: {
     id: 'plan',
     name: 'plan',
-    label: 'Plan',
-    placeholder: 'Choose a plan',
-    hint: 'Select one option.',
-    required: false,
+    label: 'プラン',
+    placeholder: 'プランを選択してください',
+    required: true,
     disabled: false,
     error: '',
     value: '',
-    children: makeOptions(),
+    items: [
+      { label: '通常プラン', value: 'standard' },
+      { label: '優先プラン', value: 'premium' },
+      { label: '法人プラン', value: 'enterprise' },
+    ],
   },
 } satisfies Meta<typeof Select>
 
@@ -34,16 +27,15 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const 標準: Story = {}
 
-export const WithError: Story = {
+export const エラー表示: Story = {
   args: {
-    error: 'Please choose a plan.',
-    hint: '',
+    error: 'プランを選択してください。',
   },
 }
 
-export const Disabled: Story = {
+export const 無効状態: Story = {
   args: {
     disabled: true,
     value: 'premium',

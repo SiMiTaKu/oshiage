@@ -1,66 +1,34 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import XIcon from '../icons/icon-components/XIcon.svelte'
+  import type { SheetProps } from './model/index'
 
-  interface SheetProps {
-    /** シートの開閉状態。`$bindable` @default false */
-    open?: boolean
-    /**
-     * シートが開く方向
-     * - `left`: 左からスライドイン
-     * - `right`: 右からスライドイン
-     * - `bottom`: 下からスライドイン
-     * @default 'left'
-     */
-    side?: 'left' | 'right' | 'bottom'
-    /** 追加 CSS クラス */
-    class?: string
-    /** シート内に描画するコンテンツ */
-    children: Snippet
-    /** シートが閉じられた時に呼ばれるコールバック */
-    onClose?: () => void
-  }
+  let { side = 'left', children, onClose }: SheetProps = $props()
+  let isOpen = $state(true)
 
-  let {
-    open = $bindable(false),
-    side = 'left',
-    class: className = '',
-    children,
-    onClose,
-  }: SheetProps = $props()
-
-  function close() {
-    open = false
+  /** シートを閉じる。 */
+  const closeSheet = () => {
+    isOpen = false
     onClose?.()
   }
 
-  function handleBackdropClick() {
-    close()
-  }
+  /** バックドロップ押下でシートを閉じる。 */
+  const closeSheetByBackdrop = () => closeSheet()
 
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape') {
-      close()
-    }
+  /** Escape キー押下時にシートを閉じる。 */
+  const closeSheetByEscape = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape') return
+
+    closeSheet()
   }
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={closeSheetByEscape} />
 
-{#if open}
-  <div class="sheet-backdrop" onclick={handleBackdropClick} aria-hidden="true"></div>
-  <div class="sheet sheet--{side} {className}" role="dialog" aria-modal="true">
-    <button class="sheet-close" type="button" aria-label="閉じる" onclick={close}>
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-      >
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
+{#if isOpen}
+  <div class="sheet-backdrop" onclick={closeSheetByBackdrop} aria-hidden="true"></div>
+  <div class="sheet" data-side={side} role="dialog" aria-modal="true">
+    <button class="sheet-close" type="button" aria-label="閉じる" onclick={closeSheet}>
+      <XIcon color="gray" size={20} />
     </button>
     {@render children()}
   </div>
@@ -75,7 +43,7 @@
     inset: 0;
     background: map.get(t.$bg, overlay);
     z-index: #{map.get(t.$z, overlay)};
-    animation: fadeIn map.get(t.$transition, fast) ease;
+    animation: fadeInSheetBackdrop map.get(t.$transition, fast) ease;
   }
 
   .sheet {
@@ -83,35 +51,37 @@
     background: map.get(t.$bg, surface);
     z-index: #{map.get(t.$z, modal)};
     overflow-y: auto;
-    animation: slideIn map.get(t.$transition, base) ease;
+  }
 
-    &--left {
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: min(320px, 80vw);
-      padding: 1.5rem;
-      box-shadow: map.get(t.$shadow, xl);
-    }
+  .sheet[data-side='left'] {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 80vw);
+    padding: 1.5rem;
+    box-shadow: map.get(t.$shadow, xl);
+    animation: slideInSheetFromLeft map.get(t.$transition, base) ease;
+  }
 
-    &--right {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: min(320px, 80vw);
-      padding: 1.5rem;
-      box-shadow: map.get(t.$shadow, xl);
-    }
+  .sheet[data-side='right'] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(320px, 80vw);
+    padding: 1.5rem;
+    box-shadow: map.get(t.$shadow, xl);
+    animation: slideInSheetFromRight map.get(t.$transition, base) ease;
+  }
 
-    &--bottom {
-      bottom: 0;
-      left: 0;
-      right: 0;
-      max-height: 90vh;
-      padding: 1.5rem;
-      border-radius: map.get(t.$radius, xl) map.get(t.$radius, xl) 0 0;
-      box-shadow: map.get(t.$shadow, xl);
-    }
+  .sheet[data-side='bottom'] {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 90vh;
+    padding: 1.5rem;
+    border-radius: map.get(t.$radius, xl) map.get(t.$radius, xl) 0 0;
+    box-shadow: map.get(t.$shadow, xl);
+    animation: slideInSheetFromBottom map.get(t.$transition, base) ease;
   }
 
   .sheet-close {
@@ -141,21 +111,43 @@
     }
   }
 
-  @keyframes fadeIn {
+  @keyframes fadeInSheetBackdrop {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
   }
 
-  @keyframes slideIn {
+  @keyframes slideInSheetFromLeft {
     from {
       transform: translateX(-100%);
     }
+
     to {
       transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInSheetFromRight {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInSheetFromBottom {
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
     }
   }
 </style>

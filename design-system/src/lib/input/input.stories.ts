@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte-vite'
 
-import Input from './input.svelte'
+import Input from './Input.svelte'
 
 const meta = {
   title: 'Design System/Input',
@@ -9,10 +9,9 @@ const meta = {
   args: {
     id: 'email',
     name: 'email',
-    label: 'Email',
-    placeholder: 'name@example.com',
-    hint: 'We will never share your email.',
-    required: false,
+    label: 'メールアドレス',
+    placeholder: 'sample@example.com',
+    required: true,
     disabled: false,
     error: '',
     type: 'email',
@@ -30,16 +29,15 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const 標準: Story = {}
 
-export const WithError: Story = {
+export const エラー表示: Story = {
   args: {
-    error: 'Please enter a valid email address.',
-    hint: '',
+    error: 'メールアドレスの形式が正しくありません。',
   },
 }
 
-export const Disabled: Story = {
+export const 無効状態: Story = {
   args: {
     disabled: true,
     value: 'disabled@example.com',

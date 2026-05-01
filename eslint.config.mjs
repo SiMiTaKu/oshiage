@@ -1,8 +1,28 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import jsdoc from 'eslint-plugin-jsdoc'
 import svelte from 'eslint-plugin-svelte'
+import tsdoc from 'eslint-plugin-tsdoc'
 import tseslint from 'typescript-eslint'
+
+const EXPORTED_DOC_CONTEXTS = [
+  'ExportNamedDeclaration > FunctionDeclaration',
+  'ExportDefaultDeclaration > FunctionDeclaration',
+  'ExportNamedDeclaration > VariableDeclaration > VariableDeclarator > ArrowFunctionExpression',
+  'ExportDefaultDeclaration > ArrowFunctionExpression',
+  'ExportNamedDeclaration > ClassDeclaration',
+  'ExportDefaultDeclaration > ClassDeclaration',
+  'ExportNamedDeclaration > TSInterfaceDeclaration',
+  'ExportNamedDeclaration > TSTypeAliasDeclaration',
+]
+
+const EXPORTED_FUNCTION_CONTEXTS = [
+  'ExportNamedDeclaration > FunctionDeclaration',
+  'ExportDefaultDeclaration > FunctionDeclaration',
+  'ExportNamedDeclaration > VariableDeclaration > VariableDeclarator > ArrowFunctionExpression',
+  'ExportDefaultDeclaration > ArrowFunctionExpression',
+]
 
 export default [
   {
@@ -35,6 +55,47 @@ export default [
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}'],
+    ignores: ['**/*.stories.*', '**/*.spec.*', '**/tests/**'],
+    plugins: {
+      jsdoc,
+      tsdoc,
+    },
+    settings: {
+      jsdoc: {
+        mode: 'typescript',
+      },
+    },
+    rules: {
+      'tsdoc/syntax': 'error',
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          contexts: EXPORTED_DOC_CONTEXTS,
+          require: {
+            FunctionDeclaration: true,
+            ClassDeclaration: true,
+            MethodDefinition: false,
+            ArrowFunctionExpression: true,
+            FunctionExpression: false,
+          },
+        },
+      ],
+      'jsdoc/require-param': [
+        'error',
+        {
+          contexts: EXPORTED_FUNCTION_CONTEXTS,
+        },
+      ],
+      'jsdoc/require-returns': [
+        'error',
+        {
+          contexts: EXPORTED_FUNCTION_CONTEXTS,
         },
       ],
     },

@@ -4,16 +4,16 @@
 
   let { data }: { data: PageData } = $props()
 
-  const categoryLabels: Record<string, string> = {
+  const CATEGORY_LABELS: Record<string, string> = {
     individual: '個人',
     group: 'グループ',
   }
-  const statusLabels: Record<string, string> = {
+  const STATUS_LABELS: Record<string, string> = {
     active: '現役',
     retired: '引退',
     inactive: '休止',
   }
-  const statusColors: Record<string, string> = {
+  const STATUS_COLORS: Record<string, string> = {
     active: 'badge-active',
     retired: 'badge-retired',
     inactive: 'badge-inactive',
@@ -45,7 +45,7 @@
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
       <a href="/entities" class="breadcrumb-back">
-        <ChevronLeftIcon size={16} />
+        <ChevronLeftIcon size={16} color="gray" />
         選手・チーム一覧に戻る
       </a>
     </div>
@@ -56,18 +56,18 @@
     <div class="entity-hero">
       <div class="entity-icon">
         {#if data.entity.entityCategory === 'individual'}
-          <UserIcon size={40} />
+          <UserIcon size={40} color="secondary" />
         {:else}
-          <UsersIcon size={40} />
+          <UsersIcon size={40} color="secondary" />
         {/if}
       </div>
       <div class="entity-hero-info">
         <div class="entity-badges">
           <span class="category-badge">
-            {categoryLabels[data.entity.entityCategory] ?? data.entity.entityCategory}
+            {CATEGORY_LABELS[data.entity.entityCategory] ?? data.entity.entityCategory}
           </span>
-          <span class="status-badge {statusColors[data.entity.activeStatus] ?? ''}">
-            {statusLabels[data.entity.activeStatus] ?? data.entity.activeStatus}
+          <span class="status-badge {STATUS_COLORS[data.entity.activeStatus] ?? ''}">
+            {STATUS_LABELS[data.entity.activeStatus] ?? data.entity.activeStatus}
           </span>
         </div>
         <h1 class="entity-name">{data.entity.currentRevision.name}</h1>
@@ -96,7 +96,7 @@
         class:active={activeTab === 'revisions'}
         onclick={() => (activeTab = 'revisions')}
       >
-        <ClockIcon size={14} />
+        <ClockIcon size={14} color="gray" />
         変更履歴 ({data.revisions.length})
       </button>
     </div>
@@ -118,9 +118,9 @@
               <dt>名前</dt>
               <dd>{data.entity.currentRevision.name}</dd>
               <dt>種別</dt>
-              <dd>{categoryLabels[data.entity.entityCategory] ?? data.entity.entityCategory}</dd>
+              <dd>{CATEGORY_LABELS[data.entity.entityCategory] ?? data.entity.entityCategory}</dd>
               <dt>状態</dt>
-              <dd>{statusLabels[data.entity.activeStatus] ?? data.entity.activeStatus}</dd>
+              <dd>{STATUS_LABELS[data.entity.activeStatus] ?? data.entity.activeStatus}</dd>
               {#if data.entity.currentRevision.sport}
                 <dt>競技</dt>
                 <dd>{data.entity.currentRevision.sport}</dd>
@@ -141,7 +141,7 @@
       <div class="tab-panel">
         {#if data.revisions.length === 0}
           <div class="empty-state">
-            <ClockIcon size={40} />
+            <ClockIcon size={40} color="gray" />
             <p class="empty-title">変更履歴がありません</p>
           </div>
         {:else}
@@ -328,6 +328,7 @@
       opacity: 0;
       transform: translateY(4px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);

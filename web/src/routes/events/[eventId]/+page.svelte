@@ -4,7 +4,7 @@
 
   let { data }: { data: PageData } = $props()
 
-  const eventTypeLabels: Record<string, string> = {
+  const EVENT_TYPE_LABELS: Record<string, string> = {
     competition: '大会',
     exhibition: '発表会',
     practice: '練習会',
@@ -37,7 +37,7 @@
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
       <a href="/events" class="breadcrumb-back">
-        <ChevronLeftIcon size={16} />
+        <ChevronLeftIcon size={16} color="gray" />
         イベント一覧に戻る
       </a>
     </div>
@@ -48,19 +48,19 @@
     <div class="event-hero">
       <div class="event-hero-inner">
         <span class="event-type-badge"
-          >{eventTypeLabels[data.event.eventType] ?? data.event.eventType}</span
+          >{EVENT_TYPE_LABELS[data.event.eventType] ?? data.event.eventType}</span
         >
         <h1 class="event-title">{data.event.title}</h1>
         <div class="event-meta">
           <span class="meta-item">
-            <CalendarIcon size={16} />
+            <CalendarIcon size={16} color="gray" />
             {formatDate(data.event.startAt)}
             {#if data.event.endAt}
               〜 {formatDate(data.event.endAt)}
             {/if}
           </span>
           <span class="meta-item">
-            <MapPinIcon size={16} />
+            <MapPinIcon size={16} color="gray" />
             {data.event.place}
           </span>
         </div>
@@ -104,7 +104,7 @@
             <dt>場所</dt>
             <dd>{data.event.place}</dd>
             <dt>種別</dt>
-            <dd>{eventTypeLabels[data.event.eventType] ?? data.event.eventType}</dd>
+            <dd>{EVENT_TYPE_LABELS[data.event.eventType] ?? data.event.eventType}</dd>
             {#if data.event.fee != null}
               <dt>参加費</dt>
               <dd>¥{data.event.fee.toLocaleString()}</dd>

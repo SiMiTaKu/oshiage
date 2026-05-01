@@ -1,1 +1,1 @@
-export { default as AppProviders } from './app-providers.svelte'
+export { default as AppProviders } from './AppProviders.svelte'

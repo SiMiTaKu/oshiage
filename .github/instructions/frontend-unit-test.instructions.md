@@ -1,6 +1,6 @@
 ---
 description: フロントエンド単体テスト実装のガイドライン。TDD実践と品質確保のための指針
-applyTo: '{web,admin}/tests/unit/**/*.spec.{ts,tsx,js,jsx}'
+applyTo: '{web,admin,design-system}/tests/unit/**/*.spec.{ts,tsx,js,jsx}'
 name: フロントエンド単体テスト実装ガイドライン
 ---
 
@@ -40,7 +40,7 @@ name: フロントエンド単体テスト実装ガイドライン
 - Given: 前提条件の準備
 - When: 実行
 - Then: 結果検証
-- 各ブロックは region コメントで明示する
+- 各ブロックは `#region Given` / `#region When` / `#region Then` で明示する
 
 ## 単体テスト実装の作業フロー
 
@@ -54,7 +54,9 @@ name: フロントエンド単体テスト実装ガイドライン
 
 - 最上位 describe: 関数名またはクラス名
 - 2階層目 describe: 観点（正常系 / 異常系 / 境界値 など）
-- it: `<条件>の場合<結果>になること`
+- it: `<条件>の場合、<結果>になること`
+- コンポーネントテストのファイル名: `<ComponentName>.spec.ts`
+- コンポーネントテストの配置: `tests/unit/<component-name>/<ComponentName>.spec.ts`
 
 ## テスト設計の原則
 

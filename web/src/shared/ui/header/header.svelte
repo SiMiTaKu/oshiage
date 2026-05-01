@@ -2,7 +2,7 @@
   import { page } from '$app/stores'
   import { Sheet, MenuIcon, SearchIcon } from '@oshiage/design-system'
 
-  const navigation = [
+  const NAVIGATION = [
     { name: 'イベント', href: '/events' },
     { name: '選手・チーム', href: '/entities' },
     { name: 'お知らせ', href: '/notices' },
@@ -28,7 +28,7 @@
 
     <!-- デスクトップナビ -->
     <nav class="header-nav" aria-label="メインナビゲーション">
-      {#each navigation as item}
+      {#each NAVIGATION as item}
         <a
           href={item.href}
           class="header-nav-link"
@@ -43,7 +43,7 @@
     <!-- アクション -->
     <div class="header-actions">
       <a href="/search" class="header-icon-btn header-icon-btn--desktop" aria-label="検索">
-        <SearchIcon size={20} />
+        <SearchIcon size={20} color="gray" />
       </a>
       <a href="/auth/sign-in" class="header-btn header-btn--ghost header-btn--desktop">ログイン</a>
       <a href="/auth/sign-up" class="header-btn header-btn--primary header-btn--desktop">新規登録</a
@@ -57,38 +57,40 @@
         aria-expanded={mobileOpen}
         onclick={() => (mobileOpen = true)}
       >
-        <MenuIcon size={20} />
+        <MenuIcon size={20} color="gray" />
       </button>
     </div>
   </div>
 </header>
 
 <!-- モバイルドロワー -->
-<Sheet bind:open={mobileOpen} side="right">
-  <nav class="mobile-nav" aria-label="モバイルナビゲーション">
-    {#each navigation as item}
-      <a href={item.href} class="mobile-nav-link" onclick={closeMobile}>
-        {item.name}
+{#if mobileOpen}
+  <Sheet side="right" onClose={closeMobile}>
+    <nav class="mobile-nav" aria-label="モバイルナビゲーション">
+      {#each NAVIGATION as item}
+        <a href={item.href} class="mobile-nav-link" onclick={closeMobile}>
+          {item.name}
+        </a>
+      {/each}
+    </nav>
+    <div class="mobile-nav-actions">
+      <a
+        href="/auth/sign-in"
+        class="header-btn header-btn--outline header-btn--full"
+        onclick={closeMobile}
+      >
+        ログイン
       </a>
-    {/each}
-  </nav>
-  <div class="mobile-nav-actions">
-    <a
-      href="/auth/sign-in"
-      class="header-btn header-btn--outline header-btn--full"
-      onclick={closeMobile}
-    >
-      ログイン
-    </a>
-    <a
-      href="/auth/sign-up"
-      class="header-btn header-btn--primary header-btn--full"
-      onclick={closeMobile}
-    >
-      新規登録
-    </a>
-  </div>
-</Sheet>
+      <a
+        href="/auth/sign-up"
+        class="header-btn header-btn--primary header-btn--full"
+        onclick={closeMobile}
+      >
+        新規登録
+      </a>
+    </div>
+  </Sheet>
+{/if}
 
 <style lang="scss">
   @use 'sass:map';

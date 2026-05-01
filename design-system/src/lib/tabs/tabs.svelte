@@ -1,19 +1,10 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import type { TabsProps } from './model/index'
 
-  interface TabsProps {
-    /** 現在アクティブなタブの ID。`$bindable` @default '' */
-    activeTab?: string
-    /** 追加 CSS クラス */
-    class?: string
-    /** `<TabsRoot>` などのタブコンテンツを含む Snippet */
-    children: Snippet
-  }
-
-  let { activeTab = $bindable(''), class: className = '', children }: TabsProps = $props()
+  let { children }: TabsProps = $props()
 </script>
 
-<div class="tabs {className}">
+<div class="tabs">
   {@render children()}
 </div>
 

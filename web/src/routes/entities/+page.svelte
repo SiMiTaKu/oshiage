@@ -5,31 +5,31 @@
 
   let { data }: { data: PageData } = $props()
 
-  const categoryOptions = [
+  const CATEGORY_OPTIONS = [
     { value: '', label: 'すべて' },
     { value: 'individual', label: '個人' },
     { value: 'group', label: 'グループ' },
   ]
 
-  const statusOptions = [
+  const STATUS_OPTIONS = [
     { value: '', label: 'すべて' },
     { value: 'active', label: '現役' },
     { value: 'retired', label: '引退' },
     { value: 'inactive', label: '休止' },
   ]
 
-  const categoryLabels: Record<string, string> = {
+  const CATEGORY_LABELS: Record<string, string> = {
     individual: '個人',
     group: 'グループ',
   }
 
-  const statusLabels: Record<string, string> = {
+  const STATUS_LABELS: Record<string, string> = {
     active: '現役',
     retired: '引退',
     inactive: '休止',
   }
 
-  const statusColors: Record<string, string> = {
+  const STATUS_COLORS: Record<string, string> = {
     active: 'badge-active',
     retired: 'badge-retired',
     inactive: 'badge-inactive',
@@ -89,7 +89,7 @@
           bind:value={selectedCategory}
           onchange={applyFilter}
         >
-          {#each categoryOptions as opt}
+          {#each CATEGORY_OPTIONS as opt}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>
@@ -102,7 +102,7 @@
           bind:value={selectedStatus}
           onchange={applyFilter}
         >
-          {#each statusOptions as opt}
+          {#each STATUS_OPTIONS as opt}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>
@@ -113,7 +113,7 @@
 
     {#if data.entities.length === 0}
       <div class="empty-state">
-        <UserIcon size={48} />
+        <UserIcon size={48} color="gray" />
         <p class="empty-title">該当する選手・チームがありません</p>
         <p class="empty-desc">フィルターを変えてお試しください。</p>
       </div>
@@ -124,14 +124,14 @@
             <div class="entity-card-header">
               <span class="category-badge">
                 {#if entity.entityCategory === 'individual'}
-                  <UserIcon size={12} />
+                  <UserIcon size={12} color="gray" />
                 {:else}
-                  <UsersIcon size={12} />
+                  <UsersIcon size={12} color="gray" />
                 {/if}
-                {categoryLabels[entity.entityCategory] ?? entity.entityCategory}
+                {CATEGORY_LABELS[entity.entityCategory] ?? entity.entityCategory}
               </span>
-              <span class="status-badge {statusColors[entity.activeStatus] ?? ''}">
-                {statusLabels[entity.activeStatus] ?? entity.activeStatus}
+              <span class="status-badge {STATUS_COLORS[entity.activeStatus] ?? ''}">
+                {STATUS_LABELS[entity.activeStatus] ?? entity.activeStatus}
               </span>
             </div>
             <h2 class="entity-name">{entity.currentRevision.name}</h2>
@@ -157,7 +157,7 @@
             onclick={() => changePage(data.page - 1)}
             aria-label="前のページ"
           >
-            <ChevronLeftIcon size={16} />
+            <ChevronLeftIcon size={16} color="gray" />
           </button>
           <span class="pagination-info">{data.page} / {totalPages}</span>
           <button
@@ -167,7 +167,7 @@
             onclick={() => changePage(data.page + 1)}
             aria-label="次のページ"
           >
-            <ChevronRightIcon size={16} />
+            <ChevronRightIcon size={16} color="gray" />
           </button>
         </div>
       {/if}
