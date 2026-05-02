@@ -94,7 +94,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use 'index' as t;
 
   .site-header {
     position: sticky;

@@ -11,7 +11,6 @@ const BASE_PROPS = {
 }
 
 describe('Sheet', () => {
-  // #region 正常系
   describe('正常系', () => {
     // #region 表示テスト
     it('コンポーネントをマウントした場合、dialog と children が表示されること', () => {
@@ -20,7 +19,7 @@ describe('Sheet', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByRole('dialog')).toBeInTheDocument()
+      expect(screen.getByRole('dialog', { name: 'シート' })).toBeInTheDocument()
       expect(screen.getByText('シートの中身')).toBeInTheDocument()
       // #endregion
     })
@@ -42,12 +41,8 @@ describe('Sheet', () => {
       },
     )
     // #endregion
-  })
-  // #endregion
 
-  // #region 異常系
-  describe('異常系', () => {
-    // #region 表示テスト
+    // #region ユーザー操作テスト
     it('閉じるボタンを押下した場合、dialog が表示されないこと', async () => {
       // #region Given
       render(Sheet, { ...BASE_PROPS, children: makeChildrenSnippet('コンテンツ') })
@@ -58,28 +53,7 @@ describe('Sheet', () => {
       // #endregion
 
       // #region Then
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      // #endregion
-    })
-    // #endregion
-  })
-  // #endregion
-
-  // #region 準正常系
-  describe('準正常系', () => {
-    // #region ユーザー操作テスト
-    it('閉じるボタンをクリックした場合、dialog が非表示になること', async () => {
-      // #region Given
-      render(Sheet, { ...BASE_PROPS, children: makeChildrenSnippet('') })
-      const closeButton = screen.getByRole('button', { name: '閉じる' })
-      // #endregion
-
-      // #region When
-      await fireEvent.click(closeButton)
-      // #endregion
-
-      // #region Then
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByRole('dialog', { name: 'シート' })).not.toBeInTheDocument()
       // #endregion
     })
 
@@ -97,7 +71,7 @@ describe('Sheet', () => {
       // #endregion
 
       // #region Then
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByRole('dialog', { name: 'シート' })).not.toBeInTheDocument()
       // #endregion
     })
 
@@ -127,10 +101,9 @@ describe('Sheet', () => {
       // #endregion
 
       // #region Then
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByRole('dialog', { name: 'シート' })).not.toBeInTheDocument()
       // #endregion
     })
     // #endregion
   })
-  // #endregion
 })

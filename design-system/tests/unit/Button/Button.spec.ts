@@ -8,7 +8,6 @@ const BASE_PROPS = {
 }
 
 describe('Button', () => {
-  // #region 正常系
   describe('正常系', () => {
     // #region 表示テスト
     it('label を渡した場合、button にラベルが表示されること', () => {
@@ -21,43 +20,17 @@ describe('Button', () => {
       // #endregion
     })
 
-    it('type を未指定で渡した場合、type が button になること', () => {
+    it.each([
+      ['未指定', {}, 'button'],
+      ['button', { type: 'button' }, 'button'],
+      ['submit', { type: 'submit' }, 'submit'],
+    ] as const)('type を %s で渡した場合、type が %s になること', (_, props, expectedType) => {
       // #region Given
-      render(Button, BASE_PROPS)
+      render(Button, { ...BASE_PROPS, ...props })
       // #endregion
 
       // #region Then
-      expect(screen.getByRole('button')).toHaveAttribute('type', 'button')
-      // #endregion
-    })
-    // #endregion
-  })
-  // #endregion
-
-  // #region 異常系
-  describe('異常系', () => {
-    it('label に空文字を渡した場合、button 要素が描画されること', () => {
-      // #region Given
-      render(Button, { ...BASE_PROPS, label: '' })
-      // #endregion
-
-      // #region Then
-      expect(screen.getByRole('button')).toBeInTheDocument()
-      // #endregion
-    })
-  })
-  // #endregion
-
-  // #region 準正常系
-  describe('準正常系', () => {
-    // #region 表示テスト
-    it('variant を primary で渡した場合、data-variant に反映されること', () => {
-      // #region Given
-      render(Button, BASE_PROPS)
-      // #endregion
-
-      // #region Then
-      expect(screen.getByRole('button')).toHaveAttribute('data-variant', 'primary')
+      expect(screen.getByRole('button', { name: 'テスト' })).toHaveAttribute('type', expectedType)
       // #endregion
     })
 
@@ -69,11 +42,25 @@ describe('Button', () => {
         // #endregion
 
         // #region Then
-        expect(screen.getByRole('button')).toHaveAttribute('data-variant', variant)
+        expect(screen.getByRole('button', { name: 'テスト' })).toHaveAttribute(
+          'data-variant',
+          variant,
+        )
         // #endregion
       },
     )
     // #endregion
   })
-  // #endregion
+
+  describe('準正常系', () => {
+    it('label に空文字を渡した場合、button 要素が描画されること', () => {
+      // #region Given
+      render(Button, { ...BASE_PROPS, label: '' })
+      // #endregion
+
+      // #region Then
+      expect(screen.getByRole('button')).toBeInTheDocument()
+      // #endregion
+    })
+  })
 })

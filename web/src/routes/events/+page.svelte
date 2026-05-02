@@ -170,7 +170,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use 'index' as t;
 
   .events-page {
     min-height: 100%;

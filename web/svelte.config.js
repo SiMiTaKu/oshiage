@@ -12,7 +12,7 @@ export default {
       css: {
         preprocessorOptions: {
           scss: {
-            loadPaths: [resolve(__dirname, '../design-system/src/lib/styles')],
+            loadPaths: [resolve(__dirname, '../design-system/src/styles')],
           },
         },
       },

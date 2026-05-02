@@ -8,7 +8,6 @@ const BASE_PROPS = {
 }
 
 describe('Badge', () => {
-  // #region 正常系
   describe('正常系', () => {
     // #region 表示テスト
     it('text を渡した場合、text が描画されること', () => {
@@ -21,39 +20,6 @@ describe('Badge', () => {
       // #endregion
     })
 
-    it('variant を primary で渡した場合、data-variant が primary になること', () => {
-      // #region Given
-      render(Badge, { ...BASE_PROPS, text: 'primary' })
-      // #endregion
-
-      // #region Then
-      expect(screen.getByText('primary').closest('.badge')).toHaveAttribute(
-        'data-variant',
-        'primary',
-      )
-      // #endregion
-    })
-    // #endregion
-  })
-  // #endregion
-
-  // #region 異常系
-  describe('異常系', () => {
-    it('text に空文字を渡した場合、badge 要素が描画されること', () => {
-      // #region Given
-      const { container } = render(Badge, { ...BASE_PROPS, text: '' })
-      // #endregion
-
-      // #region Then
-      expect(container.querySelector('.badge')).toBeInTheDocument()
-      // #endregion
-    })
-  })
-  // #endregion
-
-  // #region 準正常系
-  describe('準正常系', () => {
-    // #region 表示テスト
     it.each([
       'primary',
       'secondary',
@@ -74,4 +40,19 @@ describe('Badge', () => {
     // #endregion
   })
   // #endregion
+
+  // #region 異常系
+  describe('準正常系', () => {
+    // #region 表示テスト
+    it('text に空文字を渡した場合、badge 要素が描画されること', () => {
+      // #region Given
+      const { container } = render(Badge, { ...BASE_PROPS, text: '' })
+      // #endregion
+
+      // #region Then
+      expect(container.querySelector('.badge')).toBeInTheDocument()
+      // #endregion
+    })
+    // #endregion
+  })
 })

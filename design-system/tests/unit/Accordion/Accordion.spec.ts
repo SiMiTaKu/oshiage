@@ -14,17 +14,35 @@ const makeItems = (count: number) =>
 
 const BASE_ID = 'test-accordion'
 
+const getAccordionSummaryByName = (name: string) => {
+  const panel = screen.getByRole('region', { name })
+  const labelId = panel.getAttribute('aria-labelledby')
+
+  if (!labelId) {
+    throw new Error(`aria-labelledby was not found for ${name}`)
+  }
+
+  const summary = document.getElementById(labelId)
+
+  if (!(summary instanceof HTMLElement)) {
+    throw new Error(`summary was not found for ${name}`)
+  }
+
+  return summary
+}
+
 describe('Accordion', () => {
-  // #region 正常系
   describe('正常系', () => {
     // #region 表示テスト
     it('items を3件渡した場合、summary が3件描画されること', () => {
       // #region Given
-      const { container } = render(Accordion, { id: BASE_ID, items: makeItems(3) })
+      render(Accordion, { id: BASE_ID, items: makeItems(3) })
       // #endregion
 
       // #region Then
-      expect(container.querySelectorAll('summary')).toHaveLength(3)
+      expect(screen.getByRole('region', { name: 'タイトル 1' })).toBeInTheDocument()
+      expect(screen.getByRole('region', { name: 'タイトル 2' })).toBeInTheDocument()
+      expect(screen.getByRole('region', { name: 'タイトル 3' })).toBeInTheDocument()
       // #endregion
     })
 
@@ -34,70 +52,65 @@ describe('Accordion', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByText('タイトル 1')).toBeInTheDocument()
-      expect(screen.getByText('タイトル 2')).toBeInTheDocument()
+      expect(screen.getByRole('region', { name: 'タイトル 1' })).toBeInTheDocument()
+      expect(screen.getByRole('region', { name: 'タイトル 2' })).toBeInTheDocument()
       // #endregion
     })
 
     it('初期表示の場合、すべてのパネルが閉じた状態になること', () => {
       // #region Given
-      const { container } = render(Accordion, { id: BASE_ID, items: makeItems(2) })
+      render(Accordion, { id: BASE_ID, items: makeItems(2) })
       // #endregion
 
       // #region Then
-      const details = container.querySelectorAll('details')
-      details.forEach((item) => {
-        expect(item).not.toHaveAttribute('open')
-      })
+      expect(screen.getByRole('region', { name: 'タイトル 1' })).not.toBeVisible()
+      expect(screen.getByRole('region', { name: 'タイトル 2' })).not.toBeVisible()
       // #endregion
     })
     // #endregion
-  })
-  // #endregion
 
-  // #region 準正常系
-  describe('準正常系', () => {
     // #region ユーザー操作テスト
     it('summary をクリックした場合、対象パネルが開くこと', async () => {
       // #region Given
-      const { container } = render(Accordion, { id: BASE_ID, items: makeItems(2) })
-      const summaries = container.querySelectorAll('summary')
-      const details = container.querySelectorAll('details')
+      render(Accordion, { id: BASE_ID, items: makeItems(2) })
+      const firstPanel = screen.getByRole('region', { name: 'タイトル 1' })
+      const firstSummary = getAccordionSummaryByName('タイトル 1')
       // #endregion
 
       // #region When
-      await fireEvent.click(summaries[0])
+      await fireEvent.click(firstSummary)
       // #endregion
 
       // #region Then
-      expect(details[0]).toHaveAttribute('open')
+      expect(firstPanel).toBeVisible()
       // #endregion
     })
 
     it('別のパネルを開いた場合、直前のパネルが閉じること', async () => {
       // #region Given
-      const { container } = render(Accordion, { id: BASE_ID, items: makeItems(2) })
-      const summaries = container.querySelectorAll('summary')
-      const details = container.querySelectorAll('details')
-      await fireEvent.click(summaries[0])
+      render(Accordion, { id: BASE_ID, items: makeItems(2) })
+      const firstPanel = screen.getByRole('region', { name: 'タイトル 1' })
+      const secondPanel = screen.getByRole('region', { name: 'タイトル 2' })
+      const firstSummary = getAccordionSummaryByName('タイトル 1')
+      const secondSummary = getAccordionSummaryByName('タイトル 2')
+      await fireEvent.click(firstSummary)
       // #endregion
 
       // #region When
-      await fireEvent.click(summaries[1])
+      await fireEvent.click(secondSummary)
       // #endregion
 
       // #region Then
-      expect(details[0]).not.toHaveAttribute('open')
-      expect(details[1]).toHaveAttribute('open')
+      expect(firstPanel).not.toBeVisible()
+      expect(secondPanel).toBeVisible()
       // #endregion
     })
 
     it('開いているパネルを再クリックした場合、同じパネルが閉じること', async () => {
       // #region Given
-      const { container } = render(Accordion, { id: BASE_ID, items: makeItems(1) })
-      const summary = container.querySelector('summary')
-      const detail = container.querySelector('details')
-      if (!summary || !detail) throw new Error('accordion item was not rendered')
+      render(Accordion, { id: BASE_ID, items: makeItems(1) })
+      const panel = screen.getByRole('region', { name: 'タイトル 1' })
+      const summary = getAccordionSummaryByName('タイトル 1')
 
       await fireEvent.click(summary)
       // #endregion
@@ -107,24 +120,21 @@ describe('Accordion', () => {
       // #endregion
 
       // #region Then
-      expect(detail).not.toHaveAttribute('open')
+      expect(panel).not.toBeVisible()
       // #endregion
     })
     // #endregion
   })
-  // #endregion
 
-  // #region 異常系
-  describe('異常系', () => {
+  describe('準正常系', () => {
     it('items が空の場合、summary が描画されないこと', () => {
       // #region Given
-      const { container } = render(Accordion, { id: BASE_ID, items: [] })
+      render(Accordion, { id: BASE_ID, items: [] })
       // #endregion
 
       // #region Then
-      expect(container.querySelectorAll('summary')).toHaveLength(0)
+      expect(screen.queryByRole('region', { name: 'タイトル 1' })).not.toBeInTheDocument()
       // #endregion
     })
   })
-  // #endregion
 })

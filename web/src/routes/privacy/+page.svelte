@@ -71,7 +71,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use 'index' as t;
 
   .static-page {
     min-height: 100%;

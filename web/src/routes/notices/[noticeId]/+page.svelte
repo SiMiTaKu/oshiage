@@ -70,7 +70,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use 'index' as t;
 
   .notice-detail-page {
     min-height: 100%;

@@ -23,7 +23,7 @@
 </script>
 
 <div class="tabs-root">
-  <div class="tabs-list" role="tablist">
+  <div class="tabs-list" role="tablist" aria-label="タブ一覧">
     {#each tabs as tab (tab.id)}
       <button
         class="tabs-trigger"

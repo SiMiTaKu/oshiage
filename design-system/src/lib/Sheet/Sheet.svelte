@@ -26,7 +26,7 @@
 
 {#if isOpen}
   <div class="sheet-backdrop" onclick={closeSheetByBackdrop} aria-hidden="true"></div>
-  <div class="sheet" data-side={side} role="dialog" aria-modal="true">
+  <div class="sheet" data-side={side} role="dialog" aria-modal="true" aria-label="シート">
     <button class="sheet-close" type="button" aria-label="閉じる" onclick={closeSheet}>
       <XIcon color="gray" size={20} />
     </button>

@@ -35,7 +35,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use 'index' as t;
 
   .error-page {
     display: flex;

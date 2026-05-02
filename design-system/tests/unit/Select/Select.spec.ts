@@ -16,7 +16,6 @@ const BASE_PROPS = {
 }
 
 describe('Select', () => {
-  // #region 正常系
   describe('正常系', () => {
     // #region 表示テスト
     it('基本 props を渡した場合、select と label が描画されること', () => {
@@ -25,8 +24,7 @@ describe('Select', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByRole('combobox')).toBeInTheDocument()
-      expect(screen.getByText('カテゴリ')).toBeInTheDocument()
+      expect(screen.getByRole('combobox', { name: 'カテゴリ' })).toBeInTheDocument()
       // #endregion
     })
 
@@ -36,40 +34,17 @@ describe('Select', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByText('*')).toBeInTheDocument()
+      expect(screen.getByRole('combobox', { name: 'カテゴリ' })).toBeRequired()
       // #endregion
     })
-    // #endregion
-  })
-  // #endregion
 
-  // #region 異常系
-  describe('異常系', () => {
-    // #region 表示テスト
-    it('error を渡した場合、エラー表示と aria-invalid=true になること', () => {
-      // #region Given
-      render(Select, { ...BASE_PROPS, error: '選択してください' })
-      // #endregion
-
-      // #region Then
-      expect(screen.getByRole('alert')).toHaveTextContent('選択してください')
-      expect(screen.getByRole('combobox')).toHaveAttribute('aria-invalid', 'true')
-      // #endregion
-    })
-    // #endregion
-  })
-  // #endregion
-
-  // #region 準正常系
-  describe('準正常系', () => {
-    // #region 表示テスト
     it('placeholder を渡した場合、placeholder が option として描画されること', () => {
       // #region Given
       render(Select, BASE_PROPS)
       // #endregion
 
       // #region Then
-      expect(screen.getByText('選択してください')).toBeInTheDocument()
+      expect(screen.getByRole('option', { name: '選択してください' })).toBeInTheDocument()
       // #endregion
     })
 
@@ -79,10 +54,23 @@ describe('Select', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByRole('combobox')).toBeDisabled()
+      expect(screen.getByRole('combobox', { name: 'カテゴリ' })).toBeDisabled()
+      // #endregion
+    })
+
+    it('error を渡した場合、エラー表示と aria-invalid=true になること', () => {
+      // #region Given
+      render(Select, { ...BASE_PROPS, error: '選択してください' })
+      // #endregion
+
+      // #region Then
+      expect(screen.getByRole('alert')).toHaveTextContent('選択してください')
+      expect(screen.getByRole('combobox', { name: 'カテゴリ' })).toHaveAttribute(
+        'aria-invalid',
+        'true',
+      )
       // #endregion
     })
     // #endregion
   })
-  // #endregion
 })

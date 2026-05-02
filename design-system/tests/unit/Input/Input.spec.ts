@@ -13,7 +13,6 @@ const BASE_PROPS = {
 }
 
 describe('Input', () => {
-  // #region 正常系
   describe('正常系', () => {
     // #region 表示テスト
     it('基本 props を渡した場合、label と input が表示されること', () => {
@@ -22,8 +21,7 @@ describe('Input', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByText('お名前')).toBeInTheDocument()
-      expect(screen.getByRole('textbox')).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'お名前' })).toBeInTheDocument()
       // #endregion
     })
 
@@ -33,7 +31,44 @@ describe('Input', () => {
       // #endregion
 
       // #region Then
-      expect(screen.getByText('*')).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'お名前' })).toBeRequired()
+      // #endregion
+    })
+
+    it('placeholder を渡した場合、placeholder が表示されること', () => {
+      // #region Given
+      render(Input, { ...BASE_PROPS, placeholder: 'ここに入力' })
+      // #endregion
+
+      // #region Then
+      expect(screen.getByRole('textbox', { name: 'お名前' })).toHaveAttribute(
+        'placeholder',
+        'ここに入力',
+      )
+      // #endregion
+    })
+
+    it('disabled=true を渡した場合、input が無効化されること', () => {
+      // #region Given
+      render(Input, { ...BASE_PROPS, disabled: true })
+      // #endregion
+
+      // #region Then
+      expect(screen.getByRole('textbox', { name: 'お名前' })).toBeDisabled()
+      // #endregion
+    })
+
+    it('error を渡した場合、エラーメッセージと aria-invalid=true が表示されること', () => {
+      // #region Given
+      render(Input, { ...BASE_PROPS, error: '必須項目です' })
+      // #endregion
+
+      // #region Then
+      expect(screen.getByRole('alert')).toHaveTextContent('必須項目です')
+      expect(screen.getByRole('textbox', { name: 'お名前' })).toHaveAttribute(
+        'aria-invalid',
+        'true',
+      )
       // #endregion
     })
     // #endregion
@@ -45,54 +80,13 @@ describe('Input', () => {
       // #endregion
 
       // #region When
-      await fireEvent.blur(screen.getByRole('textbox'))
+      await fireEvent.blur(screen.getByRole('textbox', { name: 'お名前' }))
       // #endregion
 
       // #region Then
-      expect((screen.getByRole('textbox') as HTMLInputElement).value).toBe('hello')
-      // #endregion
-    })
-    // #endregion
-  })
-  // #endregion
-
-  // #region 異常系
-  describe('異常系', () => {
-    // #region 表示テスト
-    it('error を渡した場合、エラーメッセージと aria-invalid=true が表示されること', () => {
-      // #region Given
-      render(Input, { ...BASE_PROPS, error: '必須項目です' })
-      // #endregion
-
-      // #region Then
-      expect(screen.getByRole('alert')).toHaveTextContent('必須項目です')
-      expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true')
-      // #endregion
-    })
-    // #endregion
-  })
-  // #endregion
-
-  // #region 準正常系
-  describe('準正常系', () => {
-    // #region 表示テスト
-    it('placeholder を渡した場合、placeholder が表示されること', () => {
-      // #region Given
-      render(Input, { ...BASE_PROPS, placeholder: 'ここに入力' })
-      // #endregion
-
-      // #region Then
-      expect(screen.getByPlaceholderText('ここに入力')).toBeInTheDocument()
-      // #endregion
-    })
-
-    it('disabled=true を渡した場合、input が無効化されること', () => {
-      // #region Given
-      render(Input, { ...BASE_PROPS, disabled: true })
-      // #endregion
-
-      // #region Then
-      expect(screen.getByRole('textbox')).toBeDisabled()
+      expect((screen.getByRole('textbox', { name: 'お名前' }) as HTMLInputElement).value).toBe(
+        'hello',
+      )
       // #endregion
     })
     // #endregion

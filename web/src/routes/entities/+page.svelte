@@ -177,7 +177,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use 'index' as t;
 
   .entities-page {
     min-height: 100%;
