@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TabsRootProps } from './model/index'
+  import type { TabsRootProps } from './Model/index'
 
   let { tabs, panelChildren }: TabsRootProps = $props()
 
@@ -58,7 +58,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use '../../styles/index' as *;
 
   .tabs-root {
     width: 100%;
@@ -66,7 +66,7 @@
 
   .tabs-list {
     display: flex;
-    border-bottom: 2px solid map.get(t.$border, default);
+    border-bottom: 2px solid map.get($border, default);
     gap: 0;
     overflow-x: auto;
     scrollbar-width: none;
@@ -79,31 +79,31 @@
   .tabs-trigger {
     flex-shrink: 0;
     padding: 0.625rem 1rem;
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
     background: none;
     border: none;
     border-bottom: 2px solid transparent;
     margin-bottom: -2px;
     cursor: pointer;
     transition:
-      color map.get(t.$transition, fast),
-      border-color map.get(t.$transition, fast);
+      color map.get($transition, fast),
+      border-color map.get($transition, fast);
     white-space: nowrap;
 
     &:hover {
-      color: map.get(t.$text, primary);
+      color: map.get($text, primary);
     }
 
     &:focus-visible {
-      outline: 2px solid map.get(t.$border, focus);
+      outline: 2px solid map.get($border, focus);
       outline-offset: -2px;
     }
 
     &[aria-selected='true'] {
-      color: map.get(t.$brand, 500);
-      border-bottom-color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
+      border-bottom-color: map.get($brand, 500);
     }
   }
 

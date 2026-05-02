@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/svelte'
 import { createRawSnippet } from 'svelte'
-import Accordion from '../../../src/lib/accordion/Accordion.svelte'
+import Accordion from '../../../src/lib/Accordion/Accordion.svelte'
 
 const makeContentSnippet = (text: string) =>
   createRawSnippet(() => ({ render: () => `<p>${text}</p>` }))

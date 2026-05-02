@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ButtonProps } from './model/index'
+  import type { ButtonProps } from './Model/index'
 
   let { label, variant, type = 'button' }: ButtonProps = $props()
 </script>
@@ -8,7 +8,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use '../../styles/index' as *;
 
   /* #region Root */
   .button {
@@ -28,7 +28,7 @@
       border-color 160ms ease,
       box-shadow 160ms ease;
     cursor: pointer;
-    box-shadow: map.get(t.$shadow, sm);
+    box-shadow: map.get($shadow, sm);
   }
 
   /* #endregion */
@@ -38,31 +38,31 @@
   }
 
   .button:focus-visible {
-    outline: 2px solid rgba(map.get(t.$brand, 500), 0.28);
+    outline: 2px solid rgba(map.get($brand, 500), 0.28);
     outline-offset: 2px;
   }
 
   /* #region Variants */
   .button[data-variant='primary'] {
-    background: linear-gradient(135deg, map.get(t.$brand, 500) 0%, map.get(t.$brand, 600) 100%);
-    color: map.get(t.$text, inverse);
+    background: linear-gradient(135deg, map.get($brand, 500) 0%, map.get($brand, 600) 100%);
+    color: map.get($text, inverse);
   }
 
   .button[data-variant='primary-outline'] {
-    background: rgba(map.get(t.$brand, 100), 0.44);
-    color: map.get(t.$brand, 700);
-    border-color: rgba(map.get(t.$brand, 500), 0.24);
+    background: rgba(map.get($brand, 100), 0.44);
+    color: map.get($brand, 700);
+    border-color: rgba(map.get($brand, 500), 0.24);
   }
 
   .button[data-variant='secondary'] {
-    background: linear-gradient(135deg, map.get(t.$indigo, 500) 0%, map.get(t.$indigo, 700) 100%);
-    color: map.get(t.$text, inverse);
+    background: linear-gradient(135deg, map.get($indigo, 500) 0%, map.get($indigo, 700) 100%);
+    color: map.get($text, inverse);
   }
 
   .button[data-variant='secondary-outline'] {
-    background: rgba(map.get(t.$indigo, 100), 0.52);
-    color: map.get(t.$indigo, 700);
-    border-color: rgba(map.get(t.$indigo, 500), 0.24);
+    background: rgba(map.get($indigo, 100), 0.52);
+    color: map.get($indigo, 700);
+    border-color: rgba(map.get($indigo, 500), 0.24);
   }
 
   /* #endregion */

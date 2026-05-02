@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
-import Button from '../../../src/lib/button/Button.svelte'
+import Button from '../../../src/lib/Button/Button.svelte'
 
 const BASE_PROPS = {
   label: 'テスト',

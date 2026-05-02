@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
-import Badge from '../../../src/lib/badge/Badge.svelte'
+import Badge from '../../../src/lib/Badge/Badge.svelte'
 
 const BASE_PROPS = {
   text: 'テスト',

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/svelte'
 import { createRawSnippet } from 'svelte'
-import Sheet from '../../../src/lib/sheet/Sheet.svelte'
+import Sheet from '../../../src/lib/Sheet/Sheet.svelte'
 
 const makeChildrenSnippet = (text: string) =>
   createRawSnippet(() => ({ render: () => `<p>${text}</p>` }))

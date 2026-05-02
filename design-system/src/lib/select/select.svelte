@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  import ChevronDownIcon from '../icons/icon-components/ChevronDownIcon.svelte'
-  import type { SelectChangeDetail, SelectProps } from './model/index'
+  import ChevronDownIcon from '../Icons/IconComponents/ChevronDownIcon.svelte'
+  import type { SelectChangeDetail, SelectProps } from './Model/index'
 
   const dispatch = createEventDispatcher<{
     blur: SelectChangeDetail
@@ -63,7 +63,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use '../../styles/index' as *;
 
   /* #region Layout */
   .select-wrapper {
@@ -76,13 +76,13 @@
 
   /* #region Label */
   .select-label {
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, primary);
   }
 
   .select-required {
-    color: map.get(t.$error, 500);
+    color: map.get($error, 500);
     margin-left: 0.25rem;
   }
 
@@ -96,34 +96,34 @@
   .select-field {
     width: 100%;
     padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, primary);
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
+    font-size: map.get($font-size, base);
+    color: map.get($text, primary);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
     appearance: none;
     cursor: pointer;
     outline: none;
     transition:
-      border-color map.get(t.$transition, fast),
-      box-shadow map.get(t.$transition, fast);
+      border-color map.get($transition, fast),
+      box-shadow map.get($transition, fast);
 
     &:focus {
-      border-color: map.get(t.$border, focus);
-      box-shadow: 0 0 0 3px #{map.get(t.$indigo, 100)};
+      border-color: map.get($border, focus);
+      box-shadow: 0 0 0 3px #{map.get($indigo, 100)};
     }
 
     &[aria-invalid='true'] {
-      border-color: map.get(t.$error, 500);
+      border-color: map.get($error, 500);
     }
 
     &[aria-invalid='true']:focus {
-      box-shadow: 0 0 0 3px #{map.get(t.$error, 100)};
+      box-shadow: 0 0 0 3px #{map.get($error, 100)};
     }
 
     &:disabled {
-      background: map.get(t.$bg, muted);
-      color: map.get(t.$text, disabled);
+      background: map.get($bg, muted);
+      color: map.get($text, disabled);
       cursor: not-allowed;
     }
   }
@@ -134,7 +134,7 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
     display: flex;
     align-items: center;
   }
@@ -143,8 +143,8 @@
 
   /* #region Error */
   .select-error {
-    font-size: map.get(t.$font-size, xs);
-    color: map.get(t.$error, 500);
+    font-size: map.get($font-size, xs);
+    color: map.get($error, 500);
     margin: 0;
   }
 

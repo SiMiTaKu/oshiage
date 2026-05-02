@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
-import Select from '../../../src/lib/select/Select.svelte'
+import Select from '../../../src/lib/Select/Select.svelte'
 
 const BASE_PROPS = {
   id: 'category',

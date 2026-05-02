@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ChevronDownIcon from '../icons/icon-components/ChevronDownIcon.svelte'
-  import type { AccordionProps } from './model/index'
-  import { createAccordionName } from './lib/generate-accordion-name'
+  import ChevronDownIcon from '../Icons/IconComponents/ChevronDownIcon.svelte'
+  import type { AccordionProps } from './Model/index'
+  import { createAccordionName } from './Lib/generate-accordion-name'
 
   let { id, items }: AccordionProps = $props()
 
@@ -54,7 +54,7 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use '../../styles/index' as *;
 
   /* #region Root */
   .accordion {
@@ -68,11 +68,11 @@
   /* #region Item */
   .accordion-item {
     width: 100%;
-    border: 1px solid rgba(map.get(t.$brand, 500), 0.16);
-    border-radius: map.get(t.$radius, lg);
+    border: 1px solid rgba(map.get($brand, 500), 0.16);
+    border-radius: map.get($radius, lg);
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(map.get(t.$brand, 100), 0.8) 0%, #fff 100%);
-    box-shadow: map.get(t.$shadow, sm);
+    background: linear-gradient(180deg, rgba(map.get($brand, 100), 0.8) 0%, #fff 100%);
+    box-shadow: map.get($shadow, sm);
   }
 
   /* #endregion */
@@ -86,27 +86,27 @@
     justify-content: space-between;
     gap: 0.75rem;
     padding: 1rem 1.25rem;
-    font-size: map.get(t.$font-size, base);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$brand, 700);
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($brand, 700);
     background: transparent;
     border: none;
     cursor: pointer;
     text-align: left;
     transition:
-      background map.get(t.$transition, fast),
-      color map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      color map.get($transition, fast);
 
     &::-webkit-details-marker {
       display: none;
     }
 
     &:hover {
-      background: rgba(map.get(t.$brand, 100), 0.72);
+      background: rgba(map.get($brand, 100), 0.72);
     }
 
     &:focus-visible {
-      outline: 2px solid map.get(t.$brand, 500);
+      outline: 2px solid map.get($brand, 500);
       outline-offset: -4px;
     }
   }
@@ -120,12 +120,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: transform map.get(t.$transition, base);
+    transition: transform map.get($transition, base);
   }
 
   .accordion-item[open] .accordion-summary {
-    color: map.get(t.$brand, 800);
-    background: rgba(map.get(t.$brand, 100), 0.92);
+    color: map.get($brand, 800);
+    background: rgba(map.get($brand, 100), 0.92);
   }
 
   .accordion-item[open] .accordion-chevron {
@@ -138,7 +138,7 @@
   .accordion-panel {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows map.get(t.$transition, base);
+    transition: grid-template-rows map.get($transition, base);
   }
 
   .accordion-item[open] .accordion-panel {
@@ -151,10 +151,10 @@
 
   .accordion-details {
     padding: 0 1.25rem 1rem;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, secondary);
-    line-height: map.get(t.$line-height, relaxed);
-    border-top: 1px solid rgba(map.get(t.$brand, 500), 0.1);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, secondary);
+    line-height: map.get($line-height, relaxed);
+    border-top: 1px solid rgba(map.get($brand, 500), 0.1);
   }
 
   /* #endregion */

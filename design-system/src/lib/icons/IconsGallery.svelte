@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ICON_GALLERY_ITEMS } from './config/gallery-icons'
-  import type { IconColor } from './model/props'
+  import { ICON_GALLERY_ITEMS } from './Config/gallery-icons'
+  import type { IconColor } from './Model/props'
 
   interface IconsGalleryProps {
     /** アイコンサイズ。 */

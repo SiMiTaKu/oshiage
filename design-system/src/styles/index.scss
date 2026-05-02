@@ -1,0 +1,6 @@
+// すべてのデザイントークン定義をまとめて forward する
+// 利用側: @use 'index' as *; → map.get($brand, 500)
+@forward 'colors';
+@forward 'typography';
+@forward 'z-index';
+@forward 'constants';

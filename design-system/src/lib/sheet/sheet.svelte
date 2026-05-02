@@ -1,6 +1,6 @@
 <script lang="ts">
-  import XIcon from '../icons/icon-components/XIcon.svelte'
-  import type { SheetProps } from './model/index'
+  import XIcon from '../Icons/IconComponents/XIcon.svelte'
+  import type { SheetProps } from './Model/index'
 
   let { side = 'left', children, onClose }: SheetProps = $props()
   let isOpen = $state(true)
@@ -36,20 +36,20 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'tokens' as t;
+  @use '../../styles/index' as *;
 
   .sheet-backdrop {
     position: fixed;
     inset: 0;
-    background: map.get(t.$bg, overlay);
-    z-index: #{map.get(t.$z, overlay)};
-    animation: fadeInSheetBackdrop map.get(t.$transition, fast) ease;
+    background: map.get($bg, overlay);
+    z-index: #{map.get($z, overlay)};
+    animation: fadeInSheetBackdrop map.get($transition, fast) ease;
   }
 
   .sheet {
     position: fixed;
-    background: map.get(t.$bg, surface);
-    z-index: #{map.get(t.$z, modal)};
+    background: map.get($bg, surface);
+    z-index: #{map.get($z, modal)};
     overflow-y: auto;
   }
 
@@ -59,8 +59,8 @@
     bottom: 0;
     width: min(320px, 80vw);
     padding: 1.5rem;
-    box-shadow: map.get(t.$shadow, xl);
-    animation: slideInSheetFromLeft map.get(t.$transition, base) ease;
+    box-shadow: map.get($shadow, xl);
+    animation: slideInSheetFromLeft map.get($transition, base) ease;
   }
 
   .sheet[data-side='right'] {
@@ -69,8 +69,8 @@
     bottom: 0;
     width: min(320px, 80vw);
     padding: 1.5rem;
-    box-shadow: map.get(t.$shadow, xl);
-    animation: slideInSheetFromRight map.get(t.$transition, base) ease;
+    box-shadow: map.get($shadow, xl);
+    animation: slideInSheetFromRight map.get($transition, base) ease;
   }
 
   .sheet[data-side='bottom'] {
@@ -79,9 +79,9 @@
     right: 0;
     max-height: 90vh;
     padding: 1.5rem;
-    border-radius: map.get(t.$radius, xl) map.get(t.$radius, xl) 0 0;
-    box-shadow: map.get(t.$shadow, xl);
-    animation: slideInSheetFromBottom map.get(t.$transition, base) ease;
+    border-radius: map.get($radius, xl) map.get($radius, xl) 0 0;
+    box-shadow: map.get($shadow, xl);
+    animation: slideInSheetFromBottom map.get($transition, base) ease;
   }
 
   .sheet-close {
@@ -92,21 +92,21 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: map.get(t.$text, muted);
-    border-radius: map.get(t.$radius, sm);
+    color: map.get($text, muted);
+    border-radius: map.get($radius, sm);
     transition:
-      color map.get(t.$transition, fast),
-      background map.get(t.$transition, fast);
+      color map.get($transition, fast),
+      background map.get($transition, fast);
     display: flex;
     align-items: center;
 
     &:hover {
-      color: map.get(t.$text, primary);
-      background: map.get(t.$bg, muted);
+      color: map.get($text, primary);
+      background: map.get($bg, muted);
     }
 
     &:focus-visible {
-      outline: 2px solid map.get(t.$border, focus);
+      outline: 2px solid map.get($border, focus);
       outline-offset: 2px;
     }
   }

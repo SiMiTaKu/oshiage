@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/svelte'
 import { createRawSnippet } from 'svelte'
-import TabsRoot from '../../../src/lib/tabs/TabsRoot.svelte'
+import TabsRoot from '../../../src/lib/Tabs/TabsRoot.svelte'
 
 const makePanelSnippet = (text: string) =>
   createRawSnippet(() => ({ render: () => `<p>${text}</p>` }))
