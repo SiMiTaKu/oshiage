@@ -1,5 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
+/**
+ * EntityRevisionDto を表すクラス。
+ */
 export class EntityRevisionDto {
   @ApiProperty({ type: Number })
   revisionNo!: number
@@ -23,6 +26,9 @@ export class EntityRevisionDto {
   createdAt!: string
 }
 
+/**
+ * EntityResponseDto を表すクラス。
+ */
 export class EntityResponseDto {
   @ApiProperty({ type: Number })
   id!: number

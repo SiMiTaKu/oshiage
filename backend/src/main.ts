@@ -7,6 +7,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { AppModule } from './app.module'
 
+/**
+ * バックエンドアプリケーションを起動する。
+ *
+ * @returns 起動完了を表す Promise
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
@@ -27,7 +32,7 @@ async function bootstrap() {
     app,
     new DocumentBuilder()
       .setTitle('oshiage backend api')
-      .setDescription('Code-first OpenAPI contract for the MVP backend.')
+      .setDescription('MVP向けバックエンドのCode-first OpenAPI契約')
       .setVersion('1.0.0')
       .addBearerAuth()
       .build(),

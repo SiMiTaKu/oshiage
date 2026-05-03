@@ -8,6 +8,10 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite dev",
     "lint": "eslint src --ext .ts,.svelte",
+    "test:unit": "vitest run --passWithNoTests tests/unit",
+    "test:unit:only": "vitest run --passWithNoTests",
+    "test:integration": "vitest run --passWithNoTests tests/integration",
+    "test:integration:only": "vitest run --passWithNoTests",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {

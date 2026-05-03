@@ -6,6 +6,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { AppModule } from '../../app.module'
 
+/**
+ * OpenAPI 定義を JSON ファイルとして出力する。
+ *
+ * @returns 出力完了を表す Promise
+ */
 async function main() {
   const app = await NestFactory.create(AppModule, {
     logger: false,
@@ -16,7 +21,7 @@ async function main() {
       app,
       new DocumentBuilder()
         .setTitle('oshiage backend api')
-        .setDescription('Code-first OpenAPI contract for the MVP backend.')
+        .setDescription('MVP向けバックエンドのCode-first OpenAPI契約')
         .setVersion('1.0.0')
         .addBearerAuth()
         .build(),

@@ -26,6 +26,9 @@ type EntityRecord = {
   revisions: EntityRevisionRecord[]
 }
 
+/**
+ * エンティティ関連のユースケースを提供するサービス。
+ */
 @Injectable()
 export class EntitiesService {
   constructor(private readonly prisma: PrismaService) {}

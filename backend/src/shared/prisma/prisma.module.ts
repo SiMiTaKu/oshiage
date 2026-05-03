@@ -2,6 +2,9 @@ import { Global, Module } from '@nestjs/common'
 
 import { PrismaService } from './prisma.service'
 
+/**
+ * PrismaService を全体へ提供する共有モジュール。
+ */
 @Global()
 @Module({
   providers: [PrismaService],

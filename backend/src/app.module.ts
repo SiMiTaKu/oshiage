@@ -6,6 +6,9 @@ import { EventsModule } from './features/events/events.module'
 import { NoticesModule } from './features/notices/notices.module'
 import { PrismaModule } from './shared/prisma/prisma.module'
 
+/**
+ * アプリケーション全体の機能モジュールを束ねるルートモジュール。
+ */
 @Module({
   imports: [PrismaModule, AccountModule, EventsModule, EntitiesModule, NoticesModule],
 })

@@ -5,6 +5,9 @@ import { EventListResponseDto } from './dto/event-list-response.dto'
 import { EventResponseDto } from './dto/event-response.dto'
 import { GetEventsQueryDto } from './dto/get-events-query.dto'
 
+/**
+ * イベント関連のユースケースを提供するサービス。
+ */
 @Injectable()
 export class EventsService {
   constructor(private readonly prisma: PrismaService) {}

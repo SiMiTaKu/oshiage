@@ -49,6 +49,13 @@ export default [
     rules: {
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
+      'no-restricted-globals': [
+        'error',
+        {
+          name: 'parseInt',
+          message: 'Use Number.parseInt instead of global parseInt.',
+        },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {

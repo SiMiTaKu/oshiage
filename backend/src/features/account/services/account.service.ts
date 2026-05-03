@@ -5,6 +5,9 @@ import { AccountResponseDto } from '../dto/account-response.dto'
 import { UnsubscribeRequestDto } from '../dto/unsubscribe-request.dto'
 import { UnsubscribeResponseDto } from '../dto/unsubscribe-response.dto'
 
+/**
+ * アカウント関連のユースケースを提供するサービス。
+ */
 @Injectable()
 export class AccountService {
   bootstrap(): AccountBootstrapResponseDto {
@@ -26,11 +29,7 @@ export class AccountService {
     }
   }
 
-  unsubscribe(request: UnsubscribeRequestDto): UnsubscribeResponseDto {
-    if (request.reason) {
-      request.reason.trim()
-    }
-
+  unsubscribe(): UnsubscribeResponseDto {
     return {
       unsubscribed: true,
     }

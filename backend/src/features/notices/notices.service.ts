@@ -16,6 +16,9 @@ type NoticeRecord = {
   createdAt: Date
 }
 
+/**
+ * お知らせ関連のユースケースを提供するサービス。
+ */
 @Injectable()
 export class NoticesService {
   constructor(private readonly prisma: PrismaService) {}

@@ -1,5 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
+/**
+ * EventResponseDto を表すクラス。
+ */
 export class EventResponseDto {
   @ApiProperty({ type: Number })
   id!: number

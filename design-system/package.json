@@ -14,6 +14,8 @@
     "dev": "storybook dev -p 6006",
     "lint": "eslint src --ext .ts,.svelte",
     "storybook": "storybook dev -p 6006",
+    "test:unit": "vitest run --passWithNoTests tests/unit",
+    "test:unit:only": "vitest run --passWithNoTests",
     "test": "vitest run --passWithNoTests"
   },
   "peerDependencies": {

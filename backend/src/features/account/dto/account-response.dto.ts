@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 
+/**
+ * AccountResponseDto を表すクラス。
+ */
 export class AccountResponseDto {
   @ApiProperty({ type: Number })
   userId!: number

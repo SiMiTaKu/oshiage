@@ -11,6 +11,10 @@
     "prisma:migrate": "prisma migrate deploy",
     "start": "node dist/main.js",
     "start:dev": "tsx watch src/main.ts",
+    "test:unit": "jest --passWithNoTests --testMatch '<rootDir>/tests/unit/**/*.spec.ts'",
+    "test:unit:only": "jest --passWithNoTests --testMatch '<rootDir>/tests/unit/**/*.spec.ts'",
+    "test:integration": "jest --passWithNoTests --testMatch '<rootDir>/tests/integration/**/*.spec.ts'",
+    "test:integration:only": "jest --passWithNoTests --testMatch '<rootDir>/tests/integration/**/*.spec.ts'",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
