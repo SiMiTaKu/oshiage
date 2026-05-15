@@ -4,6 +4,7 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 import jsdoc from 'eslint-plugin-jsdoc'
 import svelte from 'eslint-plugin-svelte'
 import tsdoc from 'eslint-plugin-tsdoc'
+import unusedImports from 'eslint-plugin-unused-imports'
 import tseslint from 'typescript-eslint'
 
 const EXPORTED_DOC_CONTEXTS = [
@@ -40,6 +41,9 @@ export default [
   ...tseslint.configs.recommended,
   ...svelte.configs['flat/recommended'],
   {
+    plugins: {
+      'unused-imports': unusedImports,
+    },
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -56,6 +60,7 @@ export default [
           message: 'Use Number.parseInt instead of global parseInt.',
         },
       ],
+      'unused-imports/no-unused-imports': 'error',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -72,6 +77,7 @@ export default [
     plugins: {
       jsdoc,
       tsdoc,
+      'unused-imports': unusedImports,
     },
     settings: {
       jsdoc: {

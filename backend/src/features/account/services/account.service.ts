@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { AccountBootstrapResponseDto } from '../dto/account-bootstrap-response.dto'
 import { AccountResponseDto } from '../dto/account-response.dto'
+import { UnsubscribeRequestDto } from '../dto/unsubscribe-request.dto'
 import { UnsubscribeResponseDto } from '../dto/unsubscribe-response.dto'
 
 /**
@@ -9,6 +10,10 @@ import { UnsubscribeResponseDto } from '../dto/unsubscribe-response.dto'
  */
 @Injectable()
 export class AccountService {
+  /**
+   * ログイン直後のアカウント初期化処理を実行する。
+   * @returns ブートストラップ結果
+   */
   bootstrap(): AccountBootstrapResponseDto {
     return {
       created: false,
@@ -17,6 +22,10 @@ export class AccountService {
     }
   }
 
+  /**
+   * ログイン中のアカウント情報を取得する。
+   * @returns アカウント情報
+   */
   getAccount(): AccountResponseDto {
     return {
       createdAt: new Date().toISOString(),
@@ -28,7 +37,12 @@ export class AccountService {
     }
   }
 
-  unsubscribe(): UnsubscribeResponseDto {
+  /**
+   * アカウントを退会させる。
+   * @param dto - 退会リクエスト（退会理由を含む）
+   * @returns 退会処理結果
+   */
+  unsubscribe(_dto: UnsubscribeRequestDto): UnsubscribeResponseDto {
     return {
       unsubscribed: true,
     }
