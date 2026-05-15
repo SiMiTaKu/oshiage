@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 
 import { AccountBootstrapResponseDto } from '../dto/account-bootstrap-response.dto'
 import { AccountResponseDto } from '../dto/account-response.dto'
-import { UnsubscribeRequestDto } from '../dto/unsubscribe-request.dto'
 import { UnsubscribeResponseDto } from '../dto/unsubscribe-response.dto'
 
 /**
