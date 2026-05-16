@@ -3,9 +3,11 @@ import { Transform } from 'class-transformer'
 import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator'
 
 /**
- * GetNoticesQueryDto を表すクラス。
+ * お知らせ一覧取得クエリオブジェクト。
+ * @remarks お知らせ一覧APIのクエリパラメータを表す。
  */
 export class GetNoticesQueryDto {
+  /** ページ番号（1始まり） */
   @ApiPropertyOptional({ type: Number, default: 1 })
   @Transform(({ value }) => Number.parseInt(value, 10))
   @IsInt()
@@ -13,6 +15,7 @@ export class GetNoticesQueryDto {
   @IsOptional()
   page?: number = 1
 
+  /** 1ページあたりの取得件数（最大100） */
   @ApiPropertyOptional({ type: Number, default: 20 })
   @Transform(({ value }) => Number.parseInt(value, 10))
   @IsInt()
@@ -21,6 +24,7 @@ export class GetNoticesQueryDto {
   @IsOptional()
   limit?: number = 20
 
+  /** お知らせ種別（specChange / maintenance / incident） */
   @ApiPropertyOptional({ enum: ['specChange', 'maintenance', 'incident'] })
   @IsEnum(['specChange', 'maintenance', 'incident'])
   @IsOptional()

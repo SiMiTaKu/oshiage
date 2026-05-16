@@ -33,6 +33,11 @@ type EntityRecord = {
 export class EntitiesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * エンティティ一覧を取得する。
+   * @param query - ページネーション・フィルター条件
+   * @returns エンティティ一覧と総件数
+   */
   async findAll(query: GetEntitiesQueryDto): Promise<EntityListResponseDto> {
     const { page = 1, limit = 20, category, activeStatus } = query
     const skip = (page - 1) * limit
@@ -65,6 +70,12 @@ export class EntitiesService {
     }
   }
 
+  /**
+   * 指定IDのエンティティを取得する。
+   * @param id - エンティティID
+   * @returns エンティティ詳細
+   * @throws NotFoundException 指定IDのエンティティが存在しない場合
+   */
   async findOne(id: number): Promise<EntityResponseDto> {
     const entity = await this.prisma.entity.findFirst({
       where: { id, deletedAt: null },
@@ -83,6 +94,12 @@ export class EntitiesService {
     return this.toDto(entity as unknown as EntityRecord)
   }
 
+  /**
+   * 指定エンティティの改訂履歴を取得する。
+   * @param id - エンティティID
+   * @returns 改訂履歴一覧
+   * @throws NotFoundException 指定IDのエンティティが存在しない場合
+   */
   async findRevisions(id: number): Promise<EntityRevisionsResponseDto> {
     const entity = await this.prisma.entity.findFirst({
       where: { id, deletedAt: null },
@@ -102,6 +119,11 @@ export class EntitiesService {
     }
   }
 
+  /**
+   * エンティティ改訂レコードをDTOに変換する。
+   * @param revision - 改訂レコード
+   * @returns 改訂DTO
+   */
   private toRevisionDto(revision: EntityRevisionRecord): EntityRevisionDto {
     return {
       revisionNo: revision.revisionNo,
@@ -114,6 +136,11 @@ export class EntitiesService {
     }
   }
 
+  /**
+   * エンティティレコードをDTOに変換する。
+   * @param entity - エンティティレコード
+   * @returns エンティティDTO
+   */
   private toDto(entity: EntityRecord): EntityResponseDto {
     const latest = entity.revisions[0]
     return {

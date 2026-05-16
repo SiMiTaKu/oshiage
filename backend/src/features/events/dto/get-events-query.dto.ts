@@ -3,9 +3,11 @@ import { Transform } from 'class-transformer'
 import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator'
 
 /**
- * GetEventsQueryDto を表すクラス。
+ * イベント一覧取得クエリオブジェクト。
+ * @remarks イベント一覧APIのクエリパラメータを表す。
  */
 export class GetEventsQueryDto {
+  /** ページ番号（1始まり） */
   @ApiPropertyOptional({ type: Number, default: 1 })
   @Transform(({ value }) => Number.parseInt(value, 10))
   @IsInt()
@@ -13,6 +15,7 @@ export class GetEventsQueryDto {
   @IsOptional()
   page?: number = 1
 
+  /** 1ページあたりの取得件数（最大100） */
   @ApiPropertyOptional({ type: Number, default: 20 })
   @Transform(({ value }) => Number.parseInt(value, 10))
   @IsInt()
@@ -21,6 +24,7 @@ export class GetEventsQueryDto {
   @IsOptional()
   limit?: number = 20
 
+  /** イベント種別 */
   @ApiPropertyOptional({ type: String })
   @IsString()
   @IsOptional()

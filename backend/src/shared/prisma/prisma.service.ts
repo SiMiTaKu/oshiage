@@ -6,10 +6,12 @@ import { PrismaClient } from '@prisma/client'
  */
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  /** DB接続を確立する。 */
   async onModuleInit() {
     await this.$connect()
   }
 
+  /** DB接続を切断する。 */
   async onModuleDestroy() {
     await this.$disconnect()
   }

@@ -12,6 +12,11 @@ import { GetEventsQueryDto } from './dto/get-events-query.dto'
 export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * イベント一覧を取得する。
+   * @param query - ページネーション・フィルター条件
+   * @returns イベント一覧と総件数
+   */
   async findAll(query: GetEventsQueryDto): Promise<EventListResponseDto> {
     const { page = 1, limit = 20, eventType } = query
     const skip = (page - 1) * limit
@@ -37,6 +42,12 @@ export class EventsService {
     }
   }
 
+  /**
+   * 指定IDのイベントを取得する。
+   * @param id - イベントID
+   * @returns イベント詳細
+   * @throws NotFoundException 指定IDのイベントが存在しない場合
+   */
   async findOne(id: number): Promise<EventResponseDto> {
     const event = await this.prisma.event.findFirst({
       where: { id, deletedAt: null },
@@ -49,6 +60,11 @@ export class EventsService {
     return this.toDto(event)
   }
 
+  /**
+   * イベントレコードをDTOに変換する。
+   * @param event - イベントレコード
+   * @returns イベントDTO
+   */
   private toDto(event: {
     id: bigint
     title: string

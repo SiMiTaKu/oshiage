@@ -23,6 +23,11 @@ type NoticeRecord = {
 export class NoticesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * 公開中のお知らせ一覧を取得する。
+   * @param query - ページネーション・フィルター条件
+   * @returns お知らせ一覧と総件数
+   */
   async findAll(query: GetNoticesQueryDto): Promise<NoticeListResponseDto> {
     const { page = 1, limit = 20, noticeType } = query
     const skip = (page - 1) * limit
@@ -50,6 +55,12 @@ export class NoticesService {
     }
   }
 
+  /**
+   * 指定IDのお知らせを取得する。
+   * @param id - お知らせID
+   * @returns お知らせ詳細
+   * @throws NotFoundException 指定IDのお知らせが公開状態で存在しない場合
+   */
   async findOne(id: number): Promise<NoticeResponseDto> {
     const now = new Date()
     const notice = await this.prisma.notice.findFirst({
@@ -67,6 +78,11 @@ export class NoticesService {
     return this.toDto(notice as NoticeRecord)
   }
 
+  /**
+   * お知らせレコードをDTOに変換する。
+   * @param notice - お知らせレコード
+   * @returns お知らせDTO
+   */
   private toDto(notice: NoticeRecord): NoticeResponseDto {
     return {
       id: Number(notice.id),
