@@ -111,15 +111,15 @@
     margin: 0 auto;
     padding: 0 1rem;
     height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    place-items: space-between center;
+    grid-template-columns: 1fr auto 1fr;
     gap: 1.5rem;
   }
 
   .header-logo {
-    display: flex;
-    align-items: center;
+    display: grid;
+    place-items: center start;
     gap: 0.5rem;
     text-decoration: none;
     flex-shrink: 0;
@@ -187,16 +187,16 @@
   }
 
   .header-actions {
-    display: flex;
-    align-items: center;
+    display: grid;
+    place-items: center end;
+    grid-template-columns: 1fr auto auto;
     gap: 0.5rem;
     flex-shrink: 0;
   }
 
   .header-icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     width: 36px;
     height: 36px;
     border: none;
