@@ -1,3 +1,11 @@
+/**
+ * API リクエストを実行するカスタムフェッチャー。
+ *
+ * @param url - リクエストURL
+ * @param options - fetch オプション（任意）
+ * @param fetchFn - fetch 関数。SvelteKit の load 関数からサーバーサイドの fetch を渡す場合に使用する
+ * @returns レスポンスデータ・ヘッダー・ステータスを含むオブジェクト
+ */
 export async function customFetcher<T>(
   url: string,
   options?: RequestInit,

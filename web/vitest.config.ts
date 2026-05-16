@@ -5,6 +5,12 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [svelte({ hot: false }), svelteTesting()],
+  resolve: {
+    alias: {
+      '$app/stores': resolve(__dirname, './tests/__mocks__/appStores.ts'),
+      '$app/navigation': resolve(__dirname, './tests/__mocks__/appNavigation.ts'),
+    },
+  },
   test: {
     environment: 'happy-dom',
     globals: true,

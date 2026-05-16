@@ -73,7 +73,7 @@ export default [
   },
   {
     files: ['**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}'],
-    ignores: ['**/*.stories.*', '**/*.spec.*', '**/tests/**'],
+    ignores: ['**/*.stories.*', '**/*.spec.*', '**/tests/**', '**/+*.ts', '**/+*.js'],
     plugins: {
       jsdoc,
       tsdoc,
