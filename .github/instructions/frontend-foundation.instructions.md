@@ -23,7 +23,7 @@ name: フロントエンド開発基盤ルール
 ## CSSレイアウト方針
 
 - 余白はできる限り `margin` / `padding` ではなく `gap`（grid/flex）で表現する
-- 中央配置は `place-items: center` を優先し、個別の `margin: auto` や `align-items` / `justify-content` の組み合わせを避ける
+- 中央配置は `place-items: center` を優先し、個別の `margin: auto` を避ける
 - 要素間の空間は `gap` で統一し、個別 `margin` は使わない
 - UI 崩れ防止のため、重要な要素には `width` / `height` / `min-width` / `min-height` を明示する
 - `margin` / `padding` で余白を作るのは、要素自体のボーダーや背景との関係で不可避な場合のみ許可する
