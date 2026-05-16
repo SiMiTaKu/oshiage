@@ -71,33 +71,33 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .static-page {
     min-height: 100%;
   }
 
   .page-header {
-    background: linear-gradient(135deg, #{map.get(t.$bg, surface)}, #{map.get(t.$bg, muted)});
-    border-bottom: 1px solid map.get(t.$border, default);
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($bg, muted)});
+    border-bottom: 1px solid map.get($border, default);
     padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
   .page-title {
     font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0 0 0.5rem;
   }
 
   .page-desc {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin: 0;
   }
 
@@ -114,24 +114,24 @@
   }
 
   .article-section {
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 1.5rem 2rem;
 
     h2 {
-      font-size: map.get(t.$font-size, lg);
-      font-weight: map.get(t.$font-weight, semibold);
-      color: map.get(t.$text, primary);
+      font-size: map.get($font-size, lg);
+      font-weight: map.get($font-weight, semibold);
+      color: map.get($text, primary);
       margin: 0 0 1rem;
       padding-bottom: 0.75rem;
-      border-bottom: 1px solid map.get(t.$border, default);
+      border-bottom: 1px solid map.get($border, default);
     }
 
     p {
-      font-size: map.get(t.$font-size, base);
-      color: map.get(t.$text, secondary);
-      line-height: map.get(t.$line-height, relaxed);
+      font-size: map.get($font-size, base);
+      color: map.get($text, secondary);
+      line-height: map.get($line-height, relaxed);
       margin: 0 0 0.75rem;
 
       &:last-child {
@@ -144,9 +144,9 @@
       padding-left: 1.5rem;
 
       li {
-        font-size: map.get(t.$font-size, base);
-        color: map.get(t.$text, secondary);
-        line-height: map.get(t.$line-height, relaxed);
+        font-size: map.get($font-size, base);
+        color: map.get($text, secondary);
+        line-height: map.get($line-height, relaxed);
         margin-bottom: 0.25rem;
       }
     }

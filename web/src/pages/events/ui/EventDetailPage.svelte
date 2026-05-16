@@ -1,15 +1,9 @@
 <script lang="ts">
   import { CalendarIcon, MapPinIcon, ChevronLeftIcon } from '@oshiage/design-system'
   import type { EventResponseDto } from '../../../shared/api/generated/client'
+  import { EVENT_TYPE_LABELS, EVENTS_BREADCRUMB_HREF } from '../config/eventsPageConfig'
 
   let { event }: { event: EventResponseDto } = $props()
-
-  const EVENT_TYPE_LABELS: Record<string, string> = {
-    competition: '大会',
-    exhibition: '発表会',
-    practice: '練習会',
-    workshop: 'ワークショップ',
-  }
 
   function formatDate(dateStr: string) {
     const d = new Date(dateStr)
@@ -33,7 +27,7 @@
   <!-- パンくず -->
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
-      <a href="/events" class="breadcrumb-back">
+      <a href={EVENTS_BREADCRUMB_HREF} class="breadcrumb-back">
         <ChevronLeftIcon size={16} color="gray" />
         イベント一覧に戻る
       </a>
@@ -114,20 +108,20 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .event-detail-page {
     min-height: 100%;
   }
 
   .breadcrumb-bar {
-    border-bottom: 1px solid map.get(t.$border, default);
-    background: map.get(t.$bg, surface);
+    border-bottom: 1px solid map.get($border, default);
+    background: map.get($bg, surface);
     padding: 0.75rem 1rem;
   }
 
   .breadcrumb-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
@@ -135,26 +129,26 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     text-decoration: none;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     &:hover {
-      color: map.get(t.$text, primary);
+      color: map.get($text, primary);
     }
   }
 
   .page-content {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
 
   .event-hero {
-    background: linear-gradient(135deg, #{map.get(t.$bg, surface)}, #{map.get(t.$indigo, 50)});
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($indigo, 50)});
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 2rem;
     margin-bottom: 2rem;
   }
@@ -169,19 +163,19 @@
     display: inline-block;
     align-self: flex-start;
     padding: 0.25rem 0.75rem;
-    background: map.get(t.$indigo, 100);
-    color: map.get(t.$indigo, 600);
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, semibold);
+    background: map.get($indigo, 100);
+    color: map.get($indigo, 600);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, semibold);
   }
 
   .event-title {
     font-size: clamp(1.25rem, 3vw, 1.875rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0;
-    line-height: map.get(t.$line-height, snug);
+    line-height: map.get($line-height, snug);
   }
 
   .event-meta {
@@ -194,8 +188,8 @@
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
   }
 
   .detail-body {
@@ -203,38 +197,38 @@
     flex-direction: column;
     gap: 2rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, lg)}) {
+    @media (min-width: #{map.get($breakpoint, lg)}) {
       flex-direction: row-reverse;
       align-items: flex-start;
     }
   }
 
   .detail-sidebar {
-    @media (min-width: #{map.get(t.$breakpoint, lg)}) {
+    @media (min-width: #{map.get($breakpoint, lg)}) {
       flex: 0 0 280px;
     }
   }
 
   .sidebar-card {
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 1.5rem;
   }
 
   .sidebar-label {
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
     margin: 0 0 0.375rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
   .sidebar-fee {
-    font-size: map.get(t.$font-size, xl);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, xl);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0;
   }
 
@@ -246,25 +240,25 @@
   }
 
   .detail-section {
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 1.5rem;
   }
 
   .section-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($text, primary);
     margin: 0 0 1rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid map.get(t.$border, default);
+    border-bottom: 1px solid map.get($border, default);
   }
 
   .detail-text {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, secondary);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, base);
+    color: map.get($text, secondary);
+    line-height: map.get($line-height, relaxed);
     margin: 0;
     white-space: pre-wrap;
   }
@@ -276,14 +270,14 @@
     margin: 0;
 
     dt {
-      font-size: map.get(t.$font-size, sm);
-      font-weight: map.get(t.$font-weight, medium);
-      color: map.get(t.$text, muted);
+      font-size: map.get($font-size, sm);
+      font-weight: map.get($font-weight, medium);
+      color: map.get($text, muted);
     }
 
     dd {
-      font-size: map.get(t.$font-size, sm);
-      color: map.get(t.$text, primary);
+      font-size: map.get($font-size, sm);
+      color: map.get($text, primary);
       margin: 0;
     }
   }

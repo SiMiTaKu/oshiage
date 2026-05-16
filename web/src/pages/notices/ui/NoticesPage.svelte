@@ -2,6 +2,14 @@
   import { goto } from '$app/navigation'
   import { BellIcon, ChevronLeftIcon, ChevronRightIcon } from '@oshiage/design-system'
   import type { NoticeResponseDto } from '../../../shared/api/generated/client'
+  import {
+    NOTICE_TYPE_OPTIONS,
+    NOTICE_TYPE_LABELS,
+    NOTICE_TYPE_COLORS,
+    NOTICE_PRIORITY_COLORS,
+    NOTICES_BREADCRUMB_HREF,
+  } from '../config/noticesPageConfig'
+  import { ROUTES } from '../../../shared/routes'
 
   let {
     notices,
@@ -14,31 +22,6 @@
     page: number
     noticeType: string
   } = $props()
-
-  const TYPE_OPTIONS = [
-    { value: '', label: 'すべて' },
-    { value: 'specChange', label: '仕様変更' },
-    { value: 'maintenance', label: 'メンテナンス' },
-    { value: 'incident', label: 'インシデント' },
-  ]
-
-  const TYPE_LABELS: Record<string, string> = {
-    specChange: '仕様変更',
-    maintenance: 'メンテナンス',
-    incident: 'インシデント',
-  }
-
-  const TYPE_COLORS: Record<string, string> = {
-    specChange: 'badge-spec',
-    maintenance: 'badge-maintenance',
-    incident: 'badge-incident',
-  }
-
-  const PRIORITY_COLORS: Record<string, string> = {
-    high: 'priority-high',
-    medium: 'priority-medium',
-    low: 'priority-low',
-  }
 
   let selectedType = $state('')
 
@@ -97,7 +80,7 @@
           bind:value={selectedType}
           onchange={applyFilter}
         >
-          {#each TYPE_OPTIONS as opt}
+          {#each NOTICE_TYPE_OPTIONS as opt}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>
@@ -115,12 +98,12 @@
     {:else}
       <div class="notices-list">
         {#each notices as notice (notice.id)}
-          <a href="/notices/{notice.id}" class="notice-card">
+          <a href={ROUTES.notices.detail(notice.id)} class="notice-card">
             <div class="notice-meta">
-              <span class="notice-badge {TYPE_COLORS[notice.noticeType] ?? ''}">
-                {TYPE_LABELS[notice.noticeType] ?? notice.noticeType}
+              <span class="notice-badge {NOTICE_TYPE_COLORS[notice.noticeType] ?? ''}">
+                {NOTICE_TYPE_LABELS[notice.noticeType] ?? notice.noticeType}
               </span>
-              <span class="priority-dot {PRIORITY_COLORS[notice.priority] ?? ''}"></span>
+              <span class="priority-dot {NOTICE_PRIORITY_COLORS[notice.priority] ?? ''}"></span>
               <span class="notice-date">{formatDate(notice.publishAt)}</span>
             </div>
             <p class="notice-title">{notice.title}</p>
@@ -157,38 +140,38 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .notices-page {
     min-height: 100%;
   }
 
   .page-header {
-    background: linear-gradient(135deg, #{map.get(t.$bg, surface)}, #{map.get(t.$bg, muted)});
-    border-bottom: 1px solid map.get(t.$border, default);
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($bg, muted)});
+    border-bottom: 1px solid map.get($border, default);
     padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
   .page-title {
     font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0 0 0.5rem;
   }
 
   .page-desc {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, base);
+    color: map.get($text, muted);
     margin: 0;
   }
 
   .page-body {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
@@ -207,31 +190,31 @@
   }
 
   .filter-label {
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
   }
 
   .filter-select {
     padding: 0.5rem 2rem 0.5rem 0.75rem;
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
-    font-size: map.get(t.$font-size, sm);
-    background: map.get(t.$bg, surface);
-    color: map.get(t.$text, primary);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
+    font-size: map.get($font-size, sm);
+    background: map.get($bg, surface);
+    color: map.get($text, primary);
     appearance: none;
     cursor: pointer;
 
     &:focus {
       outline: none;
-      border-color: map.get(t.$border, focus);
-      box-shadow: 0 0 0 3px #{map.get(t.$border, strong)};
+      border-color: map.get($border, focus);
+      box-shadow: 0 0 0 3px #{map.get($border, strong)};
     }
   }
 
   .result-count {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin-bottom: 1.5rem;
   }
 
@@ -242,18 +225,18 @@
     gap: 0.75rem;
     padding: 5rem 1rem;
     text-align: center;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
   }
 
   .empty-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, secondary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, secondary);
     margin: 0;
   }
 
   .empty-desc {
-    font-size: map.get(t.$font-size, sm);
+    font-size: map.get($font-size, sm);
     margin: 0;
   }
 
@@ -268,20 +251,20 @@
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.25rem 1.5rem;
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     text-decoration: none;
     transition:
-      border-color map.get(t.$transition, fast),
-      box-shadow map.get(t.$transition, fast);
+      border-color map.get($transition, fast),
+      box-shadow map.get($transition, fast);
 
     &:hover {
       border-color: rgb(0, 0, 0, 0.2);
-      box-shadow: map.get(t.$shadow, md);
+      box-shadow: map.get($shadow, md);
     }
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       flex-direction: row;
       align-items: center;
     }
@@ -297,24 +280,24 @@
   .notice-badge {
     display: inline-block;
     padding: 0.2rem 0.625rem;
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, semibold);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, semibold);
     white-space: nowrap;
 
     &.badge-spec {
-      background: map.get(t.$indigo, 100);
-      color: map.get(t.$indigo, 600);
+      background: map.get($indigo, 100);
+      color: map.get($indigo, 600);
     }
 
     &.badge-maintenance {
-      background: map.get(t.$warning, 100);
-      color: map.get(t.$warning, 700);
+      background: map.get($warning, 100);
+      color: map.get($warning, 700);
     }
 
     &.badge-incident {
-      background: map.get(t.$error, 100);
-      color: map.get(t.$error, 700);
+      background: map.get($error, 100);
+      color: map.get($error, 700);
     }
   }
 
@@ -324,34 +307,34 @@
     border-radius: 50%;
 
     &.priority-high {
-      background: map.get(t.$error, 500);
+      background: map.get($error, 500);
     }
 
     &.priority-medium {
-      background: map.get(t.$warning, 500);
+      background: map.get($warning, 500);
     }
 
     &.priority-low {
-      background: map.get(t.$bg, muted);
+      background: map.get($bg, muted);
     }
   }
 
   .notice-date {
-    font-size: map.get(t.$font-size, xs);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    color: map.get($text, muted);
     white-space: nowrap;
   }
 
   .notice-title {
-    font-size: map.get(t.$font-size, base);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, primary);
     margin: 0;
     flex: 1;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     .notice-card:hover & {
-      color: map.get(t.$indigo, 500);
+      color: map.get($indigo, 500);
     }
   }
 
@@ -369,18 +352,18 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
-    background: map.get(t.$bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
+    background: map.get($bg, surface);
     cursor: pointer;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
     transition:
-      background map.get(t.$transition, fast),
-      color map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      color map.get($transition, fast);
 
     &:hover:not(:disabled) {
-      color: map.get(t.$text, primary);
-      background: map.get(t.$bg, muted);
+      color: map.get($text, primary);
+      background: map.get($bg, muted);
     }
 
     &:disabled {
@@ -390,7 +373,7 @@
   }
 
   .pagination-info {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
   }
 </style>

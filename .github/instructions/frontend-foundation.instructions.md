@@ -20,6 +20,26 @@ name: フロントエンド開発基盤ルール
 - 新しいUI部品が必要な場合は、共通化前提で設計する
 - アクセシビリティ属性（ラベル、role、キーボード操作）を欠かさない
 
+## CSSレイアウト方針
+
+- 余白はできる限り `margin` / `padding` ではなく `gap`（grid/flex）で表現する
+- 中央配置は `place-items: center` を優先し、個別の `margin: auto` や `align-items` / `justify-content` の組み合わせを避ける
+- 要素間の空間は `gap` で統一し、個別 `margin` は使わない
+- UI 崩れ防止のため、重要な要素には `width` / `height` / `min-width` / `min-height` を明示する
+- `margin` / `padding` で余白を作るのは、要素自体のボーダーや背景との関係で不可避な場合のみ許可する
+
+## ルーティング方針
+
+- リンク先パスはすべて `shared/routes` の `ROUTES` 定数から参照し、文字列リテラルのハードコーディングを禁止する
+- ページタイトルは `PAGE_TITLE` 定数から参照する
+- 動的セグメントを含むパスは `ROUTES.xxx.detail(id)` の関数形式を使用する
+
+## エラー型方針
+
+- フロントエンドのエラーは `shared/errors` の `AppError` 抽象クラスを継承して定義する
+- HTTP ステータスコードとユーザー向けメッセージを型として保持し、instanceof チェックで分岐する
+- 404 → `NotFoundError`、500 → `InternalServerError` を利用し、必要に応じてサブクラスを追加する
+
 ## フォーム実装方針
 
 - Submitボタンは原則クリック可能とし、クリック時にバリデーションを実行する
@@ -34,7 +54,8 @@ name: フロントエンド開発基盤ルール
 - コンポーネント・型: PascalCase
 - 定数: SCREAMING_SNAKE_CASE
 - トップレベルの固定配列・固定マップ・表示定義など、再代入しない値は `ICON_GALLERY_ITEMS` のように SCREAMING_SNAKE_CASE で定義する
-- ts/js/css/png/jpg/svgファイル名: kebab-case
+- ts/jsファイル名: lowerCamelCase（例: `headerConfig.ts`, `eventsPageConfig.ts`）
+- css/scss/png/jpg/svgファイル名: kebab-case
 - Svelte コンポーネントファイル名: UpperCamelCase（例: `IconGallery.svelte`）
 - SvelteKit のルーティング専用ファイル（`+page.svelte` / `+layout.svelte` / `+error.svelte`）はフレームワーク仕様を優先して例外とする
 - 公開境界はindex.tsで明示し、内部実装を外部に漏らさない
@@ -44,6 +65,11 @@ name: フロントエンド開発基盤ルール
 - CSS が長い場合は `#region` 相当のコメントやセクションコメントで折りたたみやすく保つ
 - Svelte は UI 表示に集中させ、型は model、定数は config、状態管理は store、関数は lib への分離を検討する
 - 状態を持たない参照専用の定数・補助処理は `<script lang="ts" module>` への切り出しを検討する
+- コンポーネントのディレクトリ構成は `config / lib / ui / store` の 4 責務に従う（必要な責務のみ作成する）
+  - `config`: 定数・設定値（ラベルマップ・選択肢・パスなど）
+  - `lib`: 純粋関数・ユーティリティ（フォーマッタ・バリデータなど）
+  - `ui`: Svelte コンポーネント
+  - `store`: Svelte ストア・リアクティブ状態
 
 ## 設計原則
 

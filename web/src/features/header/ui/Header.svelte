@@ -1,12 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { Sheet, MenuIcon, SearchIcon } from '@oshiage/design-system'
+  import { HEADER_NAVIGATION } from '../config/headerConfig'
+  import { ROUTES } from '../../../shared/routes'
 
-  const NAVIGATION = [
-    { name: 'イベント', href: '/events' },
-    { name: '選手・チーム', href: '/entities' },
-    { name: 'お知らせ', href: '/notices' },
-  ]
+  const NAVIGATION = HEADER_NAVIGATION
 
   let mobileOpen = $state(false)
 
@@ -45,8 +43,11 @@
       <a href="/search" class="header-icon-btn header-icon-btn--desktop" aria-label="検索">
         <SearchIcon size={20} color="gray" />
       </a>
-      <a href="/auth/sign-in" class="header-btn header-btn--ghost header-btn--desktop">ログイン</a>
-      <a href="/auth/sign-up" class="header-btn header-btn--primary header-btn--desktop">新規登録</a
+      <a href={ROUTES.auth.signIn} class="header-btn header-btn--ghost header-btn--desktop"
+        >ログイン</a
+      >
+      <a href={ROUTES.auth.signUp} class="header-btn header-btn--primary header-btn--desktop"
+        >新規登録</a
       >
 
       <!-- モバイルメニューボタン -->
@@ -75,14 +76,14 @@
     </nav>
     <div class="mobile-nav-actions">
       <a
-        href="/auth/sign-in"
+        href={ROUTES.auth.signIn}
         class="header-btn header-btn--outline header-btn--full"
         onclick={closeMobile}
       >
         ログイン
       </a>
       <a
-        href="/auth/sign-up"
+        href={ROUTES.auth.signUp}
         class="header-btn header-btn--primary header-btn--full"
         onclick={closeMobile}
       >
@@ -94,19 +95,19 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .site-header {
     position: sticky;
     top: 0;
-    z-index: #{map.get(t.$z, sticky)};
+    z-index: #{map.get($z, sticky)};
     background: rgb(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid map.get(t.$border, default);
+    border-bottom: 1px solid map.get($border, default);
   }
 
   .header-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 0 1rem;
     height: 64px;
@@ -122,7 +123,7 @@
     gap: 0.5rem;
     text-decoration: none;
     flex-shrink: 0;
-    transition: transform map.get(t.$transition, fast);
+    transition: transform map.get($transition, fast);
 
     &:hover {
       transform: translateY(-1px);
@@ -130,10 +131,10 @@
   }
 
   .header-logo-text {
-    font-size: map.get(t.$font-size, xl);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
-    background: linear-gradient(135deg, #{map.get(t.$brand, 500)}, #{map.get(t.$indigo, 500)});
+    font-size: map.get($font-size, xl);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
+    background: linear-gradient(135deg, #{map.get($brand, 500)}, #{map.get($indigo, 500)});
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -143,19 +144,19 @@
     align-items: center;
     gap: 2rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       display: flex;
     }
   }
 
   .header-nav-link {
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
     text-decoration: none;
     position: relative;
     padding-bottom: 2px;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     &::after {
       content: '';
@@ -164,12 +165,12 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: map.get(t.$brand, 500);
-      transition: width map.get(t.$transition, base);
+      background: map.get($brand, 500);
+      transition: width map.get($transition, base);
     }
 
     &:hover {
-      color: map.get(t.$text, primary);
+      color: map.get($text, primary);
 
       &::after {
         width: 100%;
@@ -177,7 +178,7 @@
     }
 
     &--active {
-      color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
 
       &::after {
         width: 100%;
@@ -201,22 +202,22 @@
     border: none;
     background: none;
     cursor: pointer;
-    color: map.get(t.$text, muted);
-    border-radius: map.get(t.$radius, md);
+    color: map.get($text, muted);
+    border-radius: map.get($radius, md);
     transition:
-      color map.get(t.$transition, fast),
-      background map.get(t.$transition, fast);
+      color map.get($transition, fast),
+      background map.get($transition, fast);
     text-decoration: none;
 
     &:hover {
-      color: map.get(t.$text, primary);
-      background: map.get(t.$bg, muted);
+      color: map.get($text, primary);
+      background: map.get($bg, muted);
     }
 
     &--desktop {
       display: none;
 
-      @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+      @media (min-width: #{map.get($breakpoint, sm)}) {
         display: flex;
       }
     }
@@ -224,7 +225,7 @@
     &--mobile {
       display: flex;
 
-      @media (min-width: #{map.get(t.$breakpoint, md)}) {
+      @media (min-width: #{map.get($breakpoint, md)}) {
         display: none;
       }
     }
@@ -234,50 +235,50 @@
     display: inline-flex;
     align-items: center;
     padding: 0.375rem 0.875rem;
-    border-radius: map.get(t.$radius, md);
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
+    border-radius: map.get($radius, md);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
     text-decoration: none;
     transition:
-      background map.get(t.$transition, fast),
-      color map.get(t.$transition, fast),
-      border-color map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      color map.get($transition, fast),
+      border-color map.get($transition, fast);
     border: 1px solid transparent;
     cursor: pointer;
 
     &--ghost {
-      color: map.get(t.$text, muted);
+      color: map.get($text, muted);
       background: none;
 
       &:hover {
-        color: map.get(t.$text, primary);
-        background: map.get(t.$bg, muted);
+        color: map.get($text, primary);
+        background: map.get($bg, muted);
       }
     }
 
     &--primary {
-      background: map.get(t.$brand, 500);
+      background: map.get($brand, 500);
       color: #fff;
 
       &:hover {
-        background: map.get(t.$brand, 600);
+        background: map.get($brand, 600);
       }
     }
 
     &--outline {
-      border-color: map.get(t.$border, default);
-      color: map.get(t.$text, primary);
+      border-color: map.get($border, default);
+      color: map.get($text, primary);
       background: transparent;
 
       &:hover {
-        background: map.get(t.$bg, muted);
+        background: map.get($bg, muted);
       }
     }
 
     &--desktop {
       display: none;
 
-      @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+      @media (min-width: #{map.get($breakpoint, sm)}) {
         display: inline-flex;
       }
     }
@@ -295,16 +296,16 @@
   }
 
   .mobile-nav-link {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, primary);
     text-decoration: none;
     padding: 0.75rem 0;
-    border-bottom: 1px solid map.get(t.$border, default);
-    transition: color map.get(t.$transition, fast);
+    border-bottom: 1px solid map.get($border, default);
+    transition: color map.get($transition, fast);
 
     &:hover {
-      color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
     }
   }
 

@@ -7,9 +7,18 @@
     SearchIcon,
     ChevronRightIcon,
   } from '@oshiage/design-system'
+  import {
+    HERO_IMAGES,
+    HOME_FEATURES,
+    HOME_STATS,
+    HOME_EVENTS_HREF,
+    HOME_ENTITIES_HREF,
+    HOME_SIGN_UP_HREF,
+  } from '../config/homePageConfig'
+  import { ROUTES } from '../../../shared/routes'
 
-  // 3枚のヒーロー画像を 10 秒ごとにローテーション
-  const HERO_IMAGES = ['/hero-1.jpg', '/hero-2.jpg', '/hero-3.jpg']
+  const FEATURE_ICONS = [CalendarIcon, UsersIcon, ShieldIcon, TrendingUpIcon]
+
   let currentHeroIndex = $state(0)
 
   $effect(() => {
@@ -18,40 +27,6 @@
     }, 10000)
     return () => clearInterval(interval)
   })
-
-  const FEATURES = [
-    {
-      icon: CalendarIcon,
-      title: 'イベント情報の集約',
-      description:
-        '大会・発表会・練習会など、男子新体操に関するすべてのイベント情報を一箇所で確認できます。日程・会場・参加費まで網羅。',
-    },
-    {
-      icon: UsersIcon,
-      title: '選手・チーム情報',
-      description:
-        '選手やチームのプロフィール、実績、所属先を検索可能。断片的だった情報が、体系的なデータベースに。',
-    },
-    {
-      icon: ShieldIcon,
-      title: '本人確認済み情報',
-      description:
-        '選手・チーム本人によるClaim（認証）システム。公式情報として信頼性の高いデータを提供します。',
-    },
-    {
-      icon: TrendingUpIcon,
-      title: '情報の継続的な更新',
-      description:
-        'ファンコミュニティによる情報の追加・修正。最新の情報が常に反映される、生きたデータベース。',
-    },
-  ]
-
-  const STATS = [
-    { value: '50+', label: '登録イベント' },
-    { value: '120+', label: '選手・チーム' },
-    { value: '1,000+', label: '情報更新' },
-    { value: 'β', label: 'サービス段階' },
-  ]
 </script>
 
 <svelte:head>
@@ -106,11 +81,11 @@
 
     <!-- CTAボタン -->
     <div class="hero-cta">
-      <a href="/events" class="hero-btn hero-btn--primary">
+      <a href={HOME_EVENTS_HREF} class="hero-btn hero-btn--primary">
         <SearchIcon size={20} color="white" />
         イベントを探す
       </a>
-      <a href="/entities" class="hero-btn hero-btn--outline">
+      <a href={HOME_ENTITIES_HREF} class="hero-btn hero-btn--outline">
         <UsersIcon size={20} color="white" />
         選手・チームを見る
       </a>
@@ -120,7 +95,7 @@
 
     <!-- 統計カード -->
     <div class="hero-stats">
-      {#each STATS as stat}
+      {#each HOME_STATS as stat}
         <div class="hero-stat-card">
           <span class="hero-stat-value">{stat.value}</span>
           <span class="hero-stat-label">{stat.label}</span>
@@ -142,10 +117,10 @@
     </div>
 
     <div class="features-grid">
-      {#each FEATURES as feature}
+      {#each HOME_FEATURES as feature, i}
         <div class="feature-card">
           <div class="feature-icon">
-            <feature.icon size={24} color="primary" />
+            <svelte:component this={FEATURE_ICONS[i]} size={24} color="primary" />
           </div>
           <h3 class="feature-title">{feature.title}</h3>
           <p class="feature-desc">{feature.description}</p>
@@ -163,14 +138,14 @@
         <h2 class="section-title section-title--left">注目のイベント</h2>
         <p class="section-desc">これから開催される大会・発表会をチェック</p>
       </div>
-      <a href="/events" class="preview-link">
+      <a href={HOME_EVENTS_HREF} class="preview-link">
         すべて見る
         <ChevronRightIcon size={16} color="secondary" />
       </a>
     </div>
     <div class="preview-empty-box">
       <CalendarIcon size={32} color="secondary" />
-      <p>イベント情報は<a href="/events">イベント一覧</a>で確認できます</p>
+      <p>イベント情報は<a href={HOME_EVENTS_HREF}>イベント一覧</a>で確認できます</p>
     </div>
   </div>
 </section>
@@ -183,14 +158,14 @@
         <h2 class="section-title section-title--left">選手・チーム</h2>
         <p class="section-desc">男子新体操で活躍する選手・チームの情報</p>
       </div>
-      <a href="/entities" class="preview-link">
+      <a href={HOME_ENTITIES_HREF} class="preview-link">
         すべて見る
         <ChevronRightIcon size={16} color="secondary" />
       </a>
     </div>
     <div class="preview-empty-box">
       <UsersIcon size={32} color="secondary" />
-      <p>選手・チーム情報は<a href="/entities">一覧ページ</a>で確認できます</p>
+      <p>選手・チーム情報は<a href={HOME_ENTITIES_HREF}>一覧ページ</a>で確認できます</p>
     </div>
   </div>
 </section>
@@ -204,15 +179,15 @@
       閲覧だけなら登録不要です。
     </p>
     <div class="cta-actions">
-      <a href="/auth/sign-up" class="cta-btn cta-btn--primary">無料で登録する</a>
-      <a href="/events" class="cta-btn cta-btn--secondary">閲覧のみで使う</a>
+      <a href={HOME_SIGN_UP_HREF} class="cta-btn cta-btn--primary">無料で登録する</a>
+      <a href={HOME_EVENTS_HREF} class="cta-btn cta-btn--secondary">閲覧のみで使う</a>
     </div>
   </div>
 </section>
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   /* ── Hero ── */
   .hero {
@@ -223,7 +198,7 @@
     display: flex;
     align-items: center;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       padding: 7rem 1rem 6rem;
     }
   }
@@ -294,13 +269,13 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.375rem 1rem;
-    border-radius: map.get(t.$radius, full);
+    border-radius: map.get($radius, full);
     background: rgb(255, 255, 255, 0.15);
     border: 1px solid rgb(255, 255, 255, 0.2);
     backdrop-filter: blur(4px);
     color: #fff;
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
     margin-bottom: 1.5rem;
   }
 
@@ -336,9 +311,9 @@
 
   .hero-heading {
     font-size: clamp(1.875rem, 5vw, 3.75rem);
-    font-weight: map.get(t.$font-weight, bold);
+    font-weight: map.get($font-weight, bold);
     color: #fff;
-    line-height: map.get(t.$line-height, tight);
+    line-height: map.get($line-height, tight);
     margin: 0 0 1.5rem;
     text-shadow: 0 2px 8px rgb(0, 0, 0, 0.3);
   }
@@ -346,7 +321,7 @@
   .hero-heading-br {
     display: none;
 
-    @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+    @media (min-width: #{map.get($breakpoint, sm)}) {
       display: block;
     }
   }
@@ -356,13 +331,13 @@
   }
 
   .hero-subtext {
-    font-size: map.get(t.$font-size, lg);
+    font-size: map.get($font-size, lg);
     color: rgb(255, 255, 255, 0.9);
-    line-height: map.get(t.$line-height, relaxed);
+    line-height: map.get($line-height, relaxed);
     margin: 0 0 2rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
-      font-size: map.get(t.$font-size, xl);
+    @media (min-width: #{map.get($breakpoint, md)}) {
+      font-size: map.get($font-size, xl);
     }
   }
 
@@ -373,7 +348,7 @@
     justify-content: center;
     gap: 1rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+    @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
     }
   }
@@ -383,26 +358,26 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 2rem;
-    border-radius: map.get(t.$radius, lg);
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, semibold);
+    border-radius: map.get($radius, lg);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
     text-decoration: none;
     transition:
-      transform map.get(t.$transition, fast),
-      box-shadow map.get(t.$transition, fast),
-      background map.get(t.$transition, fast);
+      transform map.get($transition, fast),
+      box-shadow map.get($transition, fast),
+      background map.get($transition, fast);
 
     &:hover {
       transform: translateY(-2px);
     }
 
     &--primary {
-      background: map.get(t.$brand, 500);
+      background: map.get($brand, 500);
       color: #fff;
       box-shadow: 0 4px 16px rgb(255, 107, 53, 0.3);
 
       &:hover {
-        background: map.get(t.$brand, 600);
+        background: map.get($brand, 600);
         box-shadow: 0 8px 24px rgb(255, 107, 53, 0.4);
       }
     }
@@ -420,7 +395,7 @@
 
   .hero-note {
     margin: 1.5rem 0 0;
-    font-size: map.get(t.$font-size, sm);
+    font-size: map.get($font-size, sm);
     color: rgb(255, 255, 255, 0.7);
   }
 
@@ -433,7 +408,7 @@
     margin-left: auto;
     margin-right: auto;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: repeat(4, 1fr);
     }
   }
@@ -442,32 +417,32 @@
     background: rgb(255, 255, 255, 0.85);
     backdrop-filter: blur(4px);
     border: 1px solid rgb(255, 255, 255, 0.7);
-    border-radius: map.get(t.$radius, xl);
+    border-radius: map.get($radius, xl);
     padding: 1.25rem 1rem;
     text-align: center;
-    transition: box-shadow map.get(t.$transition, fast);
+    transition: box-shadow map.get($transition, fast);
 
     &:hover {
-      box-shadow: map.get(t.$shadow, md);
+      box-shadow: map.get($shadow, md);
     }
   }
 
   .hero-stat-value {
     display: block;
-    font-size: map.get(t.$font-size, 2xl);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$brand, 500);
+    font-size: map.get($font-size, 2xl);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($brand, 500);
     margin-bottom: 0.25rem;
   }
 
   .hero-stat-label {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
   }
 
   /* ── Shared section ── */
   .section-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 0 1rem;
   }
@@ -479,8 +454,8 @@
 
   .section-title {
     font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0 0 0.75rem;
 
     &--left {
@@ -489,15 +464,15 @@
   }
 
   .section-desc {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, muted);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, base);
+    color: map.get($text, muted);
+    line-height: map.get($line-height, relaxed);
     margin: 0;
   }
 
   /* ── Features ── */
   .features-section {
-    background: map.get(t.$bg, surface);
+    background: map.get($bg, surface);
     padding: 5rem 0;
   }
 
@@ -506,28 +481,28 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (min-width: #{map.get(t.$breakpoint, lg)}) {
+    @media (min-width: #{map.get($breakpoint, lg)}) {
       grid-template-columns: repeat(4, 1fr);
     }
   }
 
   .feature-card {
     padding: 1.5rem;
-    border-radius: map.get(t.$radius, xl);
-    background: map.get(t.$bg, base);
-    border: 1px solid map.get(t.$border, default);
+    border-radius: map.get($radius, xl);
+    background: map.get($bg, base);
+    border: 1px solid map.get($border, default);
     transition:
-      border-color map.get(t.$transition, base),
-      box-shadow map.get(t.$transition, base),
-      transform map.get(t.$transition, base);
+      border-color map.get($transition, base),
+      box-shadow map.get($transition, base),
+      transform map.get($transition, base);
 
     &:hover {
       border-color: rgb(255, 107, 53, 0.3);
-      box-shadow: map.get(t.$shadow, lg);
+      box-shadow: map.get($shadow, lg);
       transform: translateY(-4px);
     }
   }
@@ -535,14 +510,14 @@
   .feature-icon {
     width: 48px;
     height: 48px;
-    border-radius: map.get(t.$radius, lg);
+    border-radius: map.get($radius, lg);
     background: rgb(255, 107, 53, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
-    color: map.get(t.$brand, 500);
-    transition: background map.get(t.$transition, fast);
+    color: map.get($brand, 500);
+    transition: background map.get($transition, fast);
 
     .feature-card:hover & {
       background: rgb(255, 107, 53, 0.2);
@@ -550,26 +525,26 @@
   }
 
   .feature-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($text, primary);
     margin: 0 0 0.5rem;
   }
 
   .feature-desc {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
+    line-height: map.get($line-height, relaxed);
     margin: 0;
   }
 
   /* ── Preview sections ── */
   .preview-section {
     padding: 5rem 0;
-    background: map.get(t.$bg, base);
+    background: map.get($bg, base);
 
     &--alt {
-      background: map.get(t.$bg, surface);
+      background: map.get($bg, surface);
     }
   }
 
@@ -579,7 +554,7 @@
     gap: 1rem;
     margin-bottom: 2rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+    @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-end;
@@ -590,15 +565,15 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
     text-decoration: none;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
     flex-shrink: 0;
 
     &:hover {
-      color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
     }
   }
 
@@ -608,15 +583,15 @@
     align-items: center;
     gap: 0.75rem;
     padding: 3rem;
-    color: map.get(t.$text, muted);
-    font-size: map.get(t.$font-size, sm);
+    color: map.get($text, muted);
+    font-size: map.get($font-size, sm);
     text-align: center;
-    border: 1px dashed map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    border: 1px dashed map.get($border, default);
+    border-radius: map.get($radius, xl);
 
     a {
-      color: map.get(t.$brand, 500);
-      font-weight: map.get(t.$font-weight, medium);
+      color: map.get($brand, 500);
+      font-weight: map.get($font-weight, medium);
     }
 
     p {
@@ -626,11 +601,7 @@
 
   /* ── CTA Section ── */
   .cta-section {
-    background: linear-gradient(
-      135deg,
-      #{map.get(t.$indigo, 600)} 0%,
-      #{map.get(t.$brand, 500)} 100%
-    );
+    background: linear-gradient(135deg, #{map.get($indigo, 600)} 0%, #{map.get($brand, 500)} 100%);
     padding: 5rem 1rem;
     text-align: center;
   }
@@ -642,15 +613,15 @@
 
   .cta-title {
     font-size: clamp(1.75rem, 4vw, 2.25rem);
-    font-weight: map.get(t.$font-weight, bold);
+    font-weight: map.get($font-weight, bold);
     color: #fff;
     margin: 0 0 1rem;
   }
 
   .cta-desc {
-    font-size: map.get(t.$font-size, base);
+    font-size: map.get($font-size, base);
     color: rgb(255, 255, 255, 0.85);
-    line-height: map.get(t.$line-height, relaxed);
+    line-height: map.get($line-height, relaxed);
     margin: 0 0 2rem;
   }
 
@@ -660,7 +631,7 @@
     align-items: center;
     gap: 1rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+    @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
       justify-content: center;
     }
@@ -670,13 +641,13 @@
     display: inline-flex;
     align-items: center;
     padding: 0.75rem 2rem;
-    border-radius: map.get(t.$radius, lg);
-    font-size: map.get(t.$font-size, base);
-    font-weight: map.get(t.$font-weight, semibold);
+    border-radius: map.get($radius, lg);
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, semibold);
     text-decoration: none;
     transition:
-      background map.get(t.$transition, fast),
-      transform map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      transform map.get($transition, fast);
 
     &:hover {
       transform: translateY(-2px);
@@ -684,7 +655,7 @@
 
     &--primary {
       background: #fff;
-      color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
 
       &:hover {
         background: rgb(255, 255, 255, 0.9);

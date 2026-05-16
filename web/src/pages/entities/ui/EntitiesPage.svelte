@@ -2,6 +2,15 @@
   import { goto } from '$app/navigation'
   import { ChevronLeftIcon, ChevronRightIcon, UserIcon, UsersIcon } from '@oshiage/design-system'
   import type { EntityResponseDto } from '../../../shared/api/generated/client'
+  import {
+    CATEGORY_OPTIONS,
+    STATUS_OPTIONS,
+    CATEGORY_LABELS,
+    STATUS_LABELS,
+    STATUS_COLORS,
+    ENTITIES_BREADCRUMB_HREF,
+  } from '../config/entitiesPageConfig'
+  import { ROUTES } from '../../../shared/routes'
 
   let {
     entities,
@@ -16,36 +25,6 @@
     category: string
     activeStatus: string
   } = $props()
-
-  const CATEGORY_OPTIONS = [
-    { value: '', label: 'すべて' },
-    { value: 'individual', label: '個人' },
-    { value: 'group', label: 'グループ' },
-  ]
-
-  const STATUS_OPTIONS = [
-    { value: '', label: 'すべて' },
-    { value: 'active', label: '現役' },
-    { value: 'retired', label: '引退' },
-    { value: 'inactive', label: '休止' },
-  ]
-
-  const CATEGORY_LABELS: Record<string, string> = {
-    individual: '個人',
-    group: 'グループ',
-  }
-
-  const STATUS_LABELS: Record<string, string> = {
-    active: '現役',
-    retired: '引退',
-    inactive: '休止',
-  }
-
-  const STATUS_COLORS: Record<string, string> = {
-    active: 'badge-active',
-    retired: 'badge-retired',
-    inactive: 'badge-inactive',
-  }
 
   let selectedCategory = $state(category)
   let selectedStatus = $state(activeStatus)
@@ -132,7 +111,7 @@
     {:else}
       <div class="entities-grid">
         {#each entities as entity (entity.id)}
-          <a href="/entities/{entity.id}" class="entity-card">
+          <a href={ROUTES.entities.detail(entity.id)} class="entity-card">
             <div class="entity-card-header">
               <span class="category-badge">
                 {#if entity.entityCategory === 'individual'}
@@ -189,38 +168,38 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .entities-page {
     min-height: 100%;
   }
 
   .page-header {
-    background: linear-gradient(135deg, #{map.get(t.$bg, surface)}, #{map.get(t.$brand, 50)});
-    border-bottom: 1px solid map.get(t.$border, default);
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($brand, 50)});
+    border-bottom: 1px solid map.get($border, default);
     padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
   .page-title {
     font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0 0 0.5rem;
   }
 
   .page-desc {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, base);
+    color: map.get($text, muted);
     margin: 0;
   }
 
   .page-body {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
@@ -239,31 +218,31 @@
   }
 
   .filter-label {
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
   }
 
   .filter-select {
     padding: 0.5rem 2rem 0.5rem 0.75rem;
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
-    font-size: map.get(t.$font-size, sm);
-    background: map.get(t.$bg, surface);
-    color: map.get(t.$text, primary);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
+    font-size: map.get($font-size, sm);
+    background: map.get($bg, surface);
+    color: map.get($text, primary);
     appearance: none;
     cursor: pointer;
 
     &:focus {
       outline: none;
-      border-color: map.get(t.$border, focus);
-      box-shadow: 0 0 0 3px #{map.get(t.$brand, 100)};
+      border-color: map.get($border, focus);
+      box-shadow: 0 0 0 3px #{map.get($brand, 100)};
     }
   }
 
   .result-count {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin-bottom: 1.5rem;
   }
 
@@ -274,18 +253,18 @@
     gap: 0.75rem;
     padding: 5rem 1rem;
     text-align: center;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
   }
 
   .empty-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, secondary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, secondary);
     margin: 0;
   }
 
   .empty-desc {
-    font-size: map.get(t.$font-size, sm);
+    font-size: map.get($font-size, sm);
     margin: 0;
   }
 
@@ -294,11 +273,11 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+    @media (min-width: #{map.get($breakpoint, sm)}) {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (min-width: #{map.get(t.$breakpoint, lg)}) {
+    @media (min-width: #{map.get($breakpoint, lg)}) {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -306,18 +285,18 @@
   .entity-card {
     display: block;
     padding: 1.5rem;
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     text-decoration: none;
     transition:
-      border-color map.get(t.$transition, base),
-      box-shadow map.get(t.$transition, base),
-      transform map.get(t.$transition, base);
+      border-color map.get($transition, base),
+      box-shadow map.get($transition, base),
+      transform map.get($transition, base);
 
     &:hover {
       border-color: rgb(251, 112, 40, 0.3);
-      box-shadow: map.get(t.$shadow, lg);
+      box-shadow: map.get($shadow, lg);
       transform: translateY(-2px);
     }
   }
@@ -335,60 +314,60 @@
     align-items: center;
     gap: 0.25rem;
     padding: 0.2rem 0.625rem;
-    background: map.get(t.$brand, 100);
-    color: map.get(t.$brand, 600);
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, semibold);
+    background: map.get($brand, 100);
+    color: map.get($brand, 600);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, semibold);
   }
 
   .status-badge {
     display: inline-block;
     padding: 0.2rem 0.625rem;
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
 
     &.badge-active {
-      background: map.get(t.$success, 100);
-      color: map.get(t.$success, 700);
+      background: map.get($success, 100);
+      color: map.get($success, 700);
     }
 
     &.badge-retired {
-      background: map.get(t.$bg, muted);
-      color: map.get(t.$text, muted);
+      background: map.get($bg, muted);
+      color: map.get($text, muted);
     }
 
     &.badge-inactive {
-      background: map.get(t.$warning, 100);
-      color: map.get(t.$warning, 700);
+      background: map.get($warning, 100);
+      color: map.get($warning, 700);
     }
   }
 
   .entity-name {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($text, primary);
     margin: 0 0 0.375rem;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     .entity-card:hover & {
-      color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
     }
   }
 
   .entity-sport,
   .entity-area {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin: 0 0 0.25rem;
   }
 
   .entity-profile {
     margin: 0.5rem 0 0;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
+    line-height: map.get($line-height, relaxed);
     display: -webkit-box;
     line-clamp: 2;
     -webkit-line-clamp: 2;
@@ -410,18 +389,18 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
-    background: map.get(t.$bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
+    background: map.get($bg, surface);
     cursor: pointer;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
     transition:
-      background map.get(t.$transition, fast),
-      color map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      color map.get($transition, fast);
 
     &:hover:not(:disabled) {
-      color: map.get(t.$text, primary);
-      background: map.get(t.$bg, muted);
+      color: map.get($text, primary);
+      background: map.get($bg, muted);
     }
 
     &:disabled {
@@ -431,7 +410,7 @@
   }
 
   .pagination-info {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
   }
 </style>

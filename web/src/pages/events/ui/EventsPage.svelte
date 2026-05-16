@@ -7,6 +7,12 @@
     ChevronRightIcon,
   } from '@oshiage/design-system'
   import type { EventResponseDto } from '../../../shared/api/generated/client'
+  import {
+    EVENT_TYPE_OPTIONS,
+    EVENT_TYPE_LABELS,
+    EVENTS_BREADCRUMB_HREF,
+  } from '../config/eventsPageConfig'
+  import { ROUTES } from '../../../shared/routes'
 
   let {
     events,
@@ -19,21 +25,6 @@
     page: number
     eventType: string
   } = $props()
-
-  const EVENT_TYPE_OPTIONS = [
-    { value: '', label: 'すべて' },
-    { value: 'competition', label: '大会' },
-    { value: 'exhibition', label: '発表会' },
-    { value: 'practice', label: '練習会' },
-    { value: 'workshop', label: 'ワークショップ' },
-  ]
-
-  const EVENT_TYPE_LABELS: Record<string, string> = {
-    competition: '大会',
-    exhibition: '発表会',
-    practice: '練習会',
-    workshop: 'ワークショップ',
-  }
 
   let selectedType = $state('')
 
@@ -123,7 +114,7 @@
     {:else}
       <div class="events-grid">
         {#each events as event (event.id)}
-          <a href="/events/{event.id}" class="event-card">
+          <a href={ROUTES.events.detail(event.id)} class="event-card">
             <div class="event-card-header">
               <span class="event-type-badge"
                 >{EVENT_TYPE_LABELS[event.eventType] ?? event.eventType}</span
@@ -180,38 +171,38 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .events-page {
     min-height: 100%;
   }
 
   .page-header {
-    background: linear-gradient(135deg, #{map.get(t.$bg, surface)}, #{map.get(t.$indigo, 100)});
-    border-bottom: 1px solid map.get(t.$border, default);
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($indigo, 100)});
+    border-bottom: 1px solid map.get($border, default);
     padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
   .page-title {
     font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0 0 0.5rem;
   }
 
   .page-desc {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, base);
+    color: map.get($text, muted);
     margin: 0;
   }
 
   .page-body {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
@@ -230,31 +221,31 @@
   }
 
   .filter-label {
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
   }
 
   .filter-select {
     padding: 0.5rem 2rem 0.5rem 0.75rem;
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
-    font-size: map.get(t.$font-size, sm);
-    background: map.get(t.$bg, surface);
-    color: map.get(t.$text, primary);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
+    font-size: map.get($font-size, sm);
+    background: map.get($bg, surface);
+    color: map.get($text, primary);
     appearance: none;
     cursor: pointer;
 
     &:focus {
       outline: none;
-      border-color: map.get(t.$border, focus);
-      box-shadow: 0 0 0 3px #{map.get(t.$indigo, 100)};
+      border-color: map.get($border, focus);
+      box-shadow: 0 0 0 3px #{map.get($indigo, 100)};
     }
   }
 
   .result-count {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin-bottom: 1.5rem;
   }
 
@@ -265,18 +256,18 @@
     gap: 0.75rem;
     padding: 5rem 1rem;
     text-align: center;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
   }
 
   .empty-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, secondary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, secondary);
     margin: 0;
   }
 
   .empty-desc {
-    font-size: map.get(t.$font-size, sm);
+    font-size: map.get($font-size, sm);
     margin: 0;
   }
 
@@ -285,11 +276,11 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (min-width: #{map.get(t.$breakpoint, lg)}) {
+    @media (min-width: #{map.get($breakpoint, lg)}) {
       grid-template-columns: repeat(3, 1fr);
     }
   }
@@ -297,18 +288,18 @@
   .event-card {
     display: block;
     padding: 1.5rem;
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     text-decoration: none;
     transition:
-      border-color map.get(t.$transition, base),
-      box-shadow map.get(t.$transition, base),
-      transform map.get(t.$transition, base);
+      border-color map.get($transition, base),
+      box-shadow map.get($transition, base),
+      transform map.get($transition, base);
 
     &:hover {
       border-color: rgb(79, 70, 229, 0.3);
-      box-shadow: map.get(t.$shadow, lg);
+      box-shadow: map.get($shadow, lg);
       transform: translateY(-2px);
     }
   }
@@ -324,34 +315,34 @@
   .event-type-badge {
     display: inline-block;
     padding: 0.2rem 0.625rem;
-    background: map.get(t.$indigo, 100);
-    color: map.get(t.$indigo, 600);
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, semibold);
+    background: map.get($indigo, 100);
+    color: map.get($indigo, 600);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, semibold);
   }
 
   .event-fee {
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
   }
 
   .event-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($text, primary);
     margin: 0 0 0.75rem;
-    line-height: map.get(t.$line-height, snug);
+    line-height: map.get($line-height, snug);
     display: -webkit-box;
     line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     .event-card:hover & {
-      color: map.get(t.$indigo, 500);
+      color: map.get($indigo, 500);
     }
   }
 
@@ -365,15 +356,15 @@
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
   }
 
   .event-description {
     margin: 0.75rem 0 0;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
+    line-height: map.get($line-height, relaxed);
     display: -webkit-box;
     line-clamp: 2;
     -webkit-line-clamp: 2;
@@ -395,18 +386,18 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, md);
-    background: map.get(t.$bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, md);
+    background: map.get($bg, surface);
     cursor: pointer;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
     transition:
-      background map.get(t.$transition, fast),
-      color map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      color map.get($transition, fast);
 
     &:hover:not(:disabled) {
-      color: map.get(t.$text, primary);
-      background: map.get(t.$bg, muted);
+      color: map.get($text, primary);
+      background: map.get($bg, muted);
     }
 
     &:disabled {
@@ -416,7 +407,7 @@
   }
 
   .pagination-info {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
   }
 </style>

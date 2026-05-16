@@ -5,7 +5,8 @@
     ERROR_PAGE_DEFAULT_TITLE,
     ERROR_PAGE_MESSAGE,
     ERROR_PAGE_DEFAULT_MESSAGE,
-  } from '../config/error-page.config'
+  } from '../config/errorPageConfig'
+  import { ROUTES } from '../../../shared/routes'
 
   const title = $derived(ERROR_PAGE_TITLE[$page.status] ?? ERROR_PAGE_DEFAULT_TITLE)
   const message = $derived(
@@ -23,15 +24,15 @@
     <h1 class="error-title">{title}</h1>
     <p class="error-message">{message}</p>
     <div class="error-actions">
-      <a href="/" class="btn-primary">トップページへ戻る</a>
-      <a href="/events" class="btn-outline">イベントを探す</a>
+      <a href={ROUTES.home} class="btn-primary">トップページへ戻る</a>
+      <a href={ROUTES.events.index} class="btn-outline">イベントを探す</a>
     </div>
   </div>
 </div>
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .error-page {
     display: flex;
@@ -52,8 +53,8 @@
 
   .error-code {
     font-size: clamp(4rem, 15vw, 8rem);
-    font-weight: map.get(t.$font-weight, bold);
-    background: linear-gradient(135deg, #{map.get(t.$brand, 400)}, #{map.get(t.$indigo, 500)});
+    font-weight: map.get($font-weight, bold);
+    background: linear-gradient(135deg, #{map.get($brand, 400)}, #{map.get($indigo, 500)});
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
@@ -62,15 +63,15 @@
 
   .error-title {
     font-size: clamp(1.25rem, 3vw, 1.75rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0;
   }
 
   .error-message {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, muted);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, base);
+    color: map.get($text, muted);
+    line-height: map.get($line-height, relaxed);
     margin: 0;
   }
 
@@ -86,16 +87,16 @@
     display: inline-flex;
     align-items: center;
     padding: 0.75rem 1.5rem;
-    background: map.get(t.$brand, 500);
+    background: map.get($brand, 500);
     color: white;
-    border-radius: map.get(t.$radius, lg);
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, semibold);
+    border-radius: map.get($radius, lg);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, semibold);
     text-decoration: none;
-    transition: background map.get(t.$transition, fast);
+    transition: background map.get($transition, fast);
 
     &:hover {
-      background: map.get(t.$brand, 600);
+      background: map.get($brand, 600);
     }
   }
 
@@ -103,18 +104,18 @@
     display: inline-flex;
     align-items: center;
     padding: 0.75rem 1.5rem;
-    border: 1px solid map.get(t.$border, default);
-    color: map.get(t.$text, primary);
-    border-radius: map.get(t.$radius, lg);
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, semibold);
+    border: 1px solid map.get($border, default);
+    color: map.get($text, primary);
+    border-radius: map.get($radius, lg);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, semibold);
     text-decoration: none;
     transition:
-      background map.get(t.$transition, fast),
-      border-color map.get(t.$transition, fast);
+      background map.get($transition, fast),
+      border-color map.get($transition, fast);
 
     &:hover {
-      background: map.get(t.$bg, muted);
+      background: map.get($bg, muted);
     }
   }
 </style>

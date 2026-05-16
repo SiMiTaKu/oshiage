@@ -1,6 +1,12 @@
 <script lang="ts">
   import type { EntityResponseDto, EntityRevisionDto } from '../../../shared/api/generated/client'
   import { ChevronLeftIcon, UserIcon, UsersIcon, ClockIcon } from '@oshiage/design-system'
+  import {
+    CATEGORY_LABELS,
+    STATUS_LABELS,
+    STATUS_COLORS,
+    ENTITIES_BREADCRUMB_HREF,
+  } from '../config/entitiesPageConfig'
 
   let {
     entity,
@@ -9,21 +15,6 @@
     entity: EntityResponseDto
     revisions: EntityRevisionDto[]
   } = $props()
-
-  const CATEGORY_LABELS: Record<string, string> = {
-    individual: '個人',
-    group: 'グループ',
-  }
-  const STATUS_LABELS: Record<string, string> = {
-    active: '現役',
-    retired: '引退',
-    inactive: '休止',
-  }
-  const STATUS_COLORS: Record<string, string> = {
-    active: 'badge-active',
-    retired: 'badge-retired',
-    inactive: 'badge-inactive',
-  }
 
   let activeTab = $state<'profile' | 'revisions'>('profile')
 
@@ -49,7 +40,7 @@
   <!-- パンくず -->
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
-      <a href="/entities" class="breadcrumb-back">
+      <a href={ENTITIES_BREADCRUMB_HREF} class="breadcrumb-back">
         <ChevronLeftIcon size={16} color="gray" />
         選手・チーム一覧に戻る
       </a>
@@ -172,20 +163,20 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .entity-detail-page {
     min-height: 100%;
   }
 
   .breadcrumb-bar {
-    border-bottom: 1px solid map.get(t.$border, default);
-    background: map.get(t.$bg, surface);
+    border-bottom: 1px solid map.get($border, default);
+    background: map.get($bg, surface);
     padding: 0.75rem 1rem;
   }
 
   .breadcrumb-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
@@ -193,18 +184,18 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     text-decoration: none;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     &:hover {
-      color: map.get(t.$text, primary);
+      color: map.get($text, primary);
     }
   }
 
   .page-content {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 2rem 1rem;
   }
@@ -213,9 +204,9 @@
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
-    background: linear-gradient(135deg, #{map.get(t.$bg, surface)}, #{map.get(t.$brand, 50)});
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($brand, 50)});
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 2rem;
     margin-bottom: 2rem;
   }
@@ -226,9 +217,9 @@
     justify-content: center;
     width: 80px;
     height: 80px;
-    background: map.get(t.$brand, 100);
-    color: map.get(t.$brand, 500);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($brand, 100);
+    color: map.get($brand, 500);
+    border-radius: map.get($radius, xl);
     flex-shrink: 0;
   }
 
@@ -246,54 +237,54 @@
   .category-badge {
     display: inline-block;
     padding: 0.2rem 0.625rem;
-    background: map.get(t.$brand, 100);
-    color: map.get(t.$brand, 600);
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, semibold);
+    background: map.get($brand, 100);
+    color: map.get($brand, 600);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, semibold);
   }
 
   .status-badge {
     display: inline-block;
     padding: 0.2rem 0.625rem;
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
 
     &.badge-active {
-      background: map.get(t.$success, 100);
-      color: map.get(t.$success, 700);
+      background: map.get($success, 100);
+      color: map.get($success, 700);
     }
 
     &.badge-retired {
-      background: map.get(t.$bg, muted);
-      color: map.get(t.$text, muted);
+      background: map.get($bg, muted);
+      color: map.get($text, muted);
     }
 
     &.badge-inactive {
-      background: map.get(t.$warning, 100);
-      color: map.get(t.$warning, 700);
+      background: map.get($warning, 100);
+      color: map.get($warning, 700);
     }
   }
 
   .entity-name {
     font-size: clamp(1.25rem, 3vw, 1.875rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0 0 0.25rem;
   }
 
   .entity-sport,
   .entity-area {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin: 0;
   }
 
   .tabs {
     display: flex;
     gap: 0;
-    border-bottom: 2px solid map.get(t.$border, default);
+    border-bottom: 2px solid map.get($border, default);
     margin-bottom: 2rem;
   }
 
@@ -304,23 +295,23 @@
     padding: 0.75rem 1.25rem;
     border: none;
     background: transparent;
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, muted);
     cursor: pointer;
     border-bottom: 2px solid transparent;
     margin-bottom: -2px;
     transition:
-      color map.get(t.$transition, fast),
-      border-color map.get(t.$transition, fast);
+      color map.get($transition, fast),
+      border-color map.get($transition, fast);
 
     &.active {
-      color: map.get(t.$brand, 500);
-      border-bottom-color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
+      border-bottom-color: map.get($brand, 500);
     }
 
     &:hover:not(.active) {
-      color: map.get(t.$text, primary);
+      color: map.get($text, primary);
     }
   }
 
@@ -347,25 +338,25 @@
   }
 
   .profile-section {
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 1.5rem;
   }
 
   .section-title {
-    font-size: map.get(t.$font-size, lg);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($text, primary);
     margin: 0 0 1rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid map.get(t.$border, default);
+    border-bottom: 1px solid map.get($border, default);
   }
 
   .profile-text {
-    font-size: map.get(t.$font-size, base);
-    color: map.get(t.$text, secondary);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, base);
+    color: map.get($text, secondary);
+    line-height: map.get($line-height, relaxed);
     margin: 0;
     white-space: pre-wrap;
   }
@@ -377,14 +368,14 @@
     margin: 0;
 
     dt {
-      font-size: map.get(t.$font-size, sm);
-      font-weight: map.get(t.$font-weight, medium);
-      color: map.get(t.$text, muted);
+      font-size: map.get($font-size, sm);
+      font-weight: map.get($font-weight, medium);
+      color: map.get($text, muted);
     }
 
     dd {
-      font-size: map.get(t.$font-size, sm);
-      color: map.get(t.$text, primary);
+      font-size: map.get($font-size, sm);
+      color: map.get($text, primary);
       margin: 0;
     }
   }
@@ -396,13 +387,13 @@
     gap: 0.75rem;
     padding: 4rem 1rem;
     text-align: center;
-    color: map.get(t.$text, muted);
+    color: map.get($text, muted);
   }
 
   .empty-title {
-    font-size: map.get(t.$font-size, base);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, secondary);
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, secondary);
     margin: 0;
   }
 
@@ -416,9 +407,9 @@
   }
 
   .revision-item {
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     padding: 1.25rem 1.5rem;
   }
 
@@ -431,26 +422,26 @@
   }
 
   .revision-no {
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$brand, 500);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($brand, 500);
   }
 
   .revision-date {
-    font-size: map.get(t.$font-size, xs);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    color: map.get($text, muted);
   }
 
   .revision-name {
-    font-size: map.get(t.$font-size, base);
-    font-weight: map.get(t.$font-weight, medium);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, medium);
+    color: map.get($text, primary);
     margin: 0 0 0.25rem;
   }
 
   .revision-reason {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin: 0;
   }
 </style>

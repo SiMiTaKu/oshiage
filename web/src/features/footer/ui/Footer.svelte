@@ -1,20 +1,8 @@
 <script lang="ts">
-  const footerLinks = {
-    サービス: [
-      { name: 'イベント一覧', href: '/events' },
-      { name: '選手・チーム一覧', href: '/entities' },
-      { name: 'お知らせ', href: '/notices' },
-    ],
-    サポート: [
-      { name: 'よくある質問', href: '/faq' },
-      { name: 'お問い合わせ', href: '/contact' },
-    ],
-    法的情報: [
-      { name: '利用規約', href: '/terms' },
-      { name: 'プライバシーポリシー', href: '/privacy' },
-    ],
-  }
+  import { FOOTER_LINKS } from '../config/footerConfig'
+  import { ROUTES } from '../../../shared/routes'
 
+  const footerLinks = FOOTER_LINKS
   const year = new Date().getFullYear()
 </script>
 
@@ -23,7 +11,7 @@
     <div class="footer-grid">
       <!-- ブランド -->
       <div class="footer-brand">
-        <a href="/" class="footer-brand-link">
+        <a href={ROUTES.home} class="footer-brand-link">
           <span class="footer-brand-name">推しアゲ</span>
         </a>
         <p class="footer-brand-desc">
@@ -58,16 +46,16 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .site-footer {
-    background: map.get(t.$bg, surface);
-    border-top: 1px solid map.get(t.$border, default);
+    background: map.get($bg, surface);
+    border-top: 1px solid map.get($border, default);
     margin-top: auto;
   }
 
   .footer-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
     padding: 3rem 1rem;
   }
@@ -77,7 +65,7 @@
     grid-template-columns: 1fr;
     gap: 2rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: 1.5fr repeat(3, 1fr);
     }
   }
@@ -85,7 +73,7 @@
   .footer-brand {
     grid-column: 1 / -1;
 
-    @media (min-width: #{map.get(t.$breakpoint, md)}) {
+    @media (min-width: #{map.get($breakpoint, md)}) {
       grid-column: 1;
     }
   }
@@ -99,25 +87,25 @@
   }
 
   .footer-brand-name {
-    font-size: map.get(t.$font-size, xl);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
-    background: linear-gradient(135deg, #{map.get(t.$brand, 500)}, #{map.get(t.$indigo, 500)});
+    font-size: map.get($font-size, xl);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
+    background: linear-gradient(135deg, #{map.get($brand, 500)}, #{map.get($indigo, 500)});
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .footer-brand-desc {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
-    line-height: map.get(t.$line-height, relaxed);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
+    line-height: map.get($line-height, relaxed);
     margin: 0;
   }
 
   .footer-link-heading {
-    font-size: map.get(t.$font-size, sm);
-    font-weight: map.get(t.$font-weight, semibold);
-    color: map.get(t.$text, primary);
+    font-size: map.get($font-size, sm);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($text, primary);
     margin: 0 0 1rem;
   }
 
@@ -131,25 +119,25 @@
   }
 
   .footer-link {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     text-decoration: none;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     &:hover {
-      color: map.get(t.$brand, 500);
+      color: map.get($brand, 500);
     }
   }
 
   .footer-bottom {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid map.get(t.$border, default);
+    border-top: 1px solid map.get($border, default);
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
-    @media (min-width: #{map.get(t.$breakpoint, sm)}) {
+    @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
@@ -157,14 +145,14 @@
   }
 
   .footer-copyright {
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     margin: 0;
   }
 
   .footer-tagline {
-    font-size: map.get(t.$font-size, xs);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    color: map.get($text, muted);
     margin: 0;
   }
 </style>

@@ -1,24 +1,14 @@
 <script lang="ts">
   import { ChevronLeftIcon } from '@oshiage/design-system'
   import type { NoticeResponseDto } from '../../../shared/api/generated/client'
+  import {
+    NOTICE_TYPE_LABELS,
+    NOTICE_TYPE_COLORS,
+    NOTICE_PRIORITY_LABELS,
+    NOTICES_BREADCRUMB_HREF,
+  } from '../config/noticesPageConfig'
 
   let { notice }: { notice: NoticeResponseDto } = $props()
-
-  const TYPE_LABELS: Record<string, string> = {
-    specChange: '仕様変更',
-    maintenance: 'メンテナンス',
-    incident: 'インシデント',
-  }
-  const TYPE_COLORS: Record<string, string> = {
-    specChange: 'badge-spec',
-    maintenance: 'badge-maintenance',
-    incident: 'badge-incident',
-  }
-  const PRIORITY_LABELS: Record<string, string> = {
-    high: '高',
-    medium: '中',
-    low: '低',
-  }
 
   function formatDate(dateStr: string) {
     return new Date(dateStr).toLocaleDateString('ja-JP', {
@@ -37,7 +27,7 @@
 <div class="notice-detail-page">
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
-      <a href="/notices" class="breadcrumb-back">
+      <a href={NOTICES_BREADCRUMB_HREF} class="breadcrumb-back">
         <ChevronLeftIcon size={16} color="gray" />
         お知らせ一覧に戻る
       </a>
@@ -48,13 +38,13 @@
     <article class="notice-article">
       <header class="notice-header">
         <div class="notice-meta">
-          <span class="notice-badge {TYPE_COLORS[notice.noticeType] ?? ''}">
-            {TYPE_LABELS[notice.noticeType] ?? notice.noticeType}
+          <span class="notice-badge {NOTICE_TYPE_COLORS[notice.noticeType] ?? ''}">
+            {NOTICE_TYPE_LABELS[notice.noticeType] ?? notice.noticeType}
           </span>
           <span class="notice-date">{formatDate(notice.publishAt)}</span>
           {#if notice.priority !== 'low'}
             <span class="priority-label priority-{notice.priority}">
-              優先度: {PRIORITY_LABELS[notice.priority] ?? notice.priority}
+              優先度: {NOTICE_PRIORITY_LABELS[notice.priority] ?? notice.priority}
             </span>
           {/if}
         </div>
@@ -70,20 +60,20 @@
 
 <style lang="scss">
   @use 'sass:map';
-  @use 'index' as t;
+  @use 'index' as *;
 
   .notice-detail-page {
     min-height: 100%;
   }
 
   .breadcrumb-bar {
-    border-bottom: 1px solid map.get(t.$border, default);
-    background: map.get(t.$bg, surface);
+    border-bottom: 1px solid map.get($border, default);
+    background: map.get($bg, surface);
     padding: 0.75rem 1rem;
   }
 
   .breadcrumb-inner {
-    max-width: t.$container-max;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
@@ -91,13 +81,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: map.get(t.$font-size, sm);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, sm);
+    color: map.get($text, muted);
     text-decoration: none;
-    transition: color map.get(t.$transition, fast);
+    transition: color map.get($transition, fast);
 
     &:hover {
-      color: map.get(t.$text, primary);
+      color: map.get($text, primary);
     }
   }
 
@@ -108,16 +98,16 @@
   }
 
   .notice-article {
-    background: map.get(t.$bg, surface);
-    border: 1px solid map.get(t.$border, default);
-    border-radius: map.get(t.$radius, xl);
+    background: map.get($bg, surface);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, xl);
     overflow: hidden;
   }
 
   .notice-header {
     padding: 2rem;
-    border-bottom: 1px solid map.get(t.$border, default);
-    background: map.get(t.$bg, muted);
+    border-bottom: 1px solid map.get($border, default);
+    background: map.get($bg, muted);
   }
 
   .notice-meta {
@@ -131,63 +121,63 @@
   .notice-badge {
     display: inline-block;
     padding: 0.2rem 0.625rem;
-    border-radius: map.get(t.$radius, full);
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, semibold);
+    border-radius: map.get($radius, full);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, semibold);
 
     &.badge-spec {
-      background: map.get(t.$indigo, 100);
-      color: map.get(t.$indigo, 600);
+      background: map.get($indigo, 100);
+      color: map.get($indigo, 600);
     }
 
     &.badge-maintenance {
-      background: map.get(t.$warning, 100);
-      color: map.get(t.$warning, 700);
+      background: map.get($warning, 100);
+      color: map.get($warning, 700);
     }
 
     &.badge-incident {
-      background: map.get(t.$error, 100);
-      color: map.get(t.$error, 700);
+      background: map.get($error, 100);
+      color: map.get($error, 700);
     }
   }
 
   .notice-date {
-    font-size: map.get(t.$font-size, xs);
-    color: map.get(t.$text, muted);
+    font-size: map.get($font-size, xs);
+    color: map.get($text, muted);
   }
 
   .priority-label {
-    font-size: map.get(t.$font-size, xs);
-    font-weight: map.get(t.$font-weight, medium);
+    font-size: map.get($font-size, xs);
+    font-weight: map.get($font-weight, medium);
     padding: 0.125rem 0.5rem;
-    border-radius: map.get(t.$radius, full);
+    border-radius: map.get($radius, full);
 
     &.priority-high {
-      background: map.get(t.$error, 100);
-      color: map.get(t.$error, 700);
+      background: map.get($error, 100);
+      color: map.get($error, 700);
     }
 
     &.priority-medium {
-      background: map.get(t.$warning, 100);
-      color: map.get(t.$warning, 700);
+      background: map.get($warning, 100);
+      color: map.get($warning, 700);
     }
   }
 
   .notice-title {
     font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-    font-weight: map.get(t.$font-weight, bold);
-    color: map.get(t.$text, primary);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
     margin: 0;
-    line-height: map.get(t.$line-height, snug);
+    line-height: map.get($line-height, snug);
   }
 
   .notice-body {
     padding: 2rem;
 
     p {
-      font-size: map.get(t.$font-size, base);
-      color: map.get(t.$text, secondary);
-      line-height: map.get(t.$line-height, relaxed);
+      font-size: map.get($font-size, base);
+      color: map.get($text, secondary);
+      line-height: map.get($line-height, relaxed);
       margin: 0;
       white-space: pre-wrap;
     }
