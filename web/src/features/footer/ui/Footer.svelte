@@ -21,11 +21,11 @@
       </div>
 
       <!-- リンク -->
-      {#each Object.entries(footerLinks) as [category, links]}
+      {#each Object.entries(footerLinks) as [category, links], index (index)}
         <div>
           <h3 class="footer-link-heading">{category}</h3>
           <ul class="footer-link-list">
-            {#each links as link}
+            {#each links as link, linkIndex (linkIndex)}
               <li>
                 <a href={link.href} class="footer-link">{link.name}</a>
               </li>

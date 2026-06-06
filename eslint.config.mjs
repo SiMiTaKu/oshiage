@@ -120,6 +120,23 @@ export default [
         parser: tseslint.parser,
       },
     },
+    rules: {
+      // Svelte コンパイラ警告（未使用 CSS セレクタ等）をエラーに昇格
+      'svelte/valid-compile': 'error',
+      // テンプレートで使用しているが <style> に定義がないクラス名をエラー
+      // ※ SCSS の &--modifier ネスト is リント時未コンパイルのため BEM モディファイア（-- を含むクラス）は除外
+      'svelte/no-unused-class-name': ['error', { allowedClassNames: ['/^.*--.*$/'] }],
+      // {#each} ブロックにキーがない場合はエラー
+      'svelte/require-each-key': 'error',
+      // 1行あたりの最大属性数を3に制限
+      'svelte/max-attributes-per-line': [
+        'error',
+        {
+          multiline: 1,
+          singleline: 3,
+        },
+      ],
+    },
   },
   eslintConfigPrettier,
 ]

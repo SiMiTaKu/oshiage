@@ -80,7 +80,7 @@
           bind:value={selectedCategory}
           onchange={applyFilter}
         >
-          {#each CATEGORY_OPTIONS as opt}
+          {#each CATEGORY_OPTIONS as opt, index (index)}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>
@@ -93,7 +93,7 @@
           bind:value={selectedStatus}
           onchange={applyFilter}
         >
-          {#each STATUS_OPTIONS as opt}
+          {#each STATUS_OPTIONS as opt, index (index)}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>

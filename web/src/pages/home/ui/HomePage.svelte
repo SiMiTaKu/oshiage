@@ -47,10 +47,10 @@
 <!-- ===== ヒーローセクション ===== -->
 <section class="hero">
   <!-- 背景画像（10秒ローテーション） -->
-  {#each HERO_IMAGES as src, i}
+  {#each HERO_IMAGES as src, index (index)}
     <div
       class="hero-bg"
-      class:hero-bg--visible={i === currentHeroIndex}
+      class:hero-bg--visible={index === currentHeroIndex}
       style="background-image: url('{src}')"
     ></div>
   {/each}
@@ -95,7 +95,7 @@
 
     <!-- 統計カード -->
     <div class="hero-stats">
-      {#each HOME_STATS as stat}
+      {#each HOME_STATS as stat, index (index)}
         <div class="hero-stat-card">
           <span class="hero-stat-value">{stat.value}</span>
           <span class="hero-stat-label">{stat.label}</span>
@@ -117,10 +117,10 @@
     </div>
 
     <div class="features-grid">
-      {#each HOME_FEATURES as feature, i}
+      {#each HOME_FEATURES as feature, index (index)}
         <div class="feature-card">
           <div class="feature-icon">
-            <svelte:component this={FEATURE_ICONS[i]} size={24} color="primary" />
+            <svelte:component this={FEATURE_ICONS[index]} size={24} color="primary" />
           </div>
           <h3 class="feature-title">{feature.title}</h3>
           <p class="feature-desc">{feature.description}</p>

@@ -1,74 +1,65 @@
 <script lang="ts">
-  import type { ButtonProps } from './Model/index'
+  import type {
+    ButtonProps,
+    TextButtonProps,
+    IconButtonProps,
+    IconTextButtonProps,
+    LinkButtonProps,
+  } from './Model'
+  import ButtonElement from './ui/ButtonElement.svelte'
+  import IconButton from './ui/IconButton.svelte'
+  import IconTextButton from './ui/IconTextButton.svelte'
+  import LinkButton from './ui/LinkButton.svelte'
 
-  let { label, variant, type = 'button' }: ButtonProps = $props()
+  const props: ButtonProps = $props()
 </script>
 
-<button class="button" data-variant={variant} {type}>{label}</button>
-
-<style lang="scss">
-  @use 'sass:map';
-  @use '../../styles/index' as *;
-
-  /* #region Root */
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 0.75rem 1.25rem;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    transition:
-      transform 160ms ease,
-      background-color 160ms ease,
-      color 160ms ease,
-      border-color 160ms ease,
-      box-shadow 160ms ease;
-    cursor: pointer;
-    box-shadow: map.get($shadow, sm);
-  }
-
-  /* #endregion */
-
-  .button:hover {
-    transform: translateY(-1px);
-  }
-
-  .button:focus-visible {
-    outline: 2px solid rgba(map.get($brand, 500), 0.28);
-    outline-offset: 2px;
-  }
-
-  /* #region Variants */
-  .button[data-variant='primary'] {
-    background: linear-gradient(135deg, map.get($brand, 500) 0%, map.get($brand, 600) 100%);
-    color: map.get($text, inverse);
-  }
-
-  .button[data-variant='primary-outline'] {
-    background: rgba(map.get($brand, 100), 0.44);
-    color: map.get($brand, 700);
-    border-color: rgba(map.get($brand, 500), 0.24);
-  }
-
-  .button[data-variant='secondary'] {
-    background: linear-gradient(135deg, map.get($indigo, 500) 0%, map.get($indigo, 700) 100%);
-    color: map.get($text, inverse);
-  }
-
-  .button[data-variant='secondary-outline'] {
-    background: rgba(map.get($indigo, 100), 0.52);
-    color: map.get($indigo, 700);
-    border-color: rgba(map.get($indigo, 500), 0.24);
-  }
-
-  /* #endregion */
-
-  .button:disabled {
-    cursor: not-allowed;
-    opacity: 0.72;
-  }
-</style>
+{#if props.type === 'link-button'}
+  {@const p = props as LinkButtonProps}
+  <LinkButton
+    type="link-button"
+    label={p.label}
+    variant={p.variant}
+    href={p.href}
+    onclick={p.onclick}
+    width={p.width}
+    height={p.height}
+  />
+{:else if props.type === 'icon'}
+  {@const p = props as IconButtonProps}
+  <IconButton
+    type="icon"
+    icon={p.icon}
+    variant={p.variant}
+    aria-label={p['aria-label']}
+    iconColor={p.iconColor}
+    htmlType={p.htmlType}
+    onclick={p.onclick}
+    width={p.width}
+    height={p.height}
+  />
+{:else if props.type === 'icon-text'}
+  {@const p = props as IconTextButtonProps}
+  <IconTextButton
+    type="icon-text"
+    icon={p.icon}
+    label={p.label}
+    variant={p.variant}
+    iconColor={p.iconColor}
+    htmlType={p.htmlType}
+    onclick={p.onclick}
+    width={p.width}
+    height={p.height}
+  />
+{:else}
+  {@const p = props as TextButtonProps}
+  <ButtonElement
+    type="text"
+    label={p.label}
+    variant={p.variant}
+    htmlType={p.htmlType}
+    onclick={p.onclick}
+    width={p.width}
+    height={p.height}
+  />
+{/if}

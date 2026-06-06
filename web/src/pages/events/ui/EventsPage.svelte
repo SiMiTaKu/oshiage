@@ -92,7 +92,7 @@
           bind:value={selectedType}
           onchange={applyFilter}
         >
-          {#each EVENT_TYPE_OPTIONS as opt}
+          {#each EVENT_TYPE_OPTIONS as opt, index (index)}
             <option value={opt.value}>{opt.label}</option>
           {/each}
         </select>

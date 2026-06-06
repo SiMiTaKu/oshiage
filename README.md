@@ -119,3 +119,15 @@ pnpm run verify
 - OpenAPI は `backend` から生成し、`orval` で `web/admin` の `src/shared/api/generated` に出力します。
 - design-system の Story 管理は Storybook 10 系（Svelte 5対応）を前提にしています。
 - 将来モバイルアプリを追加する場合は、`mobile` ディレクトリを追加する想定です。
+
+## プロジェクト開発ルール（Development Rules）
+
+### CSS レイアウト設計方針
+
+- **Gridレイアウトの優先**: レイアウト構築の際は、`grid` を優先的に使用し、次に `flex` を使用してください。
+- **中央寄せ**: 要素の中央寄せには、`place-items: center` を優先して使用してください。
+
+### 画像表示と最適化（imagetools）
+
+- **vite-imagetools の使用**: 画像の表示軽量化および SEO 向上のため、画像表示時は `vite-imagetools` を使用してビルド時に最適化を行ってください。
+- インポート時にパスの末尾に `&as=meta` または `?as=meta` を付与することで、最適化された画像メタデータを取得できます。

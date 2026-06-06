@@ -22,9 +22,9 @@ describe('Button', () => {
 
     it.each([
       ['未指定', {}, 'button'],
-      ['button', { type: 'button' }, 'button'],
-      ['submit', { type: 'submit' }, 'submit'],
-    ] as const)('type を %s で渡した場合、type が %s になること', (_, props, expectedType) => {
+      ['button', { htmlType: 'button' }, 'button'],
+      ['submit', { htmlType: 'submit' }, 'submit'],
+    ] as const)('htmlType を %s で渡した場合、type が %s になること', (_, props, expectedType) => {
       // #region Given
       render(Button, { ...BASE_PROPS, ...props })
       // #endregion
@@ -49,6 +49,23 @@ describe('Button', () => {
         // #endregion
       },
     )
+
+    it('width と height を指定した場合、style 属性に設定されること', () => {
+      // #region Given
+      render(Button, { ...BASE_PROPS, width: 200, height: 100 })
+      // #endregion
+
+      // #region When
+      const button = screen.getByRole('button', { name: 'テスト' })
+      // #endregion
+
+      // #region Then
+      expect(button).toHaveStyle({
+        width: '200px',
+        height: '100px',
+      })
+      // #endregion
+    })
     // #endregion
   })
 

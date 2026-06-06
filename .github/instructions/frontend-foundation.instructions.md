@@ -51,6 +51,8 @@ name: フロントエンド開発基盤ルール
 ## 命名・構成方針
 
 - 関数・変数: lowerCamelCase
+- 変数名・関数名に略称を使用しない（`i` → `index`、`e` → `event`、`el` → `element` など）
+  - 命名が衝突する場合は文脈を示すプレフィックスを付ける（例: 外側の index と内側の index → `linkIndex` など）
 - コンポーネント・型: PascalCase
 - 定数: SCREAMING_SNAKE_CASE
 - トップレベルの固定配列・固定マップ・表示定義など、再代入しない値は `ICON_GALLERY_ITEMS` のように SCREAMING_SNAKE_CASE で定義する
@@ -70,6 +72,7 @@ name: フロントエンド開発基盤ルール
   - `lib`: 純粋関数・ユーティリティ（フォーマッタ・バリデータなど）
   - `ui`: Svelte コンポーネント
   - `store`: Svelte ストア・リアクティブ状態
+- `ui/` 配下に複数のコンポーネントが同一 SCSS を共有する場合は `scss/` ディレクトリを作成し、SCSS パーシャル（`_foo.scss`）に `@mixin styles` として定義して各コンポーネントで `@include` する（web / admin / design-system 共通）
 
 ## 設計原則
 
@@ -103,6 +106,13 @@ name: フロントエンド開発基盤ルール
 - form 値の更新は bind に依存せず、イベント伝播または明示的なコールバックで制御する
 - 値の確定タイミングは原則 onBlur を優先し、必要時のみ onChange / onInput を補助的に使う
 - id / name / value / type / label / placeholder などのフォーム基本属性は省略可能にしない
+
+## Svelte テンプレート実装補足
+
+- `{#each}` ブロックには必ずキー式 `(expr)` を付与する（`svelte/require-each-key` で強制）
+  - キーはインデックス変数を使用する（`{#each list as item, index (index)}`）
+  - インデックス変数が既に存在する場合は文脈を示すプレフィックスを付ける（例: `linkIndex`）
+- `{#each}` キーは一意でなければならない（同一リスト内で重複不可）
 
 ## ドキュメント補足
 

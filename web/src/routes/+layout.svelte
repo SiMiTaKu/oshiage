@@ -1,7 +1,7 @@
 <script lang="ts">
   import '../lib.css'
   import type { Snippet } from 'svelte'
-  import Header from '../features/header/ui/Header.svelte'
+  import Header from '../widgets/header/ui/Header.svelte'
   import Footer from '../features/footer/ui/Footer.svelte'
 
   let { children }: { children: Snippet } = $props()

@@ -69,7 +69,7 @@
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^17.0.0",
-    "stylelint-scss": "^7.1.1",
-    "typescript-eslint": "^8.59.3"
+    "stylelint-scss": "^7.2.0",
+    "typescript-eslint": "^8.60.1"
   }
 }
