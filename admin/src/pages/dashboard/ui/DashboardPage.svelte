@@ -25,12 +25,11 @@
 <style>
   .admin-shell {
     display: grid;
-    gap: 1.5rem;
-    padding: 3rem;
+    gap: 24px;
+    padding: 48px;
   }
 
   .eyebrow {
-    margin: 0 0 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 700;
@@ -39,14 +38,14 @@
 
   .cards {
     display: grid;
-    gap: 1rem;
+    gap: 16px;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
   .card {
-    padding: 1.5rem;
+    padding: 24px;
+    border: 1px solid rgb(31, 43, 30, 0.08);
     border-radius: 24px;
     background: rgb(255, 255, 255, 0.72);
-    border: 1px solid rgb(31, 43, 30, 0.08);
   }
 </style>

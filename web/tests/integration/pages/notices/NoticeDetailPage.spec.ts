@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
-import type { NoticeResponseDto } from '../../../../src/shared/api/generated/client'
+import type { NoticeResponseDto } from '@shared/api/generated/client'
 import NoticeDetailPage from '../../../../src/pages/notices/ui/NoticeDetailPage.svelte'
 
 const mockNotice: NoticeResponseDto = {

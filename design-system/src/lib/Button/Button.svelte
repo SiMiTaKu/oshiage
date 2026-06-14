@@ -5,12 +5,13 @@
     IconButtonProps,
     IconTextButtonProps,
     LinkButtonProps,
-  } from './Model'
+  } from './model'
   import ButtonElement from './ui/ButtonElement.svelte'
   import IconButton from './ui/IconButton.svelte'
   import IconTextButton from './ui/IconTextButton.svelte'
   import LinkButton from './ui/LinkButton.svelte'
 
+  // svelte-ignore custom_element_props_identifier
   const props: ButtonProps = $props()
 </script>
 

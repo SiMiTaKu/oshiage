@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types'
-import { customFetcher } from '../../shared/api/runtime'
-import type { EntityListResponseDto } from '../../shared/api/generated/client'
+import { customFetcher } from '@shared/api/runtime'
+import type { EntityListResponseDto } from '@shared/api/generated/client'
 
 export const load: PageLoad = async ({ url, fetch }) => {
   const page = Number(url.searchParams.get('page') ?? '1')

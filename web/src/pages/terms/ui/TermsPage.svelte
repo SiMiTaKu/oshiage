@@ -73,53 +73,50 @@
   }
 
   .page-header {
+    padding: 40px 16px;
     background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($bg, muted)});
     border-bottom: 1px solid map.get($border, default);
-    padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
     max-width: $container-max;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .page-title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(24px, 3vw, 32px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0 0 0.5rem;
   }
 
   .page-desc {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
-    margin: 0;
   }
 
   .page-body {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    place-self: center;
+    padding: 32px 16px;
   }
 
   .static-article {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
   }
 
   .article-section {
-    background: map.get($bg, surface);
+    padding: 24px 32px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 1.5rem 2rem;
+    background: map.get($bg, surface);
 
     h2 {
+      padding-bottom: 12px;
       font-size: map.get($font-size, lg);
       font-weight: map.get($font-weight, semibold);
       color: map.get($text, primary);
-      margin: 0 0 1rem;
-      padding-bottom: 0.75rem;
       border-bottom: 1px solid map.get($border, default);
     }
 
@@ -127,22 +124,15 @@
       font-size: map.get($font-size, base);
       color: map.get($text, secondary);
       line-height: map.get($line-height, relaxed);
-      margin: 0 0 0.75rem;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
 
     ul {
-      margin: 0;
-      padding-left: 1.5rem;
+      padding-left: 24px;
 
       li {
         font-size: map.get($font-size, base);
         color: map.get($text, secondary);
         line-height: map.get($line-height, relaxed);
-        margin-bottom: 0.25rem;
       }
     }
   }

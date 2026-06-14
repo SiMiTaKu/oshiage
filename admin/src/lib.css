@@ -1,13 +1,15 @@
+/* stylelint-disable property-disallowed-list */
+/* stylelint-disable font-family-no-missing-generic-family-keyword */
 :root {
+  font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
   color: #1f2b1e;
   background: #eef3eb;
-  font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
 }
 
 .app-body {
+  min-height: 100dvh;
   margin: 0;
-  min-height: 100vh;
   background:
-    linear-gradient(120deg, rgba(196, 225, 184, 0.4), transparent 50%),
+    linear-gradient(120deg, rgb(196, 225, 184, 0.4), transparent 50%),
     linear-gradient(180deg, #f7faf5 0%, #e4ede1 100%);
 }

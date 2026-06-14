@@ -1,4 +1,4 @@
-import { ROUTES } from '../../../shared/routes'
+import { ROUTES } from '@shared/routes'
 
 /**
  * お知らせ種別選択肢

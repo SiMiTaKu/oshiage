@@ -5,8 +5,8 @@
     ERROR_PAGE_DEFAULT_TITLE,
     ERROR_PAGE_MESSAGE,
     ERROR_PAGE_DEFAULT_MESSAGE,
-  } from '../config/errorPageConfig'
-  import { ROUTES } from '../../../shared/routes'
+  } from '@pages/error/config/errorPageConfig'
+  import { ROUTES } from '@shared/routes'
 
   const title = $derived(ERROR_PAGE_TITLE[$page.status] ?? ERROR_PAGE_DEFAULT_TITLE)
   const message = $derived(
@@ -39,61 +39,57 @@
     align-items: center;
     justify-content: center;
     min-height: calc(100dvh - 200px);
-    padding: 4rem 1rem;
+    padding: 64px 16px;
   }
 
   .error-content {
+    display: flex;
+    gap: 20px;
     max-width: 480px;
     text-align: center;
-    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.25rem;
   }
 
   .error-code {
-    font-size: clamp(4rem, 15vw, 8rem);
+    font-size: clamp(64px, 15vw, 128px);
     font-weight: map.get($font-weight, bold);
     background: linear-gradient(135deg, #{map.get($brand, 400)}, #{map.get($indigo, 500)});
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
-    margin: 0;
   }
 
   .error-title {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(20px, 3vw, 28px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0;
   }
 
   .error-message {
     font-size: map.get($font-size, base);
     color: map.get($text, muted);
     line-height: map.get($line-height, relaxed);
-    margin: 0;
   }
 
   .error-actions {
     display: flex;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 0.5rem;
   }
 
   .btn-primary {
     display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    background: map.get($brand, 500);
-    color: white;
-    border-radius: map.get($radius, lg);
+    padding: 12px 24px;
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, semibold);
-    text-decoration: none;
+    color: white;
+    border-radius: map.get($radius, lg);
+    background: map.get($brand, 500);
     transition: background map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
     &:hover {
       background: map.get($brand, 600);
@@ -102,17 +98,17 @@
 
   .btn-outline {
     display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    border: 1px solid map.get($border, default);
-    color: map.get($text, primary);
-    border-radius: map.get($radius, lg);
+    padding: 12px 24px;
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, semibold);
-    text-decoration: none;
+    color: map.get($text, primary);
+    border: 1px solid map.get($border, default);
+    border-radius: map.get($radius, lg);
     transition:
       background map.get($transition, fast),
       border-color map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
     &:hover {
       background: map.get($bg, muted);

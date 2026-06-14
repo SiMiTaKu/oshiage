@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
 import Footer from '../../../../src/features/footer/ui/Footer.svelte'
@@ -111,7 +112,7 @@ describe('Footer', () => {
     it('コピーライトに現在年が含まれること', () => {
       // #region Given
       render(Footer)
-      const currentYear = new Date().getFullYear()
+      const currentYear = dayjs().toDate().getFullYear()
       // #endregion
 
       // #region When

@@ -21,67 +21,70 @@ export { default as Accordion } from './Accordion/Accordion.svelte'
 export { default as Sheet } from './Sheet/Sheet.svelte'
 
 // Icons
+/** アイコンギャラリー・ディスパッチャ。 */
+export { default as IconsGallery } from './Icons/IconsGallery.svelte'
+export type { IconName } from './Icons/config/icons'
 /** 検索アイコン。 */
-export { default as SearchIcon } from './Icons/IconComponents/SearchIcon.svelte'
+export { default as SearchIcon } from './Icons/components/SearchIcon.svelte'
 /** 追加アイコン。 */
-export { default as PlusIcon } from './Icons/IconComponents/PlusIcon.svelte'
+export { default as PlusIcon } from './Icons/components/PlusIcon.svelte'
 /** カレンダーアイコン。 */
-export { default as CalendarIcon } from './Icons/IconComponents/CalendarIcon.svelte'
+export { default as CalendarIcon } from './Icons/components/CalendarIcon.svelte'
 /** マップピンアイコン。 */
-export { default as MapPinIcon } from './Icons/IconComponents/MapPinIcon.svelte'
+export { default as MapPinIcon } from './Icons/components/MapPinIcon.svelte'
 /** ユーザーアイコン。 */
-export { default as UserIcon } from './Icons/IconComponents/UserIcon.svelte'
+export { default as UserIcon } from './Icons/components/UserIcon.svelte'
 /** ユーザーグループアイコン。 */
-export { default as UsersIcon } from './Icons/IconComponents/UsersIcon.svelte'
+export { default as UsersIcon } from './Icons/components/UsersIcon.svelte'
 /** 右向きシェブロンアイコン。 */
-export { default as ChevronRightIcon } from './Icons/IconComponents/ChevronRightIcon.svelte'
+export { default as ChevronRightIcon } from './Icons/components/ChevronRightIcon.svelte'
 /** 左向きシェブロンアイコン。 */
-export { default as ChevronLeftIcon } from './Icons/IconComponents/ChevronLeftIcon.svelte'
+export { default as ChevronLeftIcon } from './Icons/components/ChevronLeftIcon.svelte'
 /** 上向きシェブロンアイコン。 */
-export { default as ChevronUpIcon } from './Icons/IconComponents/ChevronUpIcon.svelte'
+export { default as ChevronUpIcon } from './Icons/components/ChevronUpIcon.svelte'
 /** 下向きシェブロンアイコン。 */
-export { default as ChevronDownIcon } from './Icons/IconComponents/ChevronDownIcon.svelte'
+export { default as ChevronDownIcon } from './Icons/components/ChevronDownIcon.svelte'
 /** メニューアイコン。 */
-export { default as MenuIcon } from './Icons/IconComponents/MenuIcon.svelte'
+export { default as MenuIcon } from './Icons/components/MenuIcon.svelte'
 /** 閉じるアイコン。 */
-export { default as XIcon } from './Icons/IconComponents/XIcon.svelte'
+export { default as XIcon } from './Icons/components/XIcon.svelte'
 /** チェックアイコン。 */
-export { default as CheckIcon } from './Icons/IconComponents/CheckIcon.svelte'
+export { default as CheckIcon } from './Icons/components/CheckIcon.svelte'
 /** チェックサークルアイコン。 */
-export { default as CheckCircleIcon } from './Icons/IconComponents/CheckCircleIcon.svelte'
+export { default as CheckCircleIcon } from './Icons/components/CheckCircleIcon.svelte'
 /** ベルアイコン。 */
-export { default as BellIcon } from './Icons/IconComponents/BellIcon.svelte'
+export { default as BellIcon } from './Icons/components/BellIcon.svelte'
 /** 時計アイコン。 */
-export { default as ClockIcon } from './Icons/IconComponents/ClockIcon.svelte'
+export { default as ClockIcon } from './Icons/components/ClockIcon.svelte'
 /** アクティビティアイコン。 */
-export { default as ActivityIcon } from './Icons/IconComponents/ActivityIcon.svelte'
+export { default as ActivityIcon } from './Icons/components/ActivityIcon.svelte'
 /** ゴミ箱アイコン。 */
-export { default as TrashIcon } from './Icons/IconComponents/TrashIcon.svelte'
+export { default as TrashIcon } from './Icons/components/TrashIcon.svelte'
 /** 編集アイコン。 */
-export { default as EditIcon } from './Icons/IconComponents/EditIcon.svelte'
+export { default as EditIcon } from './Icons/components/EditIcon.svelte'
 /** 盾アイコン。 */
-export { default as ShieldIcon } from './Icons/IconComponents/ShieldIcon.svelte'
+export { default as ShieldIcon } from './Icons/components/ShieldIcon.svelte'
 /** 右肩上がりトレンドアイコン。 */
-export { default as TrendingUpIcon } from './Icons/IconComponents/TrendingUpIcon.svelte'
+export { default as TrendingUpIcon } from './Icons/components/TrendingUpIcon.svelte'
 /** メッセージアイコン。 */
-export { default as MessageIcon } from './Icons/IconComponents/MessageIcon.svelte'
+export { default as MessageIcon } from './Icons/components/MessageIcon.svelte'
 /** 警告サークルアイコン。 */
-export { default as AlertCircleIcon } from './Icons/IconComponents/AlertCircleIcon.svelte'
+export { default as AlertCircleIcon } from './Icons/components/AlertCircleIcon.svelte'
 /** 警告トライアングルアイコン。 */
-export { default as AlertTriangleIcon } from './Icons/IconComponents/AlertTriangleIcon.svelte'
+export { default as AlertTriangleIcon } from './Icons/components/AlertTriangleIcon.svelte'
 /** 履歴アイコン。 */
-export { default as HistoryIcon } from './Icons/IconComponents/HistoryIcon.svelte'
+export { default as HistoryIcon } from './Icons/components/HistoryIcon.svelte'
 /** 共有アイコン。 */
-export { default as ShareIcon } from './Icons/IconComponents/ShareIcon.svelte'
+export { default as ShareIcon } from './Icons/components/ShareIcon.svelte'
 /** リンクアイコン。 */
-export { default as LinkIcon } from './Icons/IconComponents/LinkIcon.svelte'
+export { default as LinkIcon } from './Icons/components/LinkIcon.svelte'
 /** 外部リンクアイコン。 */
-export { default as ExternalLinkIcon } from './Icons/IconComponents/ExternalLinkIcon.svelte'
+export { default as ExternalLinkIcon } from './Icons/components/ExternalLinkIcon.svelte'
 /** フィルターアイコン。 */
-export { default as FilterIcon } from './Icons/IconComponents/FilterIcon.svelte'
+export { default as FilterIcon } from './Icons/components/FilterIcon.svelte'
 /** 目アイコン。 */
-export { default as EyeIcon } from './Icons/IconComponents/EyeIcon.svelte'
+export { default as EyeIcon } from './Icons/components/EyeIcon.svelte'
 /** リストアイコン。 */
-export { default as ListIcon } from './Icons/IconComponents/ListIcon.svelte'
+export { default as ListIcon } from './Icons/components/ListIcon.svelte'
 /** 電話アイコン。 */
-export { default as PhoneIcon } from './Icons/IconComponents/PhoneIcon.svelte'
+export { default as PhoneIcon } from './Icons/components/PhoneIcon.svelte'

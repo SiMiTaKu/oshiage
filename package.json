@@ -15,6 +15,7 @@
     "generate:openapi": "pnpm --filter @oshiage/backend generate:openapi",
     "generate:sdk": "pnpm run generate:openapi && pnpm exec orval --config ./openapi/orval.config.ts",
     "lint": "eslint . && stylelint \"**/*.{css,svelte}\"",
+    "lint:fix": "eslint . --fix && stylelint \"**/*.{css,svelte}\" --fix",
     "prepare": "husky",
     "test:backend": "pnpm --filter @oshiage/backend test",
     "test:backend:unit": "pnpm --filter @oshiage/backend test:unit",
@@ -44,7 +45,8 @@
     ],
     "*.{css,svelte}": [
       "stylelint --fix",
-      "prettier --write"
+      "prettier --write",
+      "eslint --fix"
     ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"
@@ -64,12 +66,16 @@
     "orval": "^7.21.0",
     "postcss-html": "^1.8.1",
     "postcss-scss": "^4.0.9",
-    "prettier": "^3.8.3",
+    "prettier": "^3.8.4",
     "prettier-plugin-svelte": "^3.5.2",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-order": "^8.1.1",
     "stylelint-scss": "^7.2.0",
-    "typescript-eslint": "^8.60.1"
+    "typescript-eslint": "^8.61.0"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.21"
   }
 }

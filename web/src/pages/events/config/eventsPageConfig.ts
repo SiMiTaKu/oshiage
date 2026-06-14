@@ -1,4 +1,4 @@
-import { ROUTES } from '../../../shared/routes'
+import { ROUTES } from '@shared/routes'
 
 /**
  * イベント種別選択肢

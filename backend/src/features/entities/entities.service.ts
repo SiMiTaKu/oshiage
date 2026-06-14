@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 
-import { PrismaService } from '../../shared/prisma/prisma.service'
+import { PrismaService } from '@shared/prisma/prisma.service'
 import { EntityListResponseDto } from './dto/entity-list-response.dto'
 import { EntityResponseDto, EntityRevisionDto } from './dto/entity-response.dto'
 import { EntityRevisionsResponseDto } from './dto/entity-revisions-response.dto'

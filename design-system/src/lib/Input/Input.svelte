@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  import type { InputChangeDetail, InputProps } from './Model/index'
+  import type { InputChangeDetail, InputProps } from './model/index'
 
   const dispatch = createEventDispatcher<{
     blur: InputChangeDetail
@@ -62,7 +62,7 @@
   .input-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 6px;
   }
 
   /* #endregion */
@@ -76,7 +76,6 @@
 
   .input-required {
     color: map.get($error, 500);
-    margin-left: 0.25rem;
   }
 
   /* #endregion */
@@ -84,12 +83,12 @@
   /* #region Field */
   .input-field {
     width: 100%;
-    padding: 0.5rem 0.75rem;
+    padding: 8px 12px;
     font-size: map.get($font-size, base);
     color: map.get($text, primary);
-    background: map.get($bg, surface);
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, md);
+    background: map.get($bg, surface);
     transition:
       border-color map.get($transition, fast),
       box-shadow map.get($transition, fast);
@@ -113,8 +112,8 @@
     }
 
     &:disabled {
-      background: map.get($bg, muted);
       color: map.get($text, disabled);
+      background: map.get($bg, muted);
       cursor: not-allowed;
     }
   }
@@ -125,7 +124,6 @@
   .input-error {
     font-size: map.get($font-size, xs);
     color: map.get($error, 500);
-    margin: 0;
   }
 
   /* #endregion */

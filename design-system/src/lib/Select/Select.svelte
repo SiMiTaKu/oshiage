@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
-  import ChevronDownIcon from '../Icons/IconComponents/ChevronDownIcon.svelte'
-  import type { SelectChangeDetail, SelectProps } from './Model/index'
+  import ChevronDownIcon from '../Icons/components/ChevronDownIcon.svelte'
+  import type { SelectChangeDetail, SelectProps } from './model/index'
 
   const dispatch = createEventDispatcher<{
     blur: SelectChangeDetail
@@ -69,7 +69,7 @@
   .select-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 6px;
   }
 
   /* #endregion */
@@ -83,7 +83,6 @@
 
   .select-required {
     color: map.get($error, 500);
-    margin-left: 0.25rem;
   }
 
   /* #endregion */
@@ -95,18 +94,18 @@
 
   .select-field {
     width: 100%;
-    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    padding: 8px 40px 8px 12px;
     font-size: map.get($font-size, base);
     color: map.get($text, primary);
-    background: map.get($bg, surface);
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, md);
-    appearance: none;
-    cursor: pointer;
-    outline: none;
+    background: map.get($bg, surface);
     transition:
       border-color map.get($transition, fast),
       box-shadow map.get($transition, fast);
+    appearance: none;
+    cursor: pointer;
+    outline: none;
 
     &:focus {
       border-color: map.get($border, focus);
@@ -122,20 +121,20 @@
     }
 
     &:disabled {
-      background: map.get($bg, muted);
       color: map.get($text, disabled);
+      background: map.get($bg, muted);
       cursor: not-allowed;
     }
   }
 
   .select-chevron {
     position: absolute;
-    right: 0.75rem;
+    display: flex;
+    color: map.get($text, muted);
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: map.get($text, muted);
-    display: flex;
     align-items: center;
   }
 
@@ -145,7 +144,6 @@
   .select-error {
     font-size: map.get($font-size, xs);
     color: map.get($error, 500);
-    margin: 0;
   }
 
   /* #endregion */

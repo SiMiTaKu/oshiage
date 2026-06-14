@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FAQ_ITEMS } from '../config/faqPageConfig'
+  import { FAQ_ITEMS } from '@pages/faq/config/faqPageConfig'
 
   let openIds = $state<Set<string>>(new Set())
 
@@ -75,33 +75,31 @@
   }
 
   .page-header {
+    padding: 40px 16px;
     background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($indigo, 50)});
     border-bottom: 1px solid map.get($border, default);
-    padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
     max-width: $container-max;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .page-title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(24px, 3vw, 32px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0 0 0.5rem;
   }
 
   .page-desc {
     font-size: map.get($font-size, base);
     color: map.get($text, muted);
-    margin: 0;
   }
 
   .page-body {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    place-self: center;
+    padding: 32px 16px;
   }
 
   .faq-list {
@@ -119,24 +117,25 @@
     &:last-child {
       border-bottom: none;
     }
+  }
 
-    &--open {
-      background: map.get($bg, muted);
-    }
+  .faq-item--open {
+    border-bottom: 1px solid map.get($border, default);
+    background: map.get($bg, muted);
   }
 
   .faq-trigger {
     display: flex;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px;
+    border: none;
+    background: transparent;
+    transition: background map.get($transition, fast);
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    width: 100%;
-    padding: 1.25rem 1.5rem;
-    background: transparent;
-    border: none;
     cursor: pointer;
     text-align: left;
-    transition: background map.get($transition, fast);
 
     &:hover {
       background: map.get($bg, muted);
@@ -163,13 +162,12 @@
   }
 
   .faq-answer {
-    padding: 0 1.5rem 1.25rem;
+    padding: 0 24px 20px;
 
     p {
       font-size: map.get($font-size, base);
       color: map.get($text, secondary);
       line-height: map.get($line-height, relaxed);
-      margin: 0;
       white-space: pre-wrap;
     }
   }

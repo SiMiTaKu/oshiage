@@ -1,9 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/svelte'
-import type {
-  EntityResponseDto,
-  EntityRevisionDto,
-} from '../../../../src/shared/api/generated/client'
+import type { EntityResponseDto, EntityRevisionDto } from '@shared/api/generated/client'
 import EntityDetailPage from '../../../../src/pages/entities/ui/EntityDetailPage.svelte'
 
 const mockRevision: EntityRevisionDto = {

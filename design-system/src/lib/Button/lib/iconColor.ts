@@ -1,5 +1,5 @@
-import type { IconColor } from '../../Icons/Model/props'
-import type { ButtonVariant } from '../Model/variants'
+import type { IconColor } from '../../Icons/model/props'
+import type { ButtonVariant } from '../model/variants'
 
 /**
  * ボタンの variant に対応するデフォルトのアイコン色マップ。

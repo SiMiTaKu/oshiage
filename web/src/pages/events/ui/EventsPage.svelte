@@ -1,18 +1,9 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import {
-    CalendarIcon,
-    MapPinIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-  } from '@oshiage/design-system'
-  import type { EventResponseDto } from '../../../shared/api/generated/client'
-  import {
-    EVENT_TYPE_OPTIONS,
-    EVENT_TYPE_LABELS,
-    EVENTS_BREADCRUMB_HREF,
-  } from '../config/eventsPageConfig'
-  import { ROUTES } from '../../../shared/routes'
+  import { IconsGallery } from '@oshiage/design-system'
+  import type { EventResponseDto } from '@shared/api/generated/client'
+  import { EVENT_TYPE_OPTIONS, EVENT_TYPE_LABELS } from '@pages/events/config/eventsPageConfig'
+  import { ROUTES } from '@shared/routes'
 
   let {
     events,
@@ -107,14 +98,14 @@
     <!-- イベント一覧 -->
     {#if events.length === 0}
       <div class="empty-state">
-        <CalendarIcon size={48} color="gray" />
+        <IconsGallery name="calendar" size={48} color="gray" />
         <p class="empty-title">イベントが見つかりませんでした</p>
         <p class="empty-desc">フィルターを変えてお試しください。</p>
       </div>
     {:else}
       <div class="events-grid">
         {#each events as event (event.id)}
-          <a href={ROUTES.events.detail(event.id)} class="event-card">
+          <a href={ROUTES.events.detail(String(event.id))} class="event-card">
             <div class="event-card-header">
               <span class="event-type-badge"
                 >{EVENT_TYPE_LABELS[event.eventType] ?? event.eventType}</span
@@ -126,11 +117,11 @@
             <h2 class="event-title">{event.title}</h2>
             <div class="event-meta">
               <span class="event-meta-item">
-                <CalendarIcon size={14} color="gray" />
+                <IconsGallery name="calendar" size={14} color="gray" />
                 {formatDate(event.startAt, event.endAt)}
               </span>
               <span class="event-meta-item">
-                <MapPinIcon size={14} color="gray" />
+                <IconsGallery name="mapPin" size={14} color="gray" />
                 {event.place}
               </span>
             </div>
@@ -151,7 +142,7 @@
             onclick={() => changePage(page - 1)}
             aria-label="前のページ"
           >
-            <ChevronLeftIcon size={16} color="gray" />
+            <IconsGallery name="chevronLeft" size={16} color="gray" />
           </button>
           <span class="pagination-info">{page} / {totalPages}</span>
           <button
@@ -161,7 +152,7 @@
             onclick={() => changePage(page + 1)}
             aria-label="次のページ"
           >
-            <ChevronRightIcon size={16} color="gray" />
+            <IconsGallery name="chevronRight" size={16} color="gray" />
           </button>
         </div>
       {/if}
@@ -178,46 +169,43 @@
   }
 
   .page-header {
+    padding: 40px 16px;
     background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($indigo, 100)});
     border-bottom: 1px solid map.get($border, default);
-    padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
     max-width: $container-max;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .page-title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(24px, 3vw, 32px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0 0 0.5rem;
   }
 
   .page-desc {
     font-size: map.get($font-size, base);
     color: map.get($text, muted);
-    margin: 0;
   }
 
   .page-body {
     max-width: $container-max;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    place-self: center;
+    padding: 32px 16px;
   }
 
   .filters {
     display: flex;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 1.5rem;
   }
 
   .filter-group {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 6px;
   }
 
   .filter-label {
@@ -227,12 +215,12 @@
   }
 
   .filter-select {
-    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    padding: 8px 32px 8px 12px;
+    font-size: map.get($font-size, sm);
+    color: map.get($text, primary);
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, md);
-    font-size: map.get($font-size, sm);
     background: map.get($bg, surface);
-    color: map.get($text, primary);
     appearance: none;
     cursor: pointer;
 
@@ -246,15 +234,14 @@
   .result-count {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
-    margin-bottom: 1.5rem;
   }
 
   .empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 5rem 1rem;
+    gap: 12px;
+    padding: 80px 16px;
     text-align: center;
     color: map.get($text, muted);
   }
@@ -263,18 +250,16 @@
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, secondary);
-    margin: 0;
   }
 
   .empty-desc {
     font-size: map.get($font-size, sm);
-    margin: 0;
   }
 
   .events-grid {
     display: grid;
+    gap: 24px;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
 
     @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: repeat(2, 1fr);
@@ -287,15 +272,15 @@
 
   .event-card {
     display: block;
-    padding: 1.5rem;
-    background: map.get($bg, surface);
+    padding: 24px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    text-decoration: none;
+    background: map.get($bg, surface);
     transition:
       border-color map.get($transition, base),
       box-shadow map.get($transition, base),
       transform map.get($transition, base);
+    text-decoration: none;
 
     &:hover {
       border-color: rgb(79, 70, 229, 0.3);
@@ -308,18 +293,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    gap: 8px;
   }
 
   .event-type-badge {
     display: inline-block;
-    padding: 0.2rem 0.625rem;
-    background: map.get($indigo, 100);
-    color: map.get($indigo, 600);
-    border-radius: map.get($radius, full);
+    padding: 3.2px 10px;
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, semibold);
+    color: map.get($indigo, 600);
+    border-radius: map.get($radius, full);
+    background: map.get($indigo, 100);
   }
 
   .event-fee {
@@ -329,17 +313,16 @@
   }
 
   .event-title {
+    display: -webkit-box;
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, semibold);
     color: map.get($text, primary);
-    margin: 0 0 0.75rem;
+    transition: color map.get($transition, fast);
     line-height: map.get($line-height, snug);
-    display: -webkit-box;
-    line-clamp: 2;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: color map.get($transition, fast);
 
     .event-card:hover & {
       color: map.get($indigo, 500);
@@ -349,25 +332,24 @@
   .event-meta {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 6px;
   }
 
   .event-meta-item {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: 6px;
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
   }
 
   .event-description {
-    margin: 0.75rem 0 0;
+    display: -webkit-box;
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
     line-height: map.get($line-height, relaxed);
-    display: -webkit-box;
-    line-clamp: 2;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -376,24 +358,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 3rem;
+    gap: 16px;
   }
 
   .pagination-btn {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 36px;
     height: 36px;
+    color: map.get($text, muted);
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, md);
     background: map.get($bg, surface);
-    cursor: pointer;
-    color: map.get($text, muted);
     transition:
       background map.get($transition, fast),
       color map.get($transition, fast);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
     &:hover:not(:disabled) {
       color: map.get($text, primary);

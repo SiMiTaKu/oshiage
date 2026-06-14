@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TabsRootProps } from './Model/index'
+  import type { TabsRootProps } from './model/index'
 
   let { tabs, panelChildren }: TabsRootProps = $props()
 
@@ -77,19 +77,18 @@
   }
 
   .tabs-trigger {
-    flex-shrink: 0;
-    padding: 0.625rem 1rem;
+    padding: 10px 16px;
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, muted);
-    background: none;
     border: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    cursor: pointer;
+    background: none;
     transition:
       color map.get($transition, fast),
       border-color map.get($transition, fast);
+    flex-shrink: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
     white-space: nowrap;
 
     &:hover {
@@ -108,7 +107,7 @@
   }
 
   .tabs-panel {
-    padding-top: 1rem;
+    padding-top: 16px;
 
     &[hidden] {
       display: none;

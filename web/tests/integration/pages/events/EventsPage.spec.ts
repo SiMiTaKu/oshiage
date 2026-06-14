@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/svelte'
-import type { EventResponseDto } from '../../../../src/shared/api/generated/client'
+import type { EventResponseDto } from '@shared/api/generated/client'
 
 const { mockGoto } = vi.hoisted(() => ({ mockGoto: vi.fn() }))
 

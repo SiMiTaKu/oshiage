@@ -1,12 +1,13 @@
 <script lang="ts">
-  import type { EntityResponseDto, EntityRevisionDto } from '../../../shared/api/generated/client'
-  import { ChevronLeftIcon, UserIcon, UsersIcon, ClockIcon } from '@oshiage/design-system'
+  import dayjs from 'dayjs'
+  import type { EntityResponseDto, EntityRevisionDto } from '@shared/api/generated/client'
+  import { IconsGallery } from '@oshiage/design-system'
   import {
     CATEGORY_LABELS,
     STATUS_LABELS,
     STATUS_COLORS,
     ENTITIES_BREADCRUMB_HREF,
-  } from '../config/entitiesPageConfig'
+  } from '@pages/entities/config/entitiesPageConfig'
 
   let {
     entity,
@@ -19,11 +20,7 @@
   let activeTab = $state<'profile' | 'revisions'>('profile')
 
   function formatDate(dateStr: string) {
-    return new Date(dateStr).toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
+    return dayjs(dateStr).format('YYYY年M月D日')
   }
 </script>
 
@@ -41,7 +38,7 @@
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
       <a href={ENTITIES_BREADCRUMB_HREF} class="breadcrumb-back">
-        <ChevronLeftIcon size={16} color="gray" />
+        <IconsGallery name="chevronLeft" size={16} color="gray" />
         選手・チーム一覧に戻る
       </a>
     </div>
@@ -52,9 +49,9 @@
     <div class="entity-hero">
       <div class="entity-icon">
         {#if entity.entityCategory === 'individual'}
-          <UserIcon size={40} color="secondary" />
+          <IconsGallery name="user" size={40} color="secondary" />
         {:else}
-          <UsersIcon size={40} color="secondary" />
+          <IconsGallery name="users" size={40} color="secondary" />
         {/if}
       </div>
       <div class="entity-hero-info">
@@ -92,7 +89,7 @@
         class:active={activeTab === 'revisions'}
         onclick={() => (activeTab = 'revisions')}
       >
-        <ClockIcon size={14} color="gray" />
+        <IconsGallery name="clock" size={14} color="gray" />
         変更履歴 ({revisions.length})
       </button>
     </div>
@@ -137,7 +134,7 @@
       <div class="tab-panel">
         {#if revisions.length === 0}
           <div class="empty-state">
-            <ClockIcon size={40} color="gray" />
+            <IconsGallery name="clock" size={40} color="gray" />
             <p class="empty-title">変更履歴がありません</p>
           </div>
         {:else}
@@ -170,20 +167,20 @@
   }
 
   .breadcrumb-bar {
-    border-bottom: 1px solid map.get($border, default);
+    padding: 12px 16px;
     background: map.get($bg, surface);
-    padding: 0.75rem 1rem;
+    border-bottom: 1px solid map.get($border, default);
   }
 
   .breadcrumb-inner {
     max-width: $container-max;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .breadcrumb-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 4px;
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
     text-decoration: none;
@@ -196,30 +193,29 @@
 
   .page-content {
     max-width: $container-max;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    place-self: center;
+    padding: 32px 16px;
   }
 
   .entity-hero {
     display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($brand, 50)});
+    gap: 24px;
+    padding: 32px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 2rem;
-    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($brand, 50)});
+    align-items: flex-start;
   }
 
   .entity-icon {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 80px;
     height: 80px;
-    background: map.get($brand, 100);
     color: map.get($brand, 500);
     border-radius: map.get($radius, xl);
+    background: map.get($brand, 100);
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
   }
 
@@ -230,80 +226,75 @@
 
   .entity-badges {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    gap: 8px;
   }
 
   .category-badge {
     display: inline-block;
-    padding: 0.2rem 0.625rem;
-    background: map.get($brand, 100);
-    color: map.get($brand, 600);
-    border-radius: map.get($radius, full);
+    padding: 3.2px 10px;
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, semibold);
+    color: map.get($brand, 600);
+    border-radius: map.get($radius, full);
+    background: map.get($brand, 100);
   }
 
   .status-badge {
     display: inline-block;
-    padding: 0.2rem 0.625rem;
-    border-radius: map.get($radius, full);
+    padding: 3.2px 10px;
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, medium);
+    border-radius: map.get($radius, full);
 
     &.badge-active {
-      background: map.get($success, 100);
       color: map.get($success, 700);
+      background: map.get($success, 100);
     }
 
     &.badge-retired {
-      background: map.get($bg, muted);
       color: map.get($text, muted);
+      background: map.get($bg, muted);
     }
 
     &.badge-inactive {
-      background: map.get($warning, 100);
       color: map.get($warning, 700);
+      background: map.get($warning, 100);
     }
   }
 
   .entity-name {
-    font-size: clamp(1.25rem, 3vw, 1.875rem);
+    font-size: clamp(20px, 3vw, 30px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0 0 0.25rem;
   }
 
   .entity-sport,
   .entity-area {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
-    margin: 0;
   }
 
   .tabs {
     display: flex;
     gap: 0;
     border-bottom: 2px solid map.get($border, default);
-    margin-bottom: 2rem;
   }
 
   .tab-btn {
     display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    background: transparent;
+    gap: 6px;
+    padding: 12px 20px;
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
+    border: none;
+    background: transparent;
     transition:
       color map.get($transition, fast),
       border-color map.get($transition, fast);
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
 
     &.active {
       color: map.get($brand, 500);
@@ -334,22 +325,21 @@
   .profile-card {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px;
   }
 
   .profile-section {
-    background: map.get($bg, surface);
+    padding: 24px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 1.5rem;
+    background: map.get($bg, surface);
   }
 
   .section-title {
+    padding-bottom: 12px;
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, semibold);
     color: map.get($text, primary);
-    margin: 0 0 1rem;
-    padding-bottom: 0.75rem;
     border-bottom: 1px solid map.get($border, default);
   }
 
@@ -357,15 +347,13 @@
     font-size: map.get($font-size, base);
     color: map.get($text, secondary);
     line-height: map.get($line-height, relaxed);
-    margin: 0;
     white-space: pre-wrap;
   }
 
   .info-table {
     display: grid;
+    gap: 10px 24px;
     grid-template-columns: max-content 1fr;
-    gap: 0.625rem 1.5rem;
-    margin: 0;
 
     dt {
       font-size: map.get($font-size, sm);
@@ -376,7 +364,6 @@
     dd {
       font-size: map.get($font-size, sm);
       color: map.get($text, primary);
-      margin: 0;
     }
   }
 
@@ -384,8 +371,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 4rem 1rem;
+    gap: 12px;
+    padding: 64px 16px;
     text-align: center;
     color: map.get($text, muted);
   }
@@ -394,31 +381,28 @@
     font-size: map.get($font-size, base);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, secondary);
-    margin: 0;
   }
 
   .revisions-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
+    gap: 16px;
+    padding: 0;
+    list-style: none;
     flex-direction: column;
-    gap: 1rem;
   }
 
   .revision-item {
-    background: map.get($bg, surface);
+    padding: 20px 24px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 1.25rem 1.5rem;
+    background: map.get($bg, surface);
   }
 
   .revision-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    gap: 16px;
   }
 
   .revision-no {
@@ -436,12 +420,10 @@
     font-size: map.get($font-size, base);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, primary);
-    margin: 0 0 0.25rem;
   }
 
   .revision-reason {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
-    margin: 0;
   }
 </style>

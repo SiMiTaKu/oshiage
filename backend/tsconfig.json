@@ -10,6 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "incremental": true,
+    "isolatedModules": true,
     "types": ["node", "jest"]
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],

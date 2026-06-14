@@ -18,5 +18,8 @@
 
 <style lang="scss">
   @use '../scss/button';
-  @include button.styles;
+
+  .button {
+    @include button.styles;
+  }
 </style>

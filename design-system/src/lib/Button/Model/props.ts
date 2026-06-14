@@ -1,5 +1,4 @@
-import type { Component } from 'svelte'
-import type { IconProps, IconColor } from '../../Icons/Model/props'
+import type { IconColor } from '../../Icons/model/props'
 import type { ButtonVariant } from './variants'
 
 /** Button コンポーネント共通基底プロパティ。 */
@@ -19,8 +18,8 @@ interface ButtonBase {
  * @remarks type: 'text' のとき適用される。
  */
 export interface TextButtonProps extends ButtonBase {
-  /** コンテンツ種類識別子。 */
-  type: 'text'
+  /** コンテンツ種類識別子。未指定時は 'text' 扱い。 */
+  type?: 'text'
   /** ボタンに表示するテキスト。 */
   label: string
   /** button 要素の type 属性。未指定時は 'button'。 */
@@ -34,8 +33,8 @@ export interface TextButtonProps extends ButtonBase {
 export interface IconButtonProps extends ButtonBase {
   /** コンテンツ種類識別子。 */
   type: 'icon'
-  /** 表示するアイコンコンポーネント。 */
-  icon: Component<IconProps>
+  /** 表示するアイコンのキー名。 */
+  icon: import('../../Icons/config/icons').IconName
   /** スクリーンリーダー向けアクセシブル名。 */
   'aria-label': string
   /** アイコンの色。未指定時は variant から自動決定。 */
@@ -51,8 +50,8 @@ export interface IconButtonProps extends ButtonBase {
 export interface IconTextButtonProps extends ButtonBase {
   /** コンテンツ種類識別子。 */
   type: 'icon-text'
-  /** 表示するアイコンコンポーネント。 */
-  icon: Component<IconProps>
+  /** 表示するアイコンのキー名。 */
+  icon: import('../../Icons/config/icons').IconName
   /** ボタンに表示するテキスト。 */
   label: string
   /** アイコンの色。未指定時は variant から自動決定。 */

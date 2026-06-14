@@ -1,15 +1,15 @@
 <script lang="ts">
+  import dayjs from 'dayjs'
   import { goto } from '$app/navigation'
-  import { BellIcon, ChevronLeftIcon, ChevronRightIcon } from '@oshiage/design-system'
-  import type { NoticeResponseDto } from '../../../shared/api/generated/client'
+  import { IconsGallery } from '@oshiage/design-system'
+  import type { NoticeResponseDto } from '@shared/api/generated/client'
   import {
     NOTICE_TYPE_OPTIONS,
     NOTICE_TYPE_LABELS,
     NOTICE_TYPE_COLORS,
     NOTICE_PRIORITY_COLORS,
-    NOTICES_BREADCRUMB_HREF,
-  } from '../config/noticesPageConfig'
-  import { ROUTES } from '../../../shared/routes'
+  } from '@pages/notices/config/noticesPageConfig'
+  import { ROUTES } from '@shared/routes'
 
   let {
     notices,
@@ -44,11 +44,7 @@
   }
 
   function formatDate(dateStr: string) {
-    return new Date(dateStr).toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
+    return dayjs(dateStr).format('YYYY年M月D日')
   }
 
   const totalPages = $derived(Math.ceil(total / 20))
@@ -91,14 +87,14 @@
 
     {#if notices.length === 0}
       <div class="empty-state">
-        <BellIcon size={48} color="gray" />
+        <IconsGallery name="bell" size={48} color="gray" />
         <p class="empty-title">お知らせはありません</p>
         <p class="empty-desc">現在公開中のお知らせはありません。</p>
       </div>
     {:else}
       <div class="notices-list">
         {#each notices as notice (notice.id)}
-          <a href={ROUTES.notices.detail(notice.id)} class="notice-card">
+          <a href={ROUTES.notices.detail(String(notice.id))} class="notice-card">
             <div class="notice-meta">
               <span class="notice-badge {NOTICE_TYPE_COLORS[notice.noticeType] ?? ''}">
                 {NOTICE_TYPE_LABELS[notice.noticeType] ?? notice.noticeType}
@@ -120,7 +116,7 @@
             onclick={() => changePage(page - 1)}
             aria-label="前のページ"
           >
-            <ChevronLeftIcon size={16} color="gray" />
+            <IconsGallery name="chevronLeft" size={16} color="gray" />
           </button>
           <span class="pagination-info">{page} / {totalPages}</span>
           <button
@@ -130,7 +126,7 @@
             onclick={() => changePage(page + 1)}
             aria-label="次のページ"
           >
-            <ChevronRightIcon size={16} color="gray" />
+            <IconsGallery name="chevronRight" size={16} color="gray" />
           </button>
         </div>
       {/if}
@@ -147,46 +143,43 @@
   }
 
   .page-header {
+    padding: 40px 16px;
     background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($bg, muted)});
     border-bottom: 1px solid map.get($border, default);
-    padding: 2.5rem 1rem;
   }
 
   .page-header-inner {
     max-width: $container-max;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .page-title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(24px, 3vw, 32px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0 0 0.5rem;
   }
 
   .page-desc {
     font-size: map.get($font-size, base);
     color: map.get($text, muted);
-    margin: 0;
   }
 
   .page-body {
     max-width: $container-max;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    place-self: center;
+    padding: 32px 16px;
   }
 
   .filters {
     display: flex;
-    gap: 1rem;
+    gap: 16px;
     flex-wrap: wrap;
-    margin-bottom: 1.5rem;
   }
 
   .filter-group {
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 6px;
   }
 
   .filter-label {
@@ -196,12 +189,12 @@
   }
 
   .filter-select {
-    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    padding: 8px 32px 8px 12px;
+    font-size: map.get($font-size, sm);
+    color: map.get($text, primary);
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, md);
-    font-size: map.get($font-size, sm);
     background: map.get($bg, surface);
-    color: map.get($text, primary);
     appearance: none;
     cursor: pointer;
 
@@ -215,15 +208,14 @@
   .result-count {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
-    margin-bottom: 1.5rem;
   }
 
   .empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 5rem 1rem;
+    gap: 12px;
+    padding: 80px 16px;
     text-align: center;
     color: map.get($text, muted);
   }
@@ -232,32 +224,30 @@
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, secondary);
-    margin: 0;
   }
 
   .empty-desc {
     font-size: map.get($font-size, sm);
-    margin: 0;
   }
 
   .notices-list {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
   }
 
   .notice-card {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem 1.5rem;
-    background: map.get($bg, surface);
+    gap: 8px;
+    padding: 20px 24px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    text-decoration: none;
+    background: map.get($bg, surface);
     transition:
       border-color map.get($transition, fast),
       box-shadow map.get($transition, fast);
+    flex-direction: column;
+    text-decoration: none;
 
     &:hover {
       border-color: rgb(0, 0, 0, 0.2);
@@ -273,31 +263,31 @@
   .notice-meta {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: 10px;
     flex-shrink: 0;
   }
 
   .notice-badge {
     display: inline-block;
-    padding: 0.2rem 0.625rem;
-    border-radius: map.get($radius, full);
+    padding: 3.2px 10px;
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, semibold);
+    border-radius: map.get($radius, full);
     white-space: nowrap;
 
     &.badge-spec {
-      background: map.get($indigo, 100);
       color: map.get($indigo, 600);
+      background: map.get($indigo, 100);
     }
 
     &.badge-maintenance {
-      background: map.get($warning, 100);
       color: map.get($warning, 700);
+      background: map.get($warning, 100);
     }
 
     &.badge-incident {
-      background: map.get($error, 100);
       color: map.get($error, 700);
+      background: map.get($error, 100);
     }
   }
 
@@ -329,7 +319,6 @@
     font-size: map.get($font-size, base);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, primary);
-    margin: 0;
     flex: 1;
     transition: color map.get($transition, fast);
 
@@ -342,24 +331,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 3rem;
+    gap: 16px;
   }
 
   .pagination-btn {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 36px;
     height: 36px;
+    color: map.get($text, muted);
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, md);
     background: map.get($bg, surface);
-    cursor: pointer;
-    color: map.get($text, muted);
     transition:
       background map.get($transition, fast),
       color map.get($transition, fast);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 
     &:hover:not(:disabled) {
       color: map.get($text, primary);

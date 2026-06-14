@@ -1,9 +1,10 @@
 <script lang="ts">
-  import type { IconTextButtonProps } from '../Model'
+  import type { IconTextButtonProps } from '../model'
   import { resolveIconColor } from '../lib/iconColor'
+  import { ICONS } from '../../Icons/config/icons'
 
   let {
-    icon: Icon,
+    icon,
     label,
     variant,
     iconColor,
@@ -13,6 +14,7 @@
     height,
   }: IconTextButtonProps = $props()
 
+  const IconComponent = $derived(ICONS[icon])
   const resolvedIconColor = $derived(resolveIconColor(variant, iconColor))
 </script>
 
@@ -25,11 +27,14 @@
   style:width={width ? `${width}px` : 'auto'}
   style:height={height ? `${height}px` : '40px'}
 >
-  <Icon size={20} color={resolvedIconColor} />
+  <IconComponent size={20} color={resolvedIconColor} />
   {label}
 </button>
 
 <style lang="scss">
   @use '../scss/button';
-  @include button.styles;
+
+  .button {
+    @include button.styles;
+  }
 </style>

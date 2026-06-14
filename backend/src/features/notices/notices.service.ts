@@ -1,6 +1,7 @@
+import dayjs from 'dayjs'
 import { Injectable, NotFoundException } from '@nestjs/common'
 
-import { PrismaService } from '../../shared/prisma/prisma.service'
+import { PrismaService } from '@shared/prisma/prisma.service'
 import { GetNoticesQueryDto } from './dto/get-notices-query.dto'
 import { NoticeListResponseDto } from './dto/notice-list-response.dto'
 import { NoticeResponseDto } from './dto/notice-response.dto'
@@ -31,7 +32,7 @@ export class NoticesService {
   async findAll(query: GetNoticesQueryDto): Promise<NoticeListResponseDto> {
     const { page = 1, limit = 20, noticeType } = query
     const skip = (page - 1) * limit
-    const now = new Date()
+    const now = dayjs().toDate()
 
     const where = {
       publishAt: { lte: now },
@@ -62,7 +63,7 @@ export class NoticesService {
    * @throws NotFoundException 指定IDのお知らせが公開状態で存在しない場合
    */
   async findOne(id: number): Promise<NoticeResponseDto> {
-    const now = new Date()
+    const now = dayjs().toDate()
     const notice = await this.prisma.notice.findFirst({
       where: {
         id,

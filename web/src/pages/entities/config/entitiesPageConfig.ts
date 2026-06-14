@@ -1,4 +1,4 @@
-import { ROUTES } from '../../../shared/routes'
+import { ROUTES } from '@shared/routes'
 
 /**
  * エンティティカテゴリ選択肢

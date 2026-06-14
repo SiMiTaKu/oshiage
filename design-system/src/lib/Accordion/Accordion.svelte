@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ChevronDownIcon from '../Icons/IconComponents/ChevronDownIcon.svelte'
-  import type { AccordionProps } from './Model/index'
-  import { createAccordionName } from './Lib/generate-accordion-name'
+  import ChevronDownIcon from '../Icons/components/ChevronDownIcon.svelte'
+  import type { AccordionProps } from './model/index'
+  import { createAccordionName } from './lib/generate-accordion-name'
 
   let { id, items }: AccordionProps = $props()
 
@@ -58,9 +58,9 @@
 
   /* #region Root */
   .accordion {
-    width: 100%;
     display: grid;
-    gap: 0.75rem;
+    gap: 12px;
+    width: 100%;
   }
 
   /* #endregion */
@@ -79,23 +79,23 @@
 
   /* #region Summary */
   .accordion-summary {
-    list-style: none;
-    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 1rem 1.25rem;
+    gap: 12px;
+    width: 100%;
+    padding: 16px 20px;
     font-size: map.get($font-size, base);
     font-weight: map.get($font-weight, semibold);
     color: map.get($brand, 700);
-    background: transparent;
     border: none;
-    cursor: pointer;
-    text-align: left;
+    background: transparent;
     transition:
       background map.get($transition, fast),
       color map.get($transition, fast);
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    text-align: left;
 
     &::-webkit-details-marker {
       display: none;
@@ -150,7 +150,7 @@
   }
 
   .accordion-details {
-    padding: 0 1.25rem 1rem;
+    padding: 0 20px 16px;
     font-size: map.get($font-size, sm);
     color: map.get($text, secondary);
     line-height: map.get($line-height, relaxed);

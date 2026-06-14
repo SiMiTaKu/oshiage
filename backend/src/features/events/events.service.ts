@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 
-import { PrismaService } from '../../shared/prisma/prisma.service'
+import { PrismaService } from '@shared/prisma/prisma.service'
 import { EventListResponseDto } from './dto/event-list-response.dto'
 import { EventResponseDto } from './dto/event-response.dto'
 import { GetEventsQueryDto } from './dto/get-events-query.dto'

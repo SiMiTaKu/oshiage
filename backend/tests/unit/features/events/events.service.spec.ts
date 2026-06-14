@@ -79,8 +79,6 @@ describe('EventsService', () => {
       it('page=2 の場合に skip=20 が計算されること', async () => {
         // Given
         prismaMock.$transaction.mockResolvedValue([[], 0])
-        const findManySpy = jest.fn().mockResolvedValue([])
-        const countSpy = jest.fn().mockResolvedValue(0)
         prismaMock.$transaction.mockImplementation((fns: Array<Promise<unknown>>) =>
           Promise.all(fns),
         )

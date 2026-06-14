@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { FOOTER_LINKS } from '../config/footerConfig'
-  import { ROUTES } from '../../../shared/routes'
+  import { FOOTER_LINKS } from '@features/footer/config/footerConfig'
+  import { ROUTES } from '@shared/routes'
 
-  const footerLinks = FOOTER_LINKS
-  const year = new Date().getFullYear()
+  import dayjs from 'dayjs'
+  const year = dayjs().year()
+
+  type FooterLink = { name: string; href: string }
+  const footerEntries = Object.entries(FOOTER_LINKS) as [string, FooterLink[]][]
 </script>
 
 <footer class="site-footer">
@@ -21,7 +24,7 @@
       </div>
 
       <!-- リンク -->
-      {#each Object.entries(footerLinks) as [category, links], index (index)}
+      {#each footerEntries as [category, links], index (index)}
         <div>
           <h3 class="footer-link-heading">{category}</h3>
           <ul class="footer-link-list">
@@ -51,19 +54,18 @@
   .site-footer {
     background: map.get($bg, surface);
     border-top: 1px solid map.get($border, default);
-    margin-top: auto;
   }
 
   .footer-inner {
     max-width: $container-max;
-    margin: 0 auto;
-    padding: 3rem 1rem;
+    place-self: center;
+    padding: 48px 16px;
   }
 
   .footer-grid {
     display: grid;
+    gap: 32px;
     grid-template-columns: 1fr;
-    gap: 2rem;
 
     @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: 1.5fr repeat(3, 1fr);
@@ -81,9 +83,8 @@
   .footer-brand-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     text-decoration: none;
-    margin-bottom: 0.75rem;
   }
 
   .footer-brand-name {
@@ -99,23 +100,20 @@
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
     line-height: map.get($line-height, relaxed);
-    margin: 0;
   }
 
   .footer-link-heading {
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, semibold);
     color: map.get($text, primary);
-    margin: 0 0 1rem;
   }
 
   .footer-link-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
+    gap: 12px;
+    padding: 0;
+    list-style: none;
     flex-direction: column;
-    gap: 0.75rem;
   }
 
   .footer-link {
@@ -130,12 +128,11 @@
   }
 
   .footer-bottom {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid map.get($border, default);
     display: flex;
+    gap: 8px;
+    padding-top: 32px;
+    border-top: 1px solid map.get($border, default);
     flex-direction: column;
-    gap: 0.5rem;
 
     @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
@@ -147,12 +144,10 @@
   .footer-copyright {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
-    margin: 0;
   }
 
   .footer-tagline {
     font-size: map.get($font-size, xs);
     color: map.get($text, muted);
-    margin: 0;
   }
 </style>

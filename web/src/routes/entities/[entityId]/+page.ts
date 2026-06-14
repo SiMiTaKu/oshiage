@@ -1,10 +1,10 @@
 import type { PageLoad } from './$types'
 import { error } from '@sveltejs/kit'
-import { customFetcher } from '../../../shared/api/runtime'
+import { customFetcher } from '@shared/api/runtime'
 import type {
   entitiesControllerFindOneResponse,
   entitiesControllerFindRevisionsResponse,
-} from '../../../shared/api/generated/client'
+} from '@shared/api/generated/client'
 
 export const load: PageLoad = async ({ params, fetch }) => {
   const id = params.entityId

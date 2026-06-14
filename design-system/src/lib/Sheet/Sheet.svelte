@@ -1,6 +1,6 @@
 <script lang="ts">
-  import XIcon from '../Icons/IconComponents/XIcon.svelte'
-  import type { SheetProps } from './Model/index'
+  import XIcon from '../Icons/components/XIcon.svelte'
+  import type { SheetProps } from './model/index'
 
   let { side = 'left', children, onClose }: SheetProps = $props()
   let isOpen = $state(true)
@@ -26,8 +26,15 @@
 
 {#if isOpen}
   <div class="sheet-backdrop" onclick={closeSheetByBackdrop} aria-hidden="true"></div>
-  <div class="sheet" data-side={side} role="dialog" aria-modal="true" aria-label="シート">
-    <button class="sheet-close" type="button" aria-label="閉じる" onclick={closeSheet}>
+  <div class="sheet"
+data-side={side}
+role="dialog"
+aria-modal="true"
+aria-label="シート">
+    <button class="sheet-close"
+type="button"
+aria-label="閉じる"
+onclick={closeSheet}>
       <XIcon color="gray" size={20} />
     </button>
     {@render children()}
@@ -51,14 +58,15 @@
     background: map.get($bg, surface);
     z-index: #{map.get($z, modal)};
     overflow-y: auto;
+    box-sizing: border-box;
   }
 
   .sheet[data-side='left'] {
     top: 0;
     left: 0;
     bottom: 0;
-    width: min(320px, 80vw);
-    padding: 1.5rem;
+    width: 320px;
+    padding: 24px;
     box-shadow: map.get($shadow, xl);
     animation: slideInSheetFromLeft map.get($transition, base) ease;
   }
@@ -67,8 +75,8 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: min(320px, 80vw);
-    padding: 1.5rem;
+    width: 320px;
+    padding: 24px;
     box-shadow: map.get($shadow, xl);
     animation: slideInSheetFromRight map.get($transition, base) ease;
   }
@@ -78,7 +86,7 @@
     left: 0;
     right: 0;
     max-height: 90vh;
-    padding: 1.5rem;
+    padding: 24px;
     border-radius: map.get($radius, xl) map.get($radius, xl) 0 0;
     box-shadow: map.get($shadow, xl);
     animation: slideInSheetFromBottom map.get($transition, base) ease;
@@ -86,18 +94,18 @@
 
   .sheet-close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.25rem;
-    background: none;
-    border: none;
-    cursor: pointer;
+    display: flex;
+    padding: 4px;
     color: map.get($text, muted);
+    border: none;
     border-radius: map.get($radius, sm);
+    background: none;
     transition:
       color map.get($transition, fast),
       background map.get($transition, fast);
-    display: flex;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
     align-items: center;
 
     &:hover {

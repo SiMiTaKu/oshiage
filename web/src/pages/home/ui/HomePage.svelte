@@ -1,12 +1,5 @@
 <script lang="ts">
-  import {
-    CalendarIcon,
-    UsersIcon,
-    ShieldIcon,
-    TrendingUpIcon,
-    SearchIcon,
-    ChevronRightIcon,
-  } from '@oshiage/design-system'
+  import { IconsGallery } from '@oshiage/design-system'
   import {
     HERO_IMAGES,
     HOME_FEATURES,
@@ -14,10 +7,10 @@
     HOME_EVENTS_HREF,
     HOME_ENTITIES_HREF,
     HOME_SIGN_UP_HREF,
-  } from '../config/homePageConfig'
-  import { ROUTES } from '../../../shared/routes'
+  } from '@pages/home/config/homePageConfig'
 
-  const FEATURE_ICONS = [CalendarIcon, UsersIcon, ShieldIcon, TrendingUpIcon]
+  import type { IconName } from '@oshiage/design-system'
+  const FEATURE_ICONS: IconName[] = ['calendar', 'users', 'shield', 'trendingUp']
 
   let currentHeroIndex = $state(0)
 
@@ -82,11 +75,11 @@
     <!-- CTAボタン -->
     <div class="hero-cta">
       <a href={HOME_EVENTS_HREF} class="hero-btn hero-btn--primary">
-        <SearchIcon size={20} color="white" />
+        <IconsGallery name="search" size={20} color="white" />
         イベントを探す
       </a>
       <a href={HOME_ENTITIES_HREF} class="hero-btn hero-btn--outline">
-        <UsersIcon size={20} color="white" />
+        <IconsGallery name="users" size={20} color="white" />
         選手・チームを見る
       </a>
     </div>
@@ -118,9 +111,10 @@
 
     <div class="features-grid">
       {#each HOME_FEATURES as feature, index (index)}
+        {@const iconName = FEATURE_ICONS[index]}
         <div class="feature-card">
           <div class="feature-icon">
-            <svelte:component this={FEATURE_ICONS[index]} size={24} color="primary" />
+            <IconsGallery name={iconName} size={24} color="primary" />
           </div>
           <h3 class="feature-title">{feature.title}</h3>
           <p class="feature-desc">{feature.description}</p>
@@ -140,11 +134,11 @@
       </div>
       <a href={HOME_EVENTS_HREF} class="preview-link">
         すべて見る
-        <ChevronRightIcon size={16} color="secondary" />
+        <IconsGallery name="chevronRight" size={16} color="secondary" />
       </a>
     </div>
     <div class="preview-empty-box">
-      <CalendarIcon size={32} color="secondary" />
+      <IconsGallery name="calendar" size={32} color="secondary" />
       <p>イベント情報は<a href={HOME_EVENTS_HREF}>イベント一覧</a>で確認できます</p>
     </div>
   </div>
@@ -160,11 +154,11 @@
       </div>
       <a href={HOME_ENTITIES_HREF} class="preview-link">
         すべて見る
-        <ChevronRightIcon size={16} color="secondary" />
+        <IconsGallery name="chevronRight" size={16} color="secondary" />
       </a>
     </div>
     <div class="preview-empty-box">
-      <UsersIcon size={32} color="secondary" />
+      <IconsGallery name="users" size={32} color="secondary" />
       <p>選手・チーム情報は<a href={HOME_ENTITIES_HREF}>一覧ページ</a>で確認できます</p>
     </div>
   </div>
@@ -192,14 +186,14 @@
   /* ── Hero ── */
   .hero {
     position: relative;
-    overflow: hidden;
-    padding: 5rem 1rem 4rem;
-    min-height: 600px;
     display: flex;
+    min-height: 600px;
+    padding: 80px 16px 64px;
+    overflow: hidden;
     align-items: center;
 
     @media (min-width: #{map.get($breakpoint, md)}) {
-      padding: 7rem 1rem 6rem;
+      padding: 112px 16px 96px;
     }
   }
 
@@ -210,10 +204,10 @@
     background-position: center;
     opacity: 0;
     transition: opacity 1.5s ease;
+  }
 
-    &--visible {
-      opacity: 1;
-    }
+  .hero-bg--visible {
+    opacity: 1;
   }
 
   .hero-overlay {
@@ -238,61 +232,66 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
+  }
 
-    &--orange {
-      top: -25%;
-      right: -10%;
-      width: 500px;
-      height: 500px;
-      background: rgb(255, 107, 53, 0.2);
-    }
+  .hero-deco-orb--orange {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgb(255, 107, 53, 0.2);
+    filter: blur(80px);
+    top: -25%;
+    right: -10%;
+  }
 
-    &--indigo {
-      bottom: -15%;
-      left: -10%;
-      width: 400px;
-      height: 400px;
-      background: rgb(79, 70, 229, 0.2);
-    }
+  .hero-deco-orb--indigo {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: rgb(79, 70, 229, 0.2);
+    filter: blur(80px);
+    bottom: -15%;
+    left: -10%;
   }
 
   .hero-content {
     position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
     width: 100%;
+    max-width: 800px;
+    place-self: center;
+    text-align: center;
   }
 
   .hero-badge {
     display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 1rem;
-    border-radius: map.get($radius, full);
-    background: rgb(255, 255, 255, 0.15);
-    border: 1px solid rgb(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-    color: #fff;
+    gap: 8px;
+    padding: 6px 16px;
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, medium);
-    margin-bottom: 1.5rem;
+    color: #fff;
+    border: 1px solid rgb(255, 255, 255, 0.2);
+    border-radius: map.get($radius, full);
+    background: rgb(255, 255, 255, 0.15);
+    align-items: center;
+    backdrop-filter: blur(4px);
   }
 
   .hero-badge-dot {
+    position: relative;
     width: 8px;
     height: 8px;
-    background: #fff;
     border-radius: 50%;
-    position: relative;
+    background: #fff;
 
     &::before {
-      content: '';
       position: absolute;
-      inset: 0;
-      background: #fff;
       border-radius: 50%;
+      background: #fff;
       animation: ping 1.5s ease-in-out infinite;
+      content: '';
+      inset: 0;
     }
   }
 
@@ -310,11 +309,10 @@
   }
 
   .hero-heading {
-    font-size: clamp(1.875rem, 5vw, 3.75rem);
+    font-size: clamp(30px, 5vw, 60px);
     font-weight: map.get($font-weight, bold);
     color: #fff;
     line-height: map.get($line-height, tight);
-    margin: 0 0 1.5rem;
     text-shadow: 0 2px 8px rgb(0, 0, 0, 0.3);
   }
 
@@ -334,7 +332,6 @@
     font-size: map.get($font-size, lg);
     color: rgb(255, 255, 255, 0.9);
     line-height: map.get($line-height, relaxed);
-    margin: 0 0 2rem;
 
     @media (min-width: #{map.get($breakpoint, md)}) {
       font-size: map.get($font-size, xl);
@@ -346,7 +343,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 16px;
 
     @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
@@ -355,58 +352,80 @@
 
   .hero-btn {
     display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 2rem;
-    border-radius: map.get($radius, lg);
+    gap: 8px;
+    padding: 12px 32px;
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, semibold);
-    text-decoration: none;
+    border-radius: map.get($radius, lg);
     transition:
       transform map.get($transition, fast),
       box-shadow map.get($transition, fast),
       background map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
     &:hover {
       transform: translateY(-2px);
     }
+  }
 
-    &--primary {
-      background: map.get($brand, 500);
-      color: #fff;
-      box-shadow: 0 4px 16px rgb(255, 107, 53, 0.3);
+  .hero-btn--primary {
+    display: inline-flex;
+    gap: 8px;
+    padding: 12px 32px;
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: #fff;
+    border-radius: map.get($radius, lg);
+    background: map.get($brand, 500);
+    transition:
+      transform map.get($transition, fast),
+      box-shadow map.get($transition, fast),
+      background map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgb(255, 107, 53, 0.3);
 
-      &:hover {
-        background: map.get($brand, 600);
-        box-shadow: 0 8px 24px rgb(255, 107, 53, 0.4);
-      }
+    &:hover {
+      transform: translateY(-2px);
+      background: map.get($brand, 600);
+      box-shadow: 0 8px 24px rgb(255, 107, 53, 0.4);
     }
+  }
 
-    &--outline {
-      border: 1.5px solid rgb(255, 255, 255, 0.4);
-      color: #fff;
-      background: rgb(255, 255, 255, 0.1);
+  .hero-btn--outline {
+    display: inline-flex;
+    gap: 8px;
+    padding: 12px 32px;
+    font-size: map.get($font-size, lg);
+    font-weight: map.get($font-weight, semibold);
+    color: #fff;
+    border: 1.5px solid rgb(255, 255, 255, 0.4);
+    border-radius: map.get($radius, lg);
+    background: rgb(255, 255, 255, 0.1);
+    transition:
+      transform map.get($transition, fast),
+      box-shadow map.get($transition, fast),
+      background map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
-      &:hover {
-        background: rgb(255, 255, 255, 0.2);
-      }
+    &:hover {
+      transform: translateY(-2px);
+      background: rgb(255, 255, 255, 0.2);
     }
   }
 
   .hero-note {
-    margin: 1.5rem 0 0;
     font-size: map.get($font-size, sm);
     color: rgb(255, 255, 255, 0.7);
   }
 
   .hero-stats {
     display: grid;
+    gap: 16px;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 3rem;
-    max-width: 640px;
-    margin-left: auto;
-    margin-right: auto;
+    place-items: center;
 
     @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: repeat(4, 1fr);
@@ -414,13 +433,15 @@
   }
 
   .hero-stat-card {
-    background: rgb(255, 255, 255, 0.85);
-    backdrop-filter: blur(4px);
+    width: 140px;
+    padding: 20px 16px;
     border: 1px solid rgb(255, 255, 255, 0.7);
     border-radius: map.get($radius, xl);
-    padding: 1.25rem 1rem;
-    text-align: center;
+    background: rgb(255, 255, 255, 0.85);
     transition: box-shadow map.get($transition, fast);
+    backdrop-filter: blur(4px);
+    text-align: center;
+    box-sizing: border-box;
 
     &:hover {
       box-shadow: map.get($shadow, md);
@@ -432,7 +453,6 @@
     font-size: map.get($font-size, 2xl);
     font-weight: map.get($font-weight, bold);
     color: map.get($brand, 500);
-    margin-bottom: 0.25rem;
   }
 
   .hero-stat-label {
@@ -443,43 +463,43 @@
   /* ── Shared section ── */
   .section-inner {
     max-width: $container-max;
-    margin: 0 auto;
-    padding: 0 1rem;
+    place-self: center;
+    padding: 0 16px;
   }
 
   .section-header {
     text-align: center;
-    margin-bottom: 3rem;
   }
 
   .section-title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(24px, 3vw, 32px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0 0 0.75rem;
+  }
 
-    &--left {
-      text-align: left;
-    }
+  .section-title--left {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: map.get($font-weight, bold);
+    color: map.get($text, primary);
+    text-align: left;
   }
 
   .section-desc {
     font-size: map.get($font-size, base);
     color: map.get($text, muted);
     line-height: map.get($line-height, relaxed);
-    margin: 0;
   }
 
   /* ── Features ── */
   .features-section {
+    padding: 80px 0;
     background: map.get($bg, surface);
-    padding: 5rem 0;
   }
 
   .features-grid {
     display: grid;
+    gap: 24px;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
 
     @media (min-width: #{map.get($breakpoint, md)}) {
       grid-template-columns: repeat(2, 1fr);
@@ -491,10 +511,10 @@
   }
 
   .feature-card {
-    padding: 1.5rem;
+    padding: 24px;
+    border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
     background: map.get($bg, base);
-    border: 1px solid map.get($border, default);
     transition:
       border-color map.get($transition, base),
       box-shadow map.get($transition, base),
@@ -508,16 +528,15 @@
   }
 
   .feature-icon {
+    display: flex;
     width: 48px;
     height: 48px;
+    color: map.get($brand, 500);
     border-radius: map.get($radius, lg);
     background: rgb(255, 107, 53, 0.1);
-    display: flex;
+    transition: background map.get($transition, fast);
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
-    color: map.get($brand, 500);
-    transition: background map.get($transition, fast);
 
     .feature-card:hover & {
       background: rgb(255, 107, 53, 0.2);
@@ -528,31 +547,29 @@
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, semibold);
     color: map.get($text, primary);
-    margin: 0 0 0.5rem;
   }
 
   .feature-desc {
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
     line-height: map.get($line-height, relaxed);
-    margin: 0;
   }
 
   /* ── Preview sections ── */
   .preview-section {
-    padding: 5rem 0;
+    padding: 80px 0;
     background: map.get($bg, base);
+  }
 
-    &--alt {
-      background: map.get($bg, surface);
-    }
+  .preview-section--alt {
+    padding: 80px 0;
+    background: map.get($bg, surface);
   }
 
   .preview-header {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 16px;
 
     @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
@@ -564,7 +581,7 @@
   .preview-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 4px;
     font-size: map.get($font-size, sm);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, muted);
@@ -579,57 +596,51 @@
 
   .preview-empty-box {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 3rem;
-    color: map.get($text, muted);
+    gap: 12px;
+    padding: 48px;
     font-size: map.get($font-size, sm);
-    text-align: center;
+    color: map.get($text, muted);
     border: 1px dashed map.get($border, default);
     border-radius: map.get($radius, xl);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
     a {
-      color: map.get($brand, 500);
       font-weight: map.get($font-weight, medium);
-    }
-
-    p {
-      margin: 0;
+      color: map.get($brand, 500);
     }
   }
 
   /* ── CTA Section ── */
   .cta-section {
+    padding: 80px 16px;
     background: linear-gradient(135deg, #{map.get($indigo, 600)} 0%, #{map.get($brand, 500)} 100%);
-    padding: 5rem 1rem;
     text-align: center;
   }
 
   .cta-inner {
     max-width: 640px;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .cta-title {
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-size: clamp(28px, 4vw, 36px);
     font-weight: map.get($font-weight, bold);
     color: #fff;
-    margin: 0 0 1rem;
   }
 
   .cta-desc {
     font-size: map.get($font-size, base);
     color: rgb(255, 255, 255, 0.85);
     line-height: map.get($line-height, relaxed);
-    margin: 0 0 2rem;
   }
 
   .cta-actions {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
 
     @media (min-width: #{map.get($breakpoint, sm)}) {
       flex-direction: row;
@@ -639,37 +650,59 @@
 
   .cta-btn {
     display: inline-flex;
-    align-items: center;
-    padding: 0.75rem 2rem;
-    border-radius: map.get($radius, lg);
+    padding: 12px 32px;
     font-size: map.get($font-size, base);
     font-weight: map.get($font-weight, semibold);
-    text-decoration: none;
+    border-radius: map.get($radius, lg);
     transition:
       background map.get($transition, fast),
       transform map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
     &:hover {
       transform: translateY(-2px);
     }
+  }
 
-    &--primary {
-      background: #fff;
-      color: map.get($brand, 500);
+  .cta-btn--primary {
+    display: inline-flex;
+    padding: 12px 32px;
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, semibold);
+    color: map.get($brand, 500);
+    border-radius: map.get($radius, lg);
+    background: #fff;
+    transition:
+      background map.get($transition, fast),
+      transform map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
-      &:hover {
-        background: rgb(255, 255, 255, 0.9);
-      }
+    &:hover {
+      transform: translateY(-2px);
+      background: rgb(255, 255, 255, 0.9);
     }
+  }
 
-    &--secondary {
-      border: 1.5px solid rgb(255, 255, 255, 0.5);
-      color: #fff;
-      background: rgb(255, 255, 255, 0.1);
+  .cta-btn--secondary {
+    display: inline-flex;
+    padding: 12px 32px;
+    font-size: map.get($font-size, base);
+    font-weight: map.get($font-weight, semibold);
+    color: #fff;
+    border: 1.5px solid rgb(255, 255, 255, 0.5);
+    border-radius: map.get($radius, lg);
+    background: rgb(255, 255, 255, 0.1);
+    transition:
+      background map.get($transition, fast),
+      transform map.get($transition, fast);
+    align-items: center;
+    text-decoration: none;
 
-      &:hover {
-        background: rgb(255, 255, 255, 0.2);
-      }
+    &:hover {
+      transform: translateY(-2px);
+      background: rgb(255, 255, 255, 0.2);
     }
   }
 
@@ -677,12 +710,12 @@
     display: grid;
     place-items: center;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 32px;
   }
 
   .copy {
     width: min(720px, 100%);
-    padding: 3rem;
+    padding: 48px;
     border: 1px solid rgb(19, 34, 56, 0.08);
     border-radius: 32px;
     background: rgb(255, 255, 255, 0.75);
@@ -691,8 +724,7 @@
   }
 
   .eyebrow {
-    margin: 0 0 1rem;
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -700,14 +732,12 @@
   }
 
   .title {
-    margin: 0 0 1rem;
-    font-size: clamp(2rem, 6vw, 4rem);
+    font-size: clamp(32px, 6vw, 64px);
     line-height: 1.1;
   }
 
   .description {
-    margin: 0 0 1.5rem;
-    font-size: 1rem;
+    font-size: 16px;
     line-height: 1.7;
   }
 </style>

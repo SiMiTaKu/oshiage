@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { Injectable } from '@nestjs/common'
 
 import { AccountBootstrapResponseDto } from '../dto/account-bootstrap-response.dto'
@@ -28,11 +29,11 @@ export class AccountService {
    */
   getAccount(): AccountResponseDto {
     return {
-      createdAt: new Date().toISOString(),
+      createdAt: dayjs().toDate().toISOString(),
       displayName: 'MVP User',
       email: 'user@example.com',
       status: 'active',
-      updatedAt: new Date().toISOString(),
+      updatedAt: dayjs().toDate().toISOString(),
       userId: 1,
     }
   }

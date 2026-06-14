@@ -4,73 +4,65 @@
 /// Button 共通スタイルミックスイン。
 /// ButtonElement・IconButton・IconTextButton・LinkButton の各コンポーネントから @include して使用する。
 @mixin styles {
-  /* #region Root */
-  .button {
-    display: grid;
-    place-items: center;
-    min-height: 40px;
-    padding: 0 16px;
-    border: 1px solid transparent;
-    border-radius: 2rem;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition:
-      transform 160ms ease,
-      background-color 160ms ease,
-      color 160ms ease,
-      border-color 160ms ease,
-      box-shadow 160ms ease;
-    cursor: pointer;
-    box-shadow: map.get($shadow, sm);
-  }
-  /* #endregion */
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: 32px;
+  font-size: 15.2px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  cursor: pointer;
+  box-shadow: map.get($shadow, sm);
 
-  /* #region Content types */
-  .button[data-content='icon'] {
+  &[data-content='icon'] {
     min-width: 44px;
   }
 
-  .button[data-content='icon-text'] {
-    gap: 0.5rem;
+  &[data-content='icon-text'] {
+    gap: 8px;
   }
-  /* #endregion */
 
-  .button:hover {
+  &:hover {
     transform: translateY(-1px);
   }
 
-  .button:focus-visible {
+  &:focus-visible {
     outline: 2px solid rgba(map.get($brand, 500), 0.28);
     outline-offset: 2px;
   }
 
-  /* #region Variants */
-  .button[data-variant='primary'] {
+  &[data-variant='primary'] {
     background: linear-gradient(135deg, map.get($brand, 500) 0%, map.get($brand, 600) 100%);
     color: map.get($text, inverse);
   }
 
-  .button[data-variant='primary-outline'] {
+  &[data-variant='primary-outline'] {
     background: rgba(map.get($brand, 100), 0.44);
     color: map.get($brand, 700);
     border-color: rgba(map.get($brand, 500), 0.24);
   }
 
-  .button[data-variant='secondary'] {
+  &[data-variant='secondary'] {
     background: linear-gradient(135deg, map.get($indigo, 500) 0%, map.get($indigo, 700) 100%);
     color: map.get($text, inverse);
   }
 
-  .button[data-variant='secondary-outline'] {
+  &[data-variant='secondary-outline'] {
     background: rgba(map.get($indigo, 100), 0.52);
     color: map.get($indigo, 700);
     border-color: rgba(map.get($indigo, 500), 0.24);
   }
-  /* #endregion */
 
-  .button:disabled,
-  .button[aria-disabled='true'] {
+  &:disabled,
+  &[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: 0.72;
     pointer-events: none;

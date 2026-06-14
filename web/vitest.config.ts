@@ -9,6 +9,11 @@ export default defineConfig({
     alias: {
       '$app/stores': resolve(__dirname, './tests/__mocks__/appStores.ts'),
       '$app/navigation': resolve(__dirname, './tests/__mocks__/appNavigation.ts'),
+      '@shared': resolve(__dirname, './src/shared'),
+      '@features': resolve(__dirname, './src/features'),
+      '@pages': resolve(__dirname, './src/pages'),
+      '@widgets': resolve(__dirname, './src/widgets'),
+      '@entities': resolve(__dirname, './src/entities'),
     },
   },
   test: {
@@ -20,7 +25,6 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.{ts,svelte}'],
       exclude: ['src/shared/api/generated/**', 'src/app/**'],
-      all: true,
     },
   },
   css: {

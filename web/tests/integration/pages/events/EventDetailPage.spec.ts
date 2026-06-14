@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/svelte'
-import type { EventResponseDto } from '../../../../src/shared/api/generated/client'
+import type { EventResponseDto } from '@shared/api/generated/client'
 import EventDetailPage from '../../../../src/pages/events/ui/EventDetailPage.svelte'
 
 const mockEvent: EventResponseDto = {

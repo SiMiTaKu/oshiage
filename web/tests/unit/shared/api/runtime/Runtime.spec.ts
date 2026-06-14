@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { customFetcher } from '../../../../../src/shared/api/runtime'
+import { customFetcher } from '@shared/api/runtime'
 
 const makeJsonResponse = (body: unknown, status = 200): Response => {
   return {
@@ -19,10 +19,10 @@ const makeTextResponse = (status = 200): Response => {
 }
 
 describe('customFetcher', () => {
-  let mockFetch: ReturnType<typeof vi.fn>
+  const mockFetch = vi.fn()
 
   beforeEach(() => {
-    mockFetch = vi.fn()
+    mockFetch.mockClear()
   })
 
   // #region 正常系 - JSON レスポンス

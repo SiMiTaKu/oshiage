@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { BadgeProps } from './Model/index'
+  import type { BadgeProps } from './model/index'
 
   let { variant, text }: BadgeProps = $props()
 </script>
@@ -15,14 +15,14 @@
   /* #region Root */
   .badge {
     display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.1875rem 0.6875rem;
-    border-radius: map.get($radius, full);
+    gap: 4px;
+    padding: 3px 11px;
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, semibold);
-    line-height: map.get($line-height, normal);
     border: 1px solid transparent;
+    border-radius: map.get($radius, full);
+    align-items: center;
+    line-height: map.get($line-height, normal);
     white-space: nowrap;
   }
 
@@ -30,40 +30,40 @@
 
   /* #region Variants */
   .badge[data-variant='primary'] {
-    background: map.get($brand, 500);
     color: map.get($text, inverse);
+    background: map.get($brand, 500);
   }
 
   .badge[data-variant='secondary'] {
-    background: map.get($indigo, 100);
     color: map.get($indigo, 700);
+    background: map.get($indigo, 100);
   }
 
   .badge[data-variant='primary-outline'] {
-    background: rgba(map.get($brand, 100), 0.56);
     color: map.get($brand, 700);
     border-color: rgba(map.get($brand, 500), 0.2);
+    background: rgba(map.get($brand, 100), 0.56);
   }
 
   .badge[data-variant='secondary-outline'] {
-    background: transparent;
     color: map.get($indigo, 700);
     border-color: rgba(map.get($indigo, 500), 0.24);
+    background: transparent;
   }
 
   .badge[data-variant='destructive'] {
-    background: map.get($error, 100);
     color: map.get($error, 500);
+    background: map.get($error, 100);
   }
 
   .badge[data-variant='success'] {
-    background: map.get($success, 100);
     color: map.get($success, 500);
+    background: map.get($success, 100);
   }
 
   .badge[data-variant='warning'] {
-    background: map.get($warning, 100);
     color: map.get($warning, 500);
+    background: map.get($warning, 100);
   }
 
   /* #endregion */

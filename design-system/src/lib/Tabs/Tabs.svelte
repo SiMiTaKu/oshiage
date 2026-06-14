@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TabsProps } from './Model/index'
+  import type { TabsProps } from './model/index'
 
   let { children }: TabsProps = $props()
 </script>

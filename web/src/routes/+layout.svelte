@@ -1,8 +1,11 @@
 <script lang="ts">
   import '../lib.css'
   import type { Snippet } from 'svelte'
-  import Header from '../widgets/header/ui/Header.svelte'
-  import Footer from '../features/footer/ui/Footer.svelte'
+  import Header from '@widgets/header/ui/Header.svelte'
+  import Footer from '@features/footer/ui/Footer.svelte'
+  import { initializeDayjs } from '@shared/lib/dayjs'
+
+  initializeDayjs()
 
   let { children }: { children: Snippet } = $props()
 </script>

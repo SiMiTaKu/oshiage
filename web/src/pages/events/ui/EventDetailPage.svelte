@@ -1,18 +1,13 @@
 <script lang="ts">
-  import { CalendarIcon, MapPinIcon, ChevronLeftIcon } from '@oshiage/design-system'
-  import type { EventResponseDto } from '../../../shared/api/generated/client'
-  import { EVENT_TYPE_LABELS, EVENTS_BREADCRUMB_HREF } from '../config/eventsPageConfig'
+  import dayjs from 'dayjs'
+  import { IconsGallery } from '@oshiage/design-system'
+  import type { EventResponseDto } from '@shared/api/generated/client'
+  import { EVENT_TYPE_LABELS, EVENTS_BREADCRUMB_HREF } from '@pages/events/config/eventsPageConfig'
 
   let { event }: { event: EventResponseDto } = $props()
 
   function formatDate(dateStr: string) {
-    const d = new Date(dateStr)
-    return d.toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'short',
-    })
+    return dayjs(dateStr).format('YYYY年M月D日(ddd)')
   }
 </script>
 
@@ -28,7 +23,7 @@
   <div class="breadcrumb-bar">
     <div class="breadcrumb-inner">
       <a href={EVENTS_BREADCRUMB_HREF} class="breadcrumb-back">
-        <ChevronLeftIcon size={16} color="gray" />
+        <IconsGallery name="chevronLeft" size={16} color="gray" />
         イベント一覧に戻る
       </a>
     </div>
@@ -43,14 +38,14 @@
         <h1 class="event-title">{event.title}</h1>
         <div class="event-meta">
           <span class="meta-item">
-            <CalendarIcon size={16} color="gray" />
+            <IconsGallery name="calendar" size={16} color="gray" />
             {formatDate(event.startAt)}
             {#if event.endAt}
               〜 {formatDate(event.endAt)}
             {/if}
           </span>
           <span class="meta-item">
-            <MapPinIcon size={16} color="gray" />
+            <IconsGallery name="mapPin" size={16} color="gray" />
             {event.place}
           </span>
         </div>
@@ -115,20 +110,20 @@
   }
 
   .breadcrumb-bar {
-    border-bottom: 1px solid map.get($border, default);
+    padding: 12px 16px;
     background: map.get($bg, surface);
-    padding: 0.75rem 1rem;
+    border-bottom: 1px solid map.get($border, default);
   }
 
   .breadcrumb-inner {
     max-width: $container-max;
-    margin: 0 auto;
+    place-self: center;
   }
 
   .breadcrumb-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 4px;
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
     text-decoration: none;
@@ -141,53 +136,51 @@
 
   .page-content {
     max-width: $container-max;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    place-self: center;
+    padding: 32px 16px;
   }
 
   .event-hero {
-    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($indigo, 50)});
+    padding: 32px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 2rem;
-    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #{map.get($bg, surface)}, #{map.get($indigo, 50)});
   }
 
   .event-hero-inner {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
   }
 
   .event-type-badge {
     display: inline-block;
-    align-self: flex-start;
-    padding: 0.25rem 0.75rem;
-    background: map.get($indigo, 100);
-    color: map.get($indigo, 600);
-    border-radius: map.get($radius, full);
+    padding: 4px 12px;
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, semibold);
+    color: map.get($indigo, 600);
+    border-radius: map.get($radius, full);
+    background: map.get($indigo, 100);
+    align-self: flex-start;
   }
 
   .event-title {
-    font-size: clamp(1.25rem, 3vw, 1.875rem);
+    font-size: clamp(20px, 3vw, 30px);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0;
     line-height: map.get($line-height, snug);
   }
 
   .event-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 16px;
   }
 
   .meta-item {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
+    gap: 6px;
     font-size: map.get($font-size, sm);
     color: map.get($text, muted);
   }
@@ -195,7 +188,7 @@
   .detail-body {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
 
     @media (min-width: #{map.get($breakpoint, lg)}) {
       flex-direction: row-reverse;
@@ -210,17 +203,16 @@
   }
 
   .sidebar-card {
-    background: map.get($bg, surface);
+    padding: 24px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 1.5rem;
+    background: map.get($bg, surface);
   }
 
   .sidebar-label {
     font-size: map.get($font-size, xs);
     font-weight: map.get($font-weight, medium);
     color: map.get($text, muted);
-    margin: 0 0 0.375rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -229,29 +221,27 @@
     font-size: map.get($font-size, xl);
     font-weight: map.get($font-weight, bold);
     color: map.get($text, primary);
-    margin: 0;
   }
 
   .detail-main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 32px;
   }
 
   .detail-section {
-    background: map.get($bg, surface);
+    padding: 24px;
     border: 1px solid map.get($border, default);
     border-radius: map.get($radius, xl);
-    padding: 1.5rem;
+    background: map.get($bg, surface);
   }
 
   .section-title {
+    padding-bottom: 12px;
     font-size: map.get($font-size, lg);
     font-weight: map.get($font-weight, semibold);
     color: map.get($text, primary);
-    margin: 0 0 1rem;
-    padding-bottom: 0.75rem;
     border-bottom: 1px solid map.get($border, default);
   }
 
@@ -259,15 +249,13 @@
     font-size: map.get($font-size, base);
     color: map.get($text, secondary);
     line-height: map.get($line-height, relaxed);
-    margin: 0;
     white-space: pre-wrap;
   }
 
   .info-table {
     display: grid;
+    gap: 10px 24px;
     grid-template-columns: max-content 1fr;
-    gap: 0.625rem 1.5rem;
-    margin: 0;
 
     dt {
       font-size: map.get($font-size, sm);
@@ -278,7 +266,6 @@
     dd {
       font-size: map.get($font-size, sm);
       color: map.get($text, primary);
-      margin: 0;
     }
   }
 </style>

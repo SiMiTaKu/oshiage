@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/svelte-vite'
-import PlusIcon from '../Icons/IconComponents/PlusIcon.svelte'
-
 import Button from './Button.svelte'
 
 const meta = {
@@ -39,7 +37,7 @@ export const テキストのみ: Story = {
 export const アイコンのみ: Story = {
   args: {
     type: 'icon',
-    icon: PlusIcon,
+    icon: 'plus',
     'aria-label': '追加',
     variant: 'primary',
   },
@@ -48,7 +46,7 @@ export const アイコンのみ: Story = {
 export const アイコンテキスト: Story = {
   args: {
     type: 'icon-text',
-    icon: PlusIcon,
+    icon: 'plus',
     label: '追加する',
     variant: 'primary',
   },

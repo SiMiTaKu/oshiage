@@ -5,6 +5,9 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@shared/*": ["./web/src/shared/*", "./admin/src/shared/*", "./backend/src/shared/*"]
+    }
   }
 }
