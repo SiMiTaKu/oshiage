@@ -1,7 +1,15 @@
 <script lang="ts">
   import type { TextButtonProps } from '../model'
 
-  let { label, variant, htmlType = 'button', onclick, width, height }: TextButtonProps = $props()
+  let {
+    label,
+    variant,
+    htmlType = 'button',
+    onclick,
+    width,
+    height,
+    'aria-expanded': ariaExpanded,
+  }: TextButtonProps = $props()
 </script>
 
 <button
@@ -9,6 +17,7 @@
   data-variant={variant}
   data-content="text"
   type={htmlType}
+  aria-expanded={ariaExpanded}
   {onclick}
   style:width={width ? `${width}px` : 'auto'}
   style:height={height ? `${height}px` : '40px'}

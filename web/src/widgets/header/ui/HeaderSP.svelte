@@ -23,6 +23,7 @@
         type="icon"
         icon="menu"
         aria-label="メニューを開く"
+        aria-expanded={mobileOpen}
         variant="secondary-outline"
         onclick={() => (mobileOpen = true)}
         iconColor="gray"

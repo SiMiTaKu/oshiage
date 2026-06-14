@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'es2022',
     lib: {
       entry: 'src/lib/index.ts',
       formats: ['es'],

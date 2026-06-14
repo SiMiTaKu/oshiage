@@ -12,6 +12,7 @@
     onclick,
     width,
     height,
+    'aria-expanded': ariaExpanded,
   }: IconButtonProps = $props()
 
   const IconComponent = $derived(ICONS[icon])
@@ -24,6 +25,7 @@
   data-content="icon"
   type={htmlType}
   aria-label={ariaLabel}
+  aria-expanded={ariaExpanded}
   {onclick}
   style:width={width ? `${width}px` : 'auto'}
   style:height={height ? `${height}px` : '40px'}

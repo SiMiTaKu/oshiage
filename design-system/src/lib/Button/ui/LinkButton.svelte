@@ -1,7 +1,15 @@
 <script lang="ts">
   import type { LinkButtonProps } from '../model'
 
-  let { label, variant, href, onclick, width, height }: LinkButtonProps = $props()
+  let {
+    label,
+    variant,
+    href,
+    onclick,
+    width,
+    height,
+    'aria-expanded': ariaExpanded,
+  }: LinkButtonProps = $props()
 </script>
 
 <a
@@ -9,6 +17,7 @@
   data-variant={variant}
   data-content="text"
   {href}
+  aria-expanded={ariaExpanded}
   {onclick}
   style:width={width ? `${width}px` : 'auto'}
   style:height={height ? `${height}px` : '40px'}

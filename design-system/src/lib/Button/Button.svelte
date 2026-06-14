@@ -25,6 +25,7 @@
     onclick={p.onclick}
     width={p.width}
     height={p.height}
+    aria-expanded={p['aria-expanded']}
   />
 {:else if props.type === 'icon'}
   {@const p = props as IconButtonProps}
@@ -38,6 +39,7 @@
     onclick={p.onclick}
     width={p.width}
     height={p.height}
+    aria-expanded={p['aria-expanded']}
   />
 {:else if props.type === 'icon-text'}
   {@const p = props as IconTextButtonProps}
@@ -51,6 +53,7 @@
     onclick={p.onclick}
     width={p.width}
     height={p.height}
+    aria-expanded={p['aria-expanded']}
   />
 {:else}
   {@const p = props as TextButtonProps}
@@ -62,5 +65,6 @@
     onclick={p.onclick}
     width={p.width}
     height={p.height}
+    aria-expanded={p['aria-expanded']}
   />
 {/if}

@@ -5,6 +5,14 @@ import { imagetools } from 'vite-imagetools'
 
 export default defineConfig({
   plugins: [sveltekit(), imagetools()],
+  build: {
+    target: 'es2022',
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'es2022',
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {

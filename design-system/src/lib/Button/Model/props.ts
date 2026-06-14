@@ -11,6 +11,8 @@ interface ButtonBase {
   width?: number
   /** ボタンの高さ。 */
   height?: number
+  /** 開閉状態。 */
+  'aria-expanded'?: boolean | 'true' | 'false'
 }
 
 /**
