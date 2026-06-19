@@ -20,6 +20,13 @@ runs:
       shell: bash
       run: pnpm install --frozen-lockfile
 
+    # pnpm v10 はパッケージの postinstall（prisma の postinstall = prisma generate）を
+    # 既定でスキップするため、Prisma Client を明示的に生成する。
+    # これがないと generate:openapi が Nest アプリ起動時に .prisma/client を解決できず失敗する。
+    - name: Generate Prisma client
+      shell: bash
+      run: pnpm --filter @oshiage/backend prisma:generate
+
     # backend の OpenAPI から SDK を生成しておかないと check / build が通らない
     - name: Generate SDK
       shell: bash
