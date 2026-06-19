@@ -1,0 +1,130 @@
+name: AI Fix → PR
+
+# GitHub Issue に「fix-by-ai」ラベルを付与すると、Claude が内容を読み取り
+# 修正 → ブランチ作成 → Pull Request 作成までを自動で行うワークフロー。
+#
+# 重要な前提:
+#   - マージは必ず人間が行う（AI は PR を作るところまで）。
+#   - 本リポジトリは @prs/design-system を AWS CodeArtifact から取得するため、
+#     依存解決に OIDC 認証が必要。setup-node-pnpm コンポジットアクションで解決する。
+#   - 必要な Secrets:
+#       ANTHROPIC_API_KEY  … Claude API キー（Max サブスクの場合は CLAUDE_CODE_OAUTH_TOKEN に差し替え）
+#       AI_FIX_PAT         … （推奨・任意）AI が作る PR に後続 CI を走らせるための PAT / GitHub App トークン
+#                            未設定なら GITHUB_TOKEN にフォールバックするが、その PR では pr-workflow.yml が発火しない
+#   - 「fix-by-ai」ラベルを事前にリポジトリに作成しておくこと。
+#
+# 動作確認について:
+#   - issues(labeled) トリガーは GitHub 仕様上「デフォルトブランチ(main)にある版」が実行されるため、
+#     PR ブランチに置いたままラベルを付けても起動しない。
+#   - マージ前後の手動テスト用に workflow_dispatch を用意している。Actions 画面から対象 Issue 番号を
+#     入力して実行すれば、ラベルを使わずに一連のフロー（取得 → 修正 → PR 作成）を試せる。
+
+on:
+  issues:
+    types: [labeled]
+  # ラベルを使わずに手動で動作確認するためのトリガー（Actions 画面から実行）
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: '対象 Issue 番号（fix-by-ai ラベル無しで手動テストする用）'
+        required: true
+        type: string
+
+# 同じ Issue で多重起動しないように直列化
+concurrency:
+  group: ai-fix-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: false
+
+# 「fix-by-ai」ラベルが付いたとき、または手動実行(workflow_dispatch)のときだけ動かす
+jobs:
+  ai-fix:
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'fix-by-ai'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # ブランチ作成・コミット
+      pull-requests: write # PR 作成
+      issues: write # Issue へのコメント
+      id-token: write # AWS OIDC（CodeArtifact 認証）
+    env:
+      TZ: Asia/Tokyo
+      # issues(labeled) と workflow_dispatch のどちらでも対象 Issue 番号を解決する
+      ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          # AI が作る PR に後続 CI を走らせたいので、可能なら PAT を使う。
+          token: ${{ secrets.AI_FIX_PAT || secrets.GITHUB_TOKEN }}
+
+      # 依存関係を解決しておくことで、Claude が lint / typecheck / test を実行できる
+      - name: Setup Node and Dependencies
+        uses: ./.github/actions/setup-node-pnpm
+        with:
+          role-to-assume: arn:aws:iam::920995460973:role/github-actions-role-prs-procurement-frontend
+          aws-region: ap-northeast-1
+
+      # Issue のタイトル・本文を取得する（issues / workflow_dispatch の両トリガーで共通の入力にする）
+      - name: Resolve issue
+        id: issue
+        env:
+          GH_TOKEN: ${{ secrets.AI_FIX_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          data=$(gh issue view "$ISSUE_NUMBER" --json title,body)
+          {
+            echo "title<<__AI_FIX_EOF__"
+            jq -r .title <<<"$data"
+            echo "__AI_FIX_EOF__"
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo "body<<__AI_FIX_EOF__"
+            jq -r .body <<<"$data"
+            echo "__AI_FIX_EOF__"
+          } >> "$GITHUB_OUTPUT"
+
+      # 着手したことを Issue 起票者に知らせる
+      - name: Acknowledge on the issue
+        env:
+          GH_TOKEN: ${{ secrets.AI_FIX_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "🤖 \`fix-by-ai\` の修正を開始します（実行ログ: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}）。マージ前に必ず人間がレビューしてください。"
+
+      - name: Run Claude to fix and open PR
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Claude API キーで課金する構成。Max サブスクの OAuth を使う場合は
+          # 下行を `claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}` に差し替える。
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.AI_FIX_PAT || secrets.GITHUB_TOKEN }}
+          # 保守性の高い修正のため Opus を既定に。軽微な指摘は Sonnet に下げても良い。
+          claude_args: '--model claude-opus-4-8 --max-turns 40'
+          prompt: |
+            あなたは prs-procurement-frontend-v2（調達ドメインのフロントエンド）のコード品質を担う担当です。
+            以下の GitHub Issue の内容を読み、修正を行って Pull Request を作成してください。
+
+            ## 対象 Issue
+            - 番号: #${{ env.ISSUE_NUMBER }}
+            - タイトル: ${{ steps.issue.outputs.title }}
+
+            本文:
+            ---
+            ${{ steps.issue.outputs.body }}
+            ---
+
+            ## 進め方（プロジェクト規約を必ず守ること）
+            1. まず `.claude/skills/fix-from-issue/SKILL.md` を読み、その手順に従うこと。
+               併せて `.github/instructions/` 配下の各ルール（常時必須のものを含む）を参照すること。
+            2. Issue から「修正対象ファイル / 行」「現状の挙動」「期待する挙動」「受け入れ条件」を特定する。
+               情報が不足していて修正の確信が持てない場合は、推測で広範囲を書き換えず、
+               Issue にコメントで不足情報を質問し、PR は作らずに終了すること。
+            3. FSD アーキテクチャ（shared / entities / features / widgets / pages）と
+               既存のコーディング規約に沿って、指摘範囲に限定した最小限の修正のみ行う。
+               指摘と無関係なリファクタリング・整形は行わない。
+            4. 修正後、以下を実行して壊れていないことを確認する（失敗したら直すか、直せない場合は PR 説明に明記）:
+               - `pnpm run typecheck`
+               - `pnpm run lint`
+               - `pnpm run test:coverage`
+            5. テスト終了後、`pnpm run test:coverage` の結果を PR 本文に貼り付ける（アコーディオン形式推奨）。カバレッジが下がっていないことを確認する。
+            6. 新しいブランチ `ai-fix/issue-${{ env.ISSUE_NUMBER }}-${{ github.run_id }}` を作成してコミットする。
+            7. その内容で Pull Request を作成する。base ブランチは `main`。PR 本文はPRテンプレートに従い、Issue 番号をリンクすること。PR タイトルは「AI Fix: #<Issue番号> <Issueタイトル>」とする。
+            8. PR は絶対に自動マージしない。

@@ -1,0 +1,7 @@
+# Issue 作成画面のテンプレート選択設定
+# blank_issues_enabled は従来どおり有効（テンプレートなしの起票も許可）
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 AI修正フローの使い方
+    url: https://github.com/plus-prs/prs-procurement-frontend/blob/main/docs/ai-fix.md
+    about: '「fix-by-ai」ラベルで Claude に自動修正させる仕組みのセットアップと使い方'
