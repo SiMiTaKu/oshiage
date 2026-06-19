@@ -8,7 +8,9 @@ name: AI Fix → PR
 #   - 依存解決と SDK 生成は setup-node-pnpm コンポジットアクションで行う
 #     （pnpm / Node のセットアップは .github/workflows/ci.yml と同じ構成）。
 #   - 必要な Secrets:
-#       ANTHROPIC_API_KEY  … Claude API キー（Max サブスクの場合は CLAUDE_CODE_OAUTH_TOKEN に差し替え）
+#       CLAUDE_CODE_OAUTH_TOKEN … Claude Max サブスクの OAuth トークン
+#                                 （`claude setup-token` で取得。API キー課金にする場合は
+#                                  ANTHROPIC_API_KEY に差し替え）
 #       AI_FIX_PAT         … （推奨・任意）AI が作る PR に後続 CI を走らせるための PAT / GitHub App トークン
 #                            未設定なら GITHUB_TOKEN にフォールバックするが、その PR では pr-workflow.yml が発火しない
 #   - 「fix-by-ai」ラベルを事前にリポジトリに作成しておくこと。
@@ -88,9 +90,9 @@ jobs:
       - name: Run Claude to fix and open PR
         uses: anthropics/claude-code-action@v1
         with:
-          # Claude API キーで課金する構成。Max サブスクの OAuth を使う場合は
-          # 下行を `claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}` に差し替える。
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Claude Max サブスクリプションの OAuth トークンで認証する構成。
+          # API キーで課金する場合は下行を `anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}` に差し替える。
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.AI_FIX_PAT || secrets.GITHUB_TOKEN }}
           # 保守性の高い修正のため Opus を既定に。軽微な指摘は Sonnet に下げても良い。
           claude_args: '--model claude-opus-4-8 --max-turns 40'
