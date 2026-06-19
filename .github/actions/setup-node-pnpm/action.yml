@@ -1,0 +1,26 @@
+name: Setup Node and pnpm
+description: >
+  pnpm / Node.js をセットアップし、依存関係のインストールと SDK 生成までを行う
+  コンポジットアクション。ci.yml と同じ構成を共有し、AI 自動修正ワークフローでも
+  lint / check / test を実行できる状態にする。
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 10.27.0
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24
+        cache: pnpm
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    # backend の OpenAPI から SDK を生成しておかないと check / build が通らない
+    - name: Generate SDK
+      shell: bash
+      run: pnpm run generate:sdk
