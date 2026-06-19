@@ -1,11 +1,11 @@
 import { ROUTES } from '@shared/routes'
 
 // @ts-expect-error: vite-imagetools query string imports are handled by Vite
-import hero1 from '@pages/home/images/hero-1.jpg?w=1200&format=webp&url'
+import hero1 from '../images/hero-1.jpg?w=1200&format=webp&url'
 // @ts-expect-error: vite-imagetools query string imports are handled by Vite
-import hero2 from '@pages/home/images/hero-2.jpg?w=1200&format=webp&url'
+import hero2 from '../images/hero-2.jpg?w=1200&format=webp&url'
 // @ts-expect-error: vite-imagetools query string imports are handled by Vite
-import hero3 from '@pages/home/images/hero-3.jpg?w=1200&format=webp&url'
+import hero3 from '../images/hero-3.jpg?w=1200&format=webp&url'
 
 /**
  * ホームページ ヒーロー背景画像リスト（10秒ローテーション）

@@ -1,9 +1,13 @@
+<script lang="ts">
+  import { META_DATA } from '@shared/config/meta'
+  const meta = META_DATA.terms
+</script>
+
 <svelte:head>
-  <title>利用規約 | 推しアゲ</title>
-  <meta
-    name="description"
-    content="推しアゲの利用規約です。サービスをご利用いただく前にご確認ください。"
-  />
+  <title>{meta.title}</title>
+  {#if meta.description}
+    <meta name="description" content={meta.description} />
+  {/if}
 </svelte:head>
 
 <div class="static-page">

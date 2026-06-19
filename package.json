@@ -36,6 +36,7 @@
     "test:design-system:unit": "pnpm --filter @oshiage/design-system test:unit",
     "test:design-system:unit:only": "sh -c 'pnpm --filter @oshiage/design-system exec vitest run --passWithNoTests \"${1#design-system/}\"' --",
     "test": "pnpm -r --if-present test",
+    "test:coverage": "pnpm -r --if-present test:coverage",
     "verify": "pnpm audit && pnpm run lint && pnpm run format:check && pnpm run check && pnpm run test && pnpm run build"
   },
   "lint-staged": {
@@ -73,7 +74,7 @@
     "stylelint-config-standard-scss": "^17.0.0",
     "stylelint-order": "^8.1.1",
     "stylelint-scss": "^7.2.0",
-    "typescript-eslint": "^8.61.0"
+    "typescript-eslint": "^8.61.1"
   },
   "dependencies": {
     "dayjs": "^1.11.21"

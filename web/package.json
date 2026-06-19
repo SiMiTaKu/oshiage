@@ -12,7 +12,8 @@
     "test:unit:only": "vitest run --passWithNoTests",
     "test:integration": "vitest run --passWithNoTests tests/integration",
     "test:integration:only": "vitest run --passWithNoTests",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --passWithNoTests --coverage"
   },
   "dependencies": {
     "@oshiage/design-system": "workspace:*",
@@ -26,7 +27,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/svelte": "^5.3.1",
     "@types/node": "^24.0.0",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "^4.1.8",
     "happy-dom": "^20.9.0",
     "sass": "^1.99.0",
     "svelte-check": "^4.1.6",

@@ -1,0 +1,5 @@
+export { default as MainVisual } from './mainVisual/ui/MainVisual.svelte'
+export { default as Features } from './features/ui/Features.svelte'
+export { default as EventPreview } from './eventPreview/ui/EventPreview.svelte'
+export { default as AthletePreview } from './athletePreview/ui/AthletePreview.svelte'
+export { default as CallToAction } from './callToAction/ui/CallToAction.svelte'

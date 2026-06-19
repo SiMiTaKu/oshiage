@@ -15,7 +15,8 @@
     "test:unit:only": "jest --passWithNoTests --testMatch '<rootDir>/tests/unit/**/*.spec.ts'",
     "test:integration": "jest --passWithNoTests --testMatch '<rootDir>/tests/integration/**/*.spec.ts'",
     "test:integration:only": "jest --passWithNoTests --testMatch '<rootDir>/tests/integration/**/*.spec.ts'",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --passWithNoTests --coverage"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.20",

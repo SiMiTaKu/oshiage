@@ -7,15 +7,17 @@
     ERROR_PAGE_DEFAULT_MESSAGE,
   } from '@pages/error/config/errorPageConfig'
   import { ROUTES } from '@shared/routes'
+  import { META_DATA } from '@shared/config/meta'
 
   const title = $derived(ERROR_PAGE_TITLE[$page.status] ?? ERROR_PAGE_DEFAULT_TITLE)
   const message = $derived(
     ERROR_PAGE_MESSAGE[$page.status] ?? $page.error?.message ?? ERROR_PAGE_DEFAULT_MESSAGE,
   )
+  const meta = $derived(META_DATA.error(title))
 </script>
 
 <svelte:head>
-  <title>{title} | 推しアゲ</title>
+  <title>{meta.title}</title>
 </svelte:head>
 
 <div class="error-page">

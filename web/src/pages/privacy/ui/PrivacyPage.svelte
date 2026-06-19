@@ -1,9 +1,13 @@
+<script lang="ts">
+  import { META_DATA } from '@shared/config/meta'
+  const meta = META_DATA.privacy
+</script>
+
 <svelte:head>
-  <title>プライバシーポリシー | 推しアゲ</title>
-  <meta
-    name="description"
-    content="推しアゲのプライバシーポリシーです。個人情報の取り扱いについてご確認ください。"
-  />
+  <title>{meta.title}</title>
+  {#if meta.description}
+    <meta name="description" content={meta.description} />
+  {/if}
 </svelte:head>
 
 <div class="static-page">

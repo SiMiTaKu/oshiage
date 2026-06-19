@@ -20,6 +20,12 @@ name: フロントエンド開発基盤ルール
 - 新しいUI部品が必要な場合は、共通化前提で設計する
 - アクセシビリティ属性（ラベル、role、キーボード操作）を欠かさない
 
+## コーディング規則
+
+- メタ情報（title, description, og:title, og:description, og:type, twitter:card）は `shared/config/meta` の `META_DATA` 定数を参照し、ハードコーディングを禁止する。変数が必要な箇所は関数として定義する。
+- 閉じタグが省略できるタグは自己完結タグ（例: `<div class="..." />`）で記述する。
+- 再代入可能な変数 `let` の定義は避け、状態管理で使用する場合を除いて、基本は不変な定数 `const` で定義する。
+
 ## CSSレイアウト方針
 
 - 余白はできる限り `margin` / `padding` ではなく `gap`（grid/flex）で表現する
