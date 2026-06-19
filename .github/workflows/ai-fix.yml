@@ -95,7 +95,15 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.AI_FIX_PAT || secrets.GITHUB_TOKEN }}
           # 保守性の高い修正のため Opus を既定に。軽微な指摘は Sonnet に下げても良い。
-          claude_args: '--model claude-opus-4-8 --max-turns 40'
+          #
+          # 既定の claude-code-action はブランチを push して「PR 作成ページへのリンク」を貼るだけで
+          # PR を自動オープンしない。また Bash が既定で制限されるため、PR 作成（gh pr create）や
+          # 検証コマンド（pnpm）を実行できるよう --allowedTools で明示的に許可する。
+          # ※ ラベル起動 + マージは必ず人間レビュー、という前提の信頼された自動化のため広めに許可している。
+          claude_args: >-
+            --model claude-opus-4-8
+            --max-turns 40
+            --allowedTools "Bash(gh:*),Bash(git:*),Bash(pnpm:*),Edit,Write,Read,Glob,Grep,MultiEdit"
           prompt: |
             あなたは prs-procurement-frontend-v2（調達ドメインのフロントエンド）のコード品質を担う担当です。
             以下の GitHub Issue の内容を読み、修正を行って Pull Request を作成してください。
@@ -123,6 +131,11 @@ jobs:
                - `pnpm run lint`
                - `pnpm run test:coverage`
             5. テスト終了後、`pnpm run test:coverage` の結果を PR 本文に貼り付ける（アコーディオン形式推奨）。カバレッジが下がっていないことを確認する。
-            6. 新しいブランチ `ai-fix/issue-${{ env.ISSUE_NUMBER }}-${{ github.run_id }}` を作成してコミットする。
-            7. その内容で Pull Request を作成する。base ブランチは `main`。PR 本文はPRテンプレートに従い、Issue 番号をリンクすること。PR タイトルは「AI Fix: #<Issue番号> <Issueタイトル>」とする。
+            6. 新しいブランチ `ai-fix/issue-${{ env.ISSUE_NUMBER }}-${{ github.run_id }}` を作成し、
+               変更をコミットして `git push -u origin <ブランチ名>` でリモートに push する。
+            7. **必ず `gh pr create` を実行して Pull Request を自分でオープンすること**
+               （このアクションは PR を自動作成しない。リンクを貼るだけで終わらせず、PR を作成すること）。
+               base ブランチは `main`。Issue 番号を本文にリンク（`Closes #<Issue番号>`）し、
+               PR タイトルは「AI Fix: #<Issue番号> <Issueタイトル>」とする。
+               作成後、PR の URL を Issue にコメントで報告する。
             8. PR は絶対に自動マージしない。
